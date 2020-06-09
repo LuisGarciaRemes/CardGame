@@ -7,6 +7,11 @@ public class CardInstance : MonoBehaviour , ClickableInterface
     public enum CardState { InHand, InPlay, InDeck, InDiscard, Selected };
     public CardState currState = CardState.InDeck;
 
+    private void Start()
+    {
+        
+    }
+
     public void OnClick()
     {
         if(currState == CardState.InHand)
@@ -33,9 +38,21 @@ public class CardInstance : MonoBehaviour , ClickableInterface
 
     public void OnRelease()
     {
-        currState = CardState.InHand;
-        GameStateManager.instance.HeldCard.transform.position = new Vector3(0.0f,0.0f,0.0f);
-        transform.SetParent(transform.parent.Find("MyHand"),false);
-        GameStateManager.instance.SetHeldCard(null);
+        if (GameStateManager.instance.cardOverPlayArea && GameStateManager.instance.myPlayArea.transform.childCount <= 5)
+        {
+            currState = CardState.InPlay;
+            GameStateManager.instance.HeldCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+            transform.SetParent(GameStateManager.instance.myPlayArea.transform, false);
+            GameStateManager.instance.SetHeldCard(null);
+            GameStateManager.instance.cardOverPlayArea = false;
+        }
+        else
+        {
+            currState = CardState.InHand;
+            GameStateManager.instance.HeldCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+            transform.SetParent(GameStateManager.instance.myHand.transform, false);
+            GameStateManager.instance.SetHeldCard(null);
+            GameStateManager.instance.cardOverPlayArea = false;
+        }
     }
 }

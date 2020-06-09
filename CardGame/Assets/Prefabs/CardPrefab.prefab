@@ -547,7 +547,7 @@ GameObject:
   - component: {fileID: 5824315652086109071}
   m_Layer: 5
   m_Name: CardPrefab
-  m_TagString: Untagged
+  m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -610,6 +610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28023327b877944699faad2893eb383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currState: 2
+  overPlayArea: 0
 --- !u!1 &8929517945736818886
 GameObject:
   m_ObjectHideFlags: 0

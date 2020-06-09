@@ -5,6 +5,11 @@ using UnityEngine.EventSystems;
 
 public class MouseControls : MonoBehaviour
 {
+    public float maxX;
+    public float minX;
+    public float maxY;
+    public float minY;
+
     // Update is called once per frame
     void Update()
     {
@@ -29,7 +34,7 @@ public class MouseControls : MonoBehaviour
             else
             {
                 GameStateManager.instance.HideHighlightedCard();
-            }
+            }          
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -50,6 +55,21 @@ public class MouseControls : MonoBehaviour
         if(GameStateManager.instance.HeldCard != null)
         {
             GameStateManager.instance.HeldCard.transform.position = pointerData.position;
+               
+            if(pointerData.position.x <= maxX && pointerData.position.x >= minX && pointerData.position.y <= maxY && pointerData.position.y >= minY)
+            {
+                if (!GameStateManager.instance.cardOverPlayArea)
+                {
+                    GameStateManager.instance.cardOverPlayArea = true;
+                }
+            }
+            else
+            {
+                if (GameStateManager.instance.cardOverPlayArea)
+                {
+                    GameStateManager.instance.cardOverPlayArea = false;
+                }
+            }
         }
     }
 }

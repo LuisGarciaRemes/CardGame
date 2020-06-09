@@ -7,6 +7,9 @@ public class GameStateManager : MonoBehaviour
     private static GameStateManager m_instance;
     [SerializeField] private CardUI HighlightedCard;
     internal GameObject HeldCard = null;
+    internal bool cardOverPlayArea = false;
+    public GameObject myHand;
+    public GameObject myPlayArea;
 
     public static GameStateManager instance
     {
