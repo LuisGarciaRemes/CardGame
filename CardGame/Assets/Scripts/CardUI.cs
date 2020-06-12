@@ -5,31 +5,23 @@ using UnityEngine.UI;
 
 public class CardUI : MonoBehaviour
 {
-    public CardInfo card = null;
     [SerializeField] Image cardArt;
     [SerializeField] Text cardCostText;
     [SerializeField] Text cardValueText;
     [SerializeField] Text cardText;
     [SerializeField] Text cardTypeText;
     [SerializeField] Text cardNameText;
-
-    private void Start()
-    {
-        if(card != null)
-        {
-            LoadCard(card);
-        }
-    }
+    internal CardInfo card;
 
     public void LoadCard(CardInfo i_card)
     {
+        cardArt.sprite = i_card.art;
+        cardCostText.text = i_card.cardCost.ToString();
+        cardText.text = i_card.cardText;
+        cardValueText.text = i_card.cardValue.ToString();
+        cardTypeText.text = i_card.cardType;
+        cardNameText.text = i_card.cardName;
         card = i_card;
-        cardArt.sprite = card.art;
-        cardCostText.text = card.cardCost.ToString();
-        cardText.text = card.cardText;
-        cardValueText.text = card.cardValue.ToString();
-        cardTypeText.text = card.cardType;
-        cardNameText.text = card.cardName;
     }
 
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface ClickableInterface
 {
-    void OnClick();
+    void OnClick(MouseControls.GameZone i_zone);
     void OnHighlighted();
-    void OnRelease();
+    void OnRelease(MouseControls.GameZone i_zone);
 }

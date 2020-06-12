@@ -5,10 +5,14 @@ using UnityEngine.EventSystems;
 
 public class MouseControls : MonoBehaviour
 {
-    public float maxX;
-    public float minX;
-    public float maxY;
-    public float minY;
+    internal GameZone currZone = GameZone.Null;
+    public Vector2 PlayZonePos;
+    public Vector2 PlayZoneDim;
+    public Vector2 DiscardZonePos;
+    public Vector2 DiscardZoneDim;
+
+
+    public enum GameZone { Hand, Discard, Deck, Play, Null };
 
     // Update is called once per frame
     void Update()
@@ -18,10 +22,24 @@ public class MouseControls : MonoBehaviour
             position = Input.mousePosition
         };
 
+       // Debug.Log(pointerData.position.ToString());
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
 
         ClickableInterface c = null;
+
+        if (pointerData.position.x <= (PlayZonePos.x + PlayZoneDim.x / 2) && pointerData.position.x >= (PlayZonePos.x - PlayZoneDim.x / 2) && pointerData.position.y <= (PlayZonePos.y + PlayZoneDim.y / 2) && pointerData.position.y >= (PlayZonePos.y - PlayZoneDim.y / 2))
+        {
+            currZone = GameZone.Play;
+        }
+        else if (pointerData.position.x <= (DiscardZonePos.x + DiscardZoneDim.x / 2) && pointerData.position.x >= (DiscardZonePos.x - DiscardZoneDim.x / 2) && pointerData.position.y <= (DiscardZonePos.y + DiscardZoneDim.y / 2) && pointerData.position.y >= (DiscardZonePos.y - DiscardZoneDim.y / 2))
+        {
+            currZone = GameZone.Discard;
+        }
+        else
+        {
+            currZone = GameZone.Null;
+        }
 
         foreach (RaycastResult r in results)
         {
@@ -41,35 +59,20 @@ public class MouseControls : MonoBehaviour
         {
             if (c != null)
             {
-                c.OnClick();
+                c.OnClick(currZone);
             }
         }
         else if (Input.GetMouseButtonUp(0))
         {
             if(GameStateManager.instance.HeldCard != null)
             {
-                c.OnRelease();
+                c.OnRelease(currZone);
             }
         }
 
         if(GameStateManager.instance.HeldCard != null)
         {
-            GameStateManager.instance.HeldCard.transform.position = pointerData.position;
-               
-            if(pointerData.position.x <= maxX && pointerData.position.x >= minX && pointerData.position.y <= maxY && pointerData.position.y >= minY)
-            {
-                if (!GameStateManager.instance.cardOverPlayArea)
-                {
-                    GameStateManager.instance.cardOverPlayArea = true;
-                }
-            }
-            else
-            {
-                if (GameStateManager.instance.cardOverPlayArea)
-                {
-                    GameStateManager.instance.cardOverPlayArea = false;
-                }
-            }
+            GameStateManager.instance.HeldCard.transform.position = pointerData.position;                      
         }
     }
 }

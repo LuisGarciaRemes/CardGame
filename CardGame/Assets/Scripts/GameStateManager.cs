@@ -7,9 +7,12 @@ public class GameStateManager : MonoBehaviour
     private static GameStateManager m_instance;
     [SerializeField] private CardUI HighlightedCard;
     internal GameObject HeldCard = null;
-    internal bool cardOverPlayArea = false;
     public GameObject myHand;
     public GameObject myPlayArea;
+    internal List<CardInfo> DiscardPile;
+    [SerializeField] private CardUI TopDiscard;
+    internal bool canDiscard = true;
+
 
     public static GameStateManager instance
     {
@@ -31,6 +34,11 @@ public class GameStateManager : MonoBehaviour
         }
         else if (m_instance != this)
             Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        DiscardPile = new List<CardInfo>();
     }
 
     public void DisplayHighlightedCard(CardInfo info)
@@ -57,5 +65,29 @@ public class GameStateManager : MonoBehaviour
     public void SetHeldCard(GameObject i_card)
     {
         HeldCard = i_card;
+    }
+
+    private void DisplayTopDiscardCard(CardInfo info)
+    {
+        if (!TopDiscard.gameObject.activeSelf)
+        {
+            TopDiscard.gameObject.SetActive(true);
+        }
+
+        if (info != TopDiscard.card)
+        {
+            TopDiscard.LoadCard(info);
+        }
+    }
+
+    public void DiscardCard(CardInfo info)
+    {
+        DiscardPile.Add(info);
+        DisplayTopDiscardCard(info);
+    }
+
+    public void ReturnCardToHand()
+    {
+
     }
 }
