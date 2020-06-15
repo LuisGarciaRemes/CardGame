@@ -51,9 +51,9 @@ public class CardInstance : MonoBehaviour , ClickableInterface
             transform.SetParent(GameStateManager.instance.myPlayArea.transform, false);
             GameStateManager.instance.SetHeldCard(null);
         }
-        else if(i_zone == MouseControls.GameZone.Discard && GameStateManager.instance.canDiscard)
+        else if(i_zone == MouseControls.GameZone.MyDiscard && GameStateManager.instance.canDiscard)
         {
-            GameStateManager.instance.DiscardCard(card);
+            GameStateManager.instance.MyDiscard.DiscardCard(card);
             Destroy(this.gameObject);
         }
         else

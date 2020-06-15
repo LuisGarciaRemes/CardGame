@@ -13,6 +13,16 @@ public class CardUI : MonoBehaviour
     [SerializeField] Text cardNameText;
     internal CardInfo card;
 
+    private void Start()
+    {
+        CardInstance temp;
+
+        if (transform.TryGetComponent<CardInstance>(out temp))
+        {
+            LoadCard(temp.card);
+        }
+    }
+
     public void LoadCard(CardInfo i_card)
     {
         cardArt.sprite = i_card.art;

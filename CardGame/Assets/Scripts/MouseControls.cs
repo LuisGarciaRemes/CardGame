@@ -11,8 +11,7 @@ public class MouseControls : MonoBehaviour
     public Vector2 DiscardZonePos;
     public Vector2 DiscardZoneDim;
 
-
-    public enum GameZone { Hand, Discard, Deck, Play, Null };
+    public enum GameZone { Hand, MyDiscard, Deck, Play, Null };
 
     // Update is called once per frame
     void Update()
@@ -30,11 +29,21 @@ public class MouseControls : MonoBehaviour
 
         if (pointerData.position.x <= (PlayZonePos.x + PlayZoneDim.x / 2) && pointerData.position.x >= (PlayZonePos.x - PlayZoneDim.x / 2) && pointerData.position.y <= (PlayZonePos.y + PlayZoneDim.y / 2) && pointerData.position.y >= (PlayZonePos.y - PlayZoneDim.y / 2))
         {
+            Debug.Log("Hovering over play");
             currZone = GameZone.Play;
         }
         else if (pointerData.position.x <= (DiscardZonePos.x + DiscardZoneDim.x / 2) && pointerData.position.x >= (DiscardZonePos.x - DiscardZoneDim.x / 2) && pointerData.position.y <= (DiscardZonePos.y + DiscardZoneDim.y / 2) && pointerData.position.y >= (DiscardZonePos.y - DiscardZoneDim.y / 2))
         {
-            currZone = GameZone.Discard;
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            {
+                GameStateManager.instance.MyDiscard.DisplayNext();
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                GameStateManager.instance.MyDiscard.DisplayPrevious();
+            }
+
+            currZone = GameZone.MyDiscard;
         }
         else
         {

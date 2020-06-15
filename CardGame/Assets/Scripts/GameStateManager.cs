@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -9,10 +10,11 @@ public class GameStateManager : MonoBehaviour
     internal GameObject HeldCard = null;
     public GameObject myHand;
     public GameObject myPlayArea;
-    internal List<CardInfo> DiscardPile;
-    [SerializeField] private CardUI TopDiscard;
+    public DiscardPile MyDiscard;
+    public DiscardPile OpponentDiscard;
+    public Deck MyDeck;
     internal bool canDiscard = true;
-
+    internal bool canDraw = true;
 
     public static GameStateManager instance
     {
@@ -38,7 +40,7 @@ public class GameStateManager : MonoBehaviour
 
     private void Start()
     {
-        DiscardPile = new List<CardInfo>();
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void DisplayHighlightedCard(CardInfo info)
@@ -65,29 +67,5 @@ public class GameStateManager : MonoBehaviour
     public void SetHeldCard(GameObject i_card)
     {
         HeldCard = i_card;
-    }
-
-    private void DisplayTopDiscardCard(CardInfo info)
-    {
-        if (!TopDiscard.gameObject.activeSelf)
-        {
-            TopDiscard.gameObject.SetActive(true);
-        }
-
-        if (info != TopDiscard.card)
-        {
-            TopDiscard.LoadCard(info);
-        }
-    }
-
-    public void DiscardCard(CardInfo info)
-    {
-        DiscardPile.Add(info);
-        DisplayTopDiscardCard(info);
-    }
-
-    public void ReturnCardToHand()
-    {
-
     }
 }
