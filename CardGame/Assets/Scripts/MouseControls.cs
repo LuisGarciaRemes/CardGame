@@ -10,8 +10,12 @@ public class MouseControls : MonoBehaviour
     public Vector2 PlayZoneDim;
     public Vector2 DiscardZonePos;
     public Vector2 DiscardZoneDim;
+    public Vector2 DeckZonePos;
+    public Vector2 DeckZoneDim;
+    public Vector2 OppDiscardZonePos;
+    public Vector2 OppDiscardZoneDim;
 
-    public enum GameZone { Hand, MyDiscard, Deck, Play, Null };
+    public enum GameZone { Hand, MyDiscard, OppDiscard, Deck, Play, Null };
 
     // Update is called once per frame
     void Update()
@@ -21,7 +25,7 @@ public class MouseControls : MonoBehaviour
             position = Input.mousePosition
         };
 
-       // Debug.Log(pointerData.position.ToString());
+       //Debug.Log(pointerData.position.ToString());
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerData, results);
 
@@ -29,7 +33,6 @@ public class MouseControls : MonoBehaviour
 
         if (pointerData.position.x <= (PlayZonePos.x + PlayZoneDim.x / 2) && pointerData.position.x >= (PlayZonePos.x - PlayZoneDim.x / 2) && pointerData.position.y <= (PlayZonePos.y + PlayZoneDim.y / 2) && pointerData.position.y >= (PlayZonePos.y - PlayZoneDim.y / 2))
         {
-            Debug.Log("Hovering over play");
             currZone = GameZone.Play;
         }
         else if (pointerData.position.x <= (DiscardZonePos.x + DiscardZoneDim.x / 2) && pointerData.position.x >= (DiscardZonePos.x - DiscardZoneDim.x / 2) && pointerData.position.y <= (DiscardZonePos.y + DiscardZoneDim.y / 2) && pointerData.position.y >= (DiscardZonePos.y - DiscardZoneDim.y / 2))
@@ -42,8 +45,23 @@ public class MouseControls : MonoBehaviour
             {
                 GameStateManager.instance.MyDiscard.DisplayPrevious();
             }
-
             currZone = GameZone.MyDiscard;
+        }
+        else if (pointerData.position.x <= (OppDiscardZonePos.x + OppDiscardZoneDim.x / 2) && pointerData.position.x >= (OppDiscardZonePos.x - OppDiscardZoneDim.x / 2) && pointerData.position.y <= (OppDiscardZonePos.y + OppDiscardZoneDim.y / 2) && pointerData.position.y >= (OppDiscardZonePos.y - OppDiscardZoneDim.y / 2))
+        {
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            {
+                GameStateManager.instance.OppDiscard.DisplayNext();
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                GameStateManager.instance.OppDiscard.DisplayPrevious();
+            }
+            currZone = GameZone.OppDiscard;
+        }
+        else if (pointerData.position.x <= (DeckZonePos.x + DeckZoneDim.x / 2) && pointerData.position.x >= (DeckZonePos.x - DeckZoneDim.x / 2) && pointerData.position.y <= (DeckZonePos.y + DeckZoneDim.y / 2) && pointerData.position.y >= (DeckZonePos.y - DeckZoneDim.y / 2))
+        {
+            currZone = GameZone.Deck;
         }
         else
         {
@@ -68,7 +86,11 @@ public class MouseControls : MonoBehaviour
         {
             if (c != null)
             {
-                c.OnClick(currZone);
+                 c.OnClick(currZone);
+            }
+            else if (currZone == GameZone.Deck)
+            {
+                GameStateManager.instance.MyDeck.DrawTopCard();
             }
         }
         else if (Input.GetMouseButtonUp(0))

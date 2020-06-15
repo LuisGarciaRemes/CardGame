@@ -11,8 +11,9 @@ public class GameStateManager : MonoBehaviour
     public GameObject myHand;
     public GameObject myPlayArea;
     public DiscardPile MyDiscard;
-    public DiscardPile OpponentDiscard;
+    public DiscardPile OppDiscard;
     public Deck MyDeck;
+    public Deck OppDeck;
     internal bool canDiscard = true;
     internal bool canDraw = true;
 

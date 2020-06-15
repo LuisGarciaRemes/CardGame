@@ -5,29 +5,43 @@ using UnityEngine.UI;
 
 public class Deck : MonoBehaviour
 {
-    List<CardInfo> DeckList;
+    public List<CardInfo> DeckList;
     [SerializeField] private Text Amount;
     [SerializeField] GameObject CardPrefab;
     [SerializeField] GameObject CardBack;
-    private static System.Random rng;
+    [SerializeField] GameObject ScreenSpace;
+    private static System.Random rng = new System.Random();
 
     private void Start()
     {
-        DeckList = new List<CardInfo>();
-        System.Random rng = new System.Random();
+        Shuffle();
+        Amount.text = DeckList.Count.ToString();
+
+        if (DeckList.Count <= 0)
+        {
+            CardBack.SetActive(false);
+        }
     }
 
     public void DrawTopCard()
     {
-        GameObject temp = Instantiate(CardPrefab);
-        temp.GetComponent<CardInstance>().LoadCardInfo(DeckList[DeckList.Count-1]);
-        DeckList.RemoveAt(DeckList.Count-1);
-        Amount.text = DeckList.Count.ToString();
+        if (DeckList.Count > 0)
+        {
+            GameObject temp = Instantiate(CardPrefab, ScreenSpace.transform);
+            CardInfo tempinfo = DeckList[DeckList.Count - 1];
+            temp.GetComponent<CardInstance>().LoadCardInfo(tempinfo);
+            temp.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
+            temp.GetComponent<CardUI>().LoadCard(tempinfo);
+            DeckList.RemoveAt(DeckList.Count - 1);
+            GameStateManager.instance.SetHeldCard(temp);
+        }
 
-        if(DeckList.Count == 0)
+        if(DeckList.Count <= 0)
         {
             CardBack.SetActive(false);
         }
+
+        Amount.text = DeckList.Count.ToString();
     }
 
     public void Shuffle()
