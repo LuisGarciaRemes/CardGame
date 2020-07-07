@@ -25,13 +25,20 @@ public class CardUI : MonoBehaviour
 
     public void LoadCard(CardInfo i_card)
     {
-        cardArt.sprite = i_card.art;
-        cardCostText.text = i_card.cardCost.ToString();
-        cardText.text = i_card.cardText;
-        cardValueText.text = i_card.cardValue.ToString();
-        cardTypeText.text = i_card.cardType;
-        cardNameText.text = i_card.cardName;
-        card = i_card;
+        if (i_card)
+        {
+            cardArt.sprite = i_card.art;
+            cardCostText.text = i_card.cardCost.ToString();
+            cardText.text = i_card.cardText;
+            cardValueText.text = i_card.cardValue.ToString();
+            cardTypeText.text = i_card.cardType;
+            cardNameText.text = i_card.cardName;
+            card = i_card;
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
 }

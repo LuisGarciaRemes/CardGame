@@ -7,12 +7,7 @@ public class CardInstance : MonoBehaviour , ClickableInterface
     public CardInfo card = null;
     public enum CardState { InHand, InPlay, InDeck, InDiscard, Selected };
     public CardState currState = CardState.InDeck;
-    private GameObject CardBack;
-
-    private void Start()
-    {
-        CardBack = transform.Find("CardBack").gameObject;
-    }
+    public GameObject CardBack;
 
     public void OnClick(MouseControls.GameZone i_zone)
     {
