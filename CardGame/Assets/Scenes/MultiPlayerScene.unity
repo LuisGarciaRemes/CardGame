@@ -1883,7 +1883,6 @@ GameObject:
   - component: {fileID: 1852627100}
   - component: {fileID: 1852627099}
   - component: {fileID: 1852627098}
-  - component: {fileID: 1852627102}
   - component: {fileID: 1852627101}
   m_Layer: 0
   m_Name: NetworkManager
@@ -1996,22 +1995,6 @@ MonoBehaviour:
   showGUI: 1
   offsetX: 0
   offsetY: 0
---- !u!114 &1852627102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1852627097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 3819674195
-  serverOnly: 0
-  m_AssetId: 
-  hasSpawned: 0
 --- !u!1 &1966462741
 GameObject:
   m_ObjectHideFlags: 0
