@@ -368,7 +368,7 @@ RectTransform:
   - {fileID: 2126524293}
   - {fileID: 151364342}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -547,14 +547,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  PlayZonePos: {x: 0, y: 0}
-  PlayZoneDim: {x: 0, y: 0}
-  DiscardZonePos: {x: 0, y: 0}
-  DiscardZoneDim: {x: 0, y: 0}
-  DeckZonePos: {x: 0, y: 0}
-  DeckZoneDim: {x: 0, y: 0}
-  OppDiscardZonePos: {x: 0, y: 0}
-  OppDiscardZoneDim: {x: 0, y: 0}
+  PlayZonePos: {x: 955, y: 355}
+  PlayZoneDim: {x: 1250, y: 290}
+  DiscardZonePos: {x: 150, y: 195}
+  DiscardZoneDim: {x: 170, y: 250}
+  DeckZonePos: {x: 1760, y: 195}
+  DeckZoneDim: {x: 170, y: 250}
+  OppDiscardZonePos: {x: 1760, y: 915}
+  OppDiscardZoneDim: {x: 170, y: 250}
 --- !u!114 &502902291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,7 +666,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &535593603
 GameObject:
@@ -944,7 +944,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &823122419
 GameObject:
@@ -1290,7 +1290,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 25, y: 0, z: 0}
 --- !u!1001 &1217730716
 PrefabInstance:
@@ -1752,7 +1752,7 @@ RectTransform:
   - {fileID: 895778603}
   - {fileID: 2059114186}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1883,8 +1883,8 @@ GameObject:
   - component: {fileID: 1852627100}
   - component: {fileID: 1852627099}
   - component: {fileID: 1852627098}
-  - component: {fileID: 1852627101}
   - component: {fileID: 1852627102}
+  - component: {fileID: 1852627101}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -1967,7 +1967,6 @@ MonoBehaviour:
   - {fileID: 8046487223384618135, guid: d018920ad93bfb04ca7da5e3656514ca, type: 3}
   - {fileID: 8866969935482603010, guid: a440685b72dad984f8e2e43e41727d4a, type: 3}
   - {fileID: 2023071621648278134, guid: f844460c624b0294e9f37637f53bbb16, type: 3}
-  - {fileID: 7026551823111957177, guid: 2a06d87c1b1d79940b54e856ec31dad3, type: 3}
 --- !u!4 &1852627100
 Transform:
   m_ObjectHideFlags: 0
@@ -1980,7 +1979,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1852627101
 MonoBehaviour:
@@ -1995,8 +1994,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showGUI: 1
-  offsetX: 1625
-  offsetY: 600
+  offsetX: 0
+  offsetY: 0
 --- !u!114 &1852627102
 MonoBehaviour:
   m_ObjectHideFlags: 0

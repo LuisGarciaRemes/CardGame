@@ -20,7 +20,7 @@ public class MouseControls : NetworkBehaviour
 
     private PlayerManagerScript player;
 
-    private void Start()
+    public override void OnStartClient()
     {
         player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
     }
@@ -100,7 +100,7 @@ public class MouseControls : NetworkBehaviour
             }
             else if (currZone == GameZone.Deck)
             {
-                player.m_myDeck.DrawTopCard();
+                player.m_myDeck.CmdDrawTopCard();
             }
         }
         else if (Input.GetMouseButtonUp(0))

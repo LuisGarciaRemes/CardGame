@@ -81,3 +81,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  DeckPrefab: {fileID: 8866969935482603010, guid: a440685b72dad984f8e2e43e41727d4a,
+    type: 3}
+  DiscardPrefab: {fileID: 2023071621648278134, guid: f844460c624b0294e9f37637f53bbb16,
+    type: 3}

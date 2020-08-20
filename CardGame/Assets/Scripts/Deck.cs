@@ -16,7 +16,7 @@ public class Deck : NetworkBehaviour
     private void Start()
     {
         ScreenSpace = GameObject.Find("Screen Overlay (Hand)");
-        Shuffle();
+        CmdShuffle();
         Amount.text = DeckList.Count.ToString();
 
         if (DeckList.Count <= 0)
@@ -25,7 +25,8 @@ public class Deck : NetworkBehaviour
         }
     }
 
-    public void DrawTopCard()
+    [Command]
+    public void CmdDrawTopCard()
     {
         if (DeckList.Count > 0)
         {
@@ -47,7 +48,8 @@ public class Deck : NetworkBehaviour
         Amount.text = DeckList.Count.ToString();
     }
 
-    public void Shuffle()
+    [Command]
+    public void CmdShuffle()
     {
         int n = DeckList.Count;
         while (n > 1)
