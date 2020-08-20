@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Mirror;
 
-public class MouseControls : MonoBehaviour
+public class MouseControls : NetworkBehaviour
 {
     internal GameZone currZone = GameZone.Null;
     public Vector2 PlayZonePos;
@@ -16,6 +17,13 @@ public class MouseControls : MonoBehaviour
     public Vector2 OppDiscardZoneDim;
 
     public enum GameZone { Hand, MyDiscard, OppDiscard, Deck, Play, Null };
+
+    private PlayerManagerScript player;
+
+    private void Start()
+    {
+        player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -39,24 +47,26 @@ public class MouseControls : MonoBehaviour
         {
             if (Input.GetAxis("Mouse ScrollWheel") > 0f)
             {
-                GameStateManager.instance.MyDiscard.DisplayNext();
+                player.m_myDiscard.DisplayNext();
             }
             else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
             {
-                GameStateManager.instance.MyDiscard.DisplayPrevious();
+                player.m_myDiscard.DisplayPrevious();
             }
             currZone = GameZone.MyDiscard;
         }
         else if (pointerData.position.x <= (OppDiscardZonePos.x + OppDiscardZoneDim.x / 2) && pointerData.position.x >= (OppDiscardZonePos.x - OppDiscardZoneDim.x / 2) && pointerData.position.y <= (OppDiscardZonePos.y + OppDiscardZoneDim.y / 2) && pointerData.position.y >= (OppDiscardZonePos.y - OppDiscardZoneDim.y / 2))
         {
+            /*
             if (Input.GetAxis("Mouse ScrollWheel") > 0f)
             {
-                GameStateManager.instance.OppDiscard.DisplayNext();
+                UIManager.instance.m_discardPiles[1].DisplayNext();
             }
             else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
             {
-                GameStateManager.instance.OppDiscard.DisplayPrevious();
+                UIManager.instance.m_discardPiles[1].DisplayPrevious();
             }
+            */
             currZone = GameZone.OppDiscard;
         }
         else if (pointerData.position.x <= (DeckZonePos.x + DeckZoneDim.x / 2) && pointerData.position.x >= (DeckZonePos.x - DeckZoneDim.x / 2) && pointerData.position.y <= (DeckZonePos.y + DeckZoneDim.y / 2) && pointerData.position.y >= (DeckZonePos.y - DeckZoneDim.y / 2))
@@ -78,7 +88,7 @@ public class MouseControls : MonoBehaviour
             }
             else
             {
-                GameStateManager.instance.HideHighlightedCard();
+                UIManager.instance.HideHighlightedCard();
             }          
         }
 
@@ -90,20 +100,25 @@ public class MouseControls : MonoBehaviour
             }
             else if (currZone == GameZone.Deck)
             {
-                GameStateManager.instance.MyDeck.DrawTopCard();
+                player.m_myDeck.DrawTopCard();
             }
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            if(GameStateManager.instance.HeldCard != null)
+            if(UIManager.instance.m_heldCard != null)
             {
+                if(c == null)
+                {
+                    c = UIManager.instance.m_heldCard.GetComponent<ClickableInterface>();
+                }
+  
                 c.OnRelease(currZone);
             }
         }
 
-        if(GameStateManager.instance.HeldCard != null)
+        if(UIManager.instance.m_heldCard != null)
         {
-            GameStateManager.instance.HeldCard.transform.position = pointerData.position;                      
+            UIManager.instance.m_heldCard.transform.position = pointerData.position;                      
         }
     }
 }

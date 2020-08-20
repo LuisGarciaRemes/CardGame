@@ -1,23 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class CardInstance : MonoBehaviour , ClickableInterface
+public class CardInstance : NetworkBehaviour , ClickableInterface
 {
     public CardInfo card = null;
     public enum CardState { InHand, InPlay, InDeck, InDiscard, Selected };
     public CardState currState = CardState.InDeck;
     public GameObject CardBack;
+    private PlayerManagerScript player;
+
+    private void Start()
+    {
+       player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
+    }
 
     public void OnClick(MouseControls.GameZone i_zone)
     {
         if(currState == CardState.InHand)
         {
             Debug.Log("Clicked on card in hand");
-            GameStateManager.instance.HideHighlightedCard();
+            UIManager.instance.HideHighlightedCard();
             currState = CardState.Selected;
             transform.SetParent(transform.parent.transform.parent,false);
-            GameStateManager.instance.SetHeldCard(gameObject);
+            UIManager.instance.SetHeldCard(gameObject);
         }
         else if (currState == CardState.InPlay)
         {
@@ -33,30 +40,30 @@ public class CardInstance : MonoBehaviour , ClickableInterface
     {
         if (currState == CardState.InHand || currState == CardState.InPlay || currState == CardState.InDiscard)
         {
-            GameStateManager.instance.DisplayHighlightedCard(card);
+            UIManager.instance.DisplayHighlightedCard(card);
         }
     }
 
     public void OnRelease(MouseControls.GameZone i_zone)
     {
-        if (i_zone == MouseControls.GameZone.Play && GameStateManager.instance.myPlayArea.transform.childCount <= 5)
+        if (i_zone == MouseControls.GameZone.Play && UIManager.instance.m_myArea.transform.childCount <= 5)
         {
-            currState = CardState.InPlay;
-            GameStateManager.instance.HeldCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
-            transform.SetParent(GameStateManager.instance.myPlayArea.transform, false);
-            GameStateManager.instance.SetHeldCard(null);
+            currState = CardState.InPlay;       
+            UIManager.instance.m_heldCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+            transform.SetParent(UIManager.instance.m_myArea.transform, false);
+            UIManager.instance.SetHeldCard(null);
         }
-        else if(i_zone == MouseControls.GameZone.MyDiscard && GameStateManager.instance.canDiscard)
+        else if(i_zone == MouseControls.GameZone.MyDiscard && player.m_canDiscard)
         {
-            GameStateManager.instance.MyDiscard.DiscardCard(card);
+            player.m_myDiscard.DiscardCard(card);
             Destroy(this.gameObject);
         }
         else
         {
             currState = CardState.InHand;
-            GameStateManager.instance.HeldCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
-            transform.SetParent(GameStateManager.instance.myHand.transform, false);
-            GameStateManager.instance.SetHeldCard(null);
+            UIManager.instance.m_heldCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+            transform.SetParent(UIManager.instance.m_myHand.transform, false);
+            UIManager.instance.SetHeldCard(null);
         }
     }
 

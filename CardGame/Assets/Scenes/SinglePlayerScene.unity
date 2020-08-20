@@ -616,7 +616,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 600}
+  m_SizeDelta: {x: 900, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &151364343
 MonoBehaviour:
@@ -1042,7 +1042,7 @@ GameObject:
   - component: {fileID: 213003463}
   - component: {fileID: 213003464}
   m_Layer: 5
-  m_Name: Opponent'sPlayedCards
+  m_Name: OppArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1974,13 +1974,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4995bb2069c9b44692c4957cf00d0b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HighlightedCard: {fileID: 2126524292}
-  myHand: {fileID: 683987782}
-  myPlayArea: {fileID: 1503452317}
-  MyDiscard: {fileID: 1289167659}
-  OppDiscard: {fileID: 1116988499}
-  MyDeck: {fileID: 6651444065741240767}
-  OppDeck: {fileID: 29748340}
+  m_highlightedCard: {fileID: 2126524292}
+  m_myHand: {fileID: 683987782}
+  m_oppHand: {fileID: 208128392}
+  m_myArea: {fileID: 1503452317}
+  m_oppArea: {fileID: 213003462}
+  m_discardPiles:
+  - {fileID: 1289167659}
+  - {fileID: 1116988499}
+  m_decks:
+  - {fileID: 6651444065741240767}
+  - {fileID: 29748340}
+  m_playerCounter: 0
 --- !u!224 &555335273 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7319861293533962565, guid: 7ce73aac226b0d748800cd6e000c413c,
@@ -2480,7 +2485,7 @@ GameObject:
   - component: {fileID: 843040459}
   - component: {fileID: 843040458}
   m_Layer: 5
-  m_Name: MyArea
+  m_Name: MyAreaBG
   m_TagString: PlayArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3444,7 +3449,7 @@ GameObject:
   - component: {fileID: 1148593019}
   - component: {fileID: 1148593018}
   m_Layer: 5
-  m_Name: OpponentArea
+  m_Name: OpponentAreaBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4870,7 +4875,7 @@ GameObject:
   - component: {fileID: 1503452318}
   - component: {fileID: 1503452319}
   m_Layer: 5
-  m_Name: MyPlayedCards
+  m_Name: MyArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
