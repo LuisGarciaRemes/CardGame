@@ -22,6 +22,7 @@ public class PlayerManagerScript : NetworkBehaviour
 
     public override void OnStartClient()
     {
+        base.OnStartClient();
         Cursor.lockState = CursorLockMode.Confined;
         m_highlightedCard = GameObject.Find("HighlightedPrefab").GetComponent<CardUI>();
         m_myHand = GameObject.Find("MyHand");
@@ -141,12 +142,10 @@ public class PlayerManagerScript : NetworkBehaviour
     {
         if(hasAuthority)
         {
-            m_myDeck.transform.SetParent(GameObject.Find("Screen Space (World)").transform);
             m_myDeck.gameObject.GetComponent<RectTransform>().localPosition = new Vector3(335.0f, -150.0f, 0.0f);
         }
         else
         {
-            m_myDeck.transform.SetParent(GameObject.Find("Screen Space (World)").transform);
             m_myDeck.gameObject.GetComponent<RectTransform>().localPosition = new Vector3(-335.0f, 150.0f, 0.0f);
         }
     }
