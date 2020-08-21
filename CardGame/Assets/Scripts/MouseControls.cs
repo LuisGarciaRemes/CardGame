@@ -16,109 +16,122 @@ public class MouseControls : NetworkBehaviour
     public Vector2 OppDiscardZonePos;
     public Vector2 OppDiscardZoneDim;
 
+    public int playerCount = 0;
+
     public enum GameZone { Hand, MyDiscard, OppDiscard, Deck, Play, Null };
 
     private PlayerManagerScript player;
 
-    public override void OnStartClient()
+    public void AddCount()
     {
-        player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
+        playerCount++;
+
+        if (playerCount >= 2)
+        {
+            player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
+            player.CmdAddDeck();
+            player.CmdAddDiscard();
+            player.RpcSetDeckPos();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+        if (player)
         {
-            position = Input.mousePosition
-        };
+            PointerEventData pointerData = new PointerEventData(EventSystem.current)
+            {
+                position = Input.mousePosition
+            };
 
-       //Debug.Log(pointerData.position.ToString());
-        List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(pointerData, results);
+            //Debug.Log(pointerData.position.ToString());
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerData, results);
 
-        ClickableInterface c = null;
+            ClickableInterface c = null;
 
-        if (pointerData.position.x <= (PlayZonePos.x + PlayZoneDim.x / 2) && pointerData.position.x >= (PlayZonePos.x - PlayZoneDim.x / 2) && pointerData.position.y <= (PlayZonePos.y + PlayZoneDim.y / 2) && pointerData.position.y >= (PlayZonePos.y - PlayZoneDim.y / 2))
-        {
-            currZone = GameZone.Play;
-        }
-        else if (pointerData.position.x <= (DiscardZonePos.x + DiscardZoneDim.x / 2) && pointerData.position.x >= (DiscardZonePos.x - DiscardZoneDim.x / 2) && pointerData.position.y <= (DiscardZonePos.y + DiscardZoneDim.y / 2) && pointerData.position.y >= (DiscardZonePos.y - DiscardZoneDim.y / 2))
-        {
-            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            if (pointerData.position.x <= (PlayZonePos.x + PlayZoneDim.x / 2) && pointerData.position.x >= (PlayZonePos.x - PlayZoneDim.x / 2) && pointerData.position.y <= (PlayZonePos.y + PlayZoneDim.y / 2) && pointerData.position.y >= (PlayZonePos.y - PlayZoneDim.y / 2))
             {
-                player.m_myDiscard.DisplayNext();
+                currZone = GameZone.Play;
             }
-            else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            else if (pointerData.position.x <= (DiscardZonePos.x + DiscardZoneDim.x / 2) && pointerData.position.x >= (DiscardZonePos.x - DiscardZoneDim.x / 2) && pointerData.position.y <= (DiscardZonePos.y + DiscardZoneDim.y / 2) && pointerData.position.y >= (DiscardZonePos.y - DiscardZoneDim.y / 2))
             {
-                player.m_myDiscard.DisplayPrevious();
+                if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+                {
+                    player.m_myDiscard.DisplayNext();
+                }
+                else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+                {
+                    player.m_myDiscard.DisplayPrevious();
+                }
+                currZone = GameZone.MyDiscard;
             }
-            currZone = GameZone.MyDiscard;
-        }
-        else if (pointerData.position.x <= (OppDiscardZonePos.x + OppDiscardZoneDim.x / 2) && pointerData.position.x >= (OppDiscardZonePos.x - OppDiscardZoneDim.x / 2) && pointerData.position.y <= (OppDiscardZonePos.y + OppDiscardZoneDim.y / 2) && pointerData.position.y >= (OppDiscardZonePos.y - OppDiscardZoneDim.y / 2))
-        {
-            /*
-            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            else if (pointerData.position.x <= (OppDiscardZonePos.x + OppDiscardZoneDim.x / 2) && pointerData.position.x >= (OppDiscardZonePos.x - OppDiscardZoneDim.x / 2) && pointerData.position.y <= (OppDiscardZonePos.y + OppDiscardZoneDim.y / 2) && pointerData.position.y >= (OppDiscardZonePos.y - OppDiscardZoneDim.y / 2))
             {
-                UIManager.instance.m_discardPiles[1].DisplayNext();
+                /*
+                if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+                {
+                    UIManager.instance.m_discardPiles[1].DisplayNext();
+                }
+                else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+                {
+                    UIManager.instance.m_discardPiles[1].DisplayPrevious();
+                }
+                */
+                currZone = GameZone.OppDiscard;
             }
-            else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            else if (pointerData.position.x <= (DeckZonePos.x + DeckZoneDim.x / 2) && pointerData.position.x >= (DeckZonePos.x - DeckZoneDim.x / 2) && pointerData.position.y <= (DeckZonePos.y + DeckZoneDim.y / 2) && pointerData.position.y >= (DeckZonePos.y - DeckZoneDim.y / 2))
             {
-                UIManager.instance.m_discardPiles[1].DisplayPrevious();
-            }
-            */
-            currZone = GameZone.OppDiscard;
-        }
-        else if (pointerData.position.x <= (DeckZonePos.x + DeckZoneDim.x / 2) && pointerData.position.x >= (DeckZonePos.x - DeckZoneDim.x / 2) && pointerData.position.y <= (DeckZonePos.y + DeckZoneDim.y / 2) && pointerData.position.y >= (DeckZonePos.y - DeckZoneDim.y / 2))
-        {
-            currZone = GameZone.Deck;
-        }
-        else
-        {
-            currZone = GameZone.Null;
-        }
-
-        foreach (RaycastResult r in results)
-        {
-            c = r.gameObject.GetComponentInParent<ClickableInterface>();
-            if (c != null)
-            {
-                c.OnHighlighted();
-                break;
+                currZone = GameZone.Deck;
             }
             else
             {
-                UIManager.instance.HideHighlightedCard();
-            }          
-        }
+                currZone = GameZone.Null;
+            }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (c != null)
+            foreach (RaycastResult r in results)
             {
-                 c.OnClick(currZone);
-            }
-            else if (currZone == GameZone.Deck)
-            {
-                player.m_myDeck.CmdDrawTopCard();
-            }
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            if(UIManager.instance.m_heldCard != null)
-            {
-                if(c == null)
+                c = r.gameObject.GetComponentInParent<ClickableInterface>();
+                if (c != null)
                 {
-                    c = UIManager.instance.m_heldCard.GetComponent<ClickableInterface>();
+                    c.OnHighlighted();
+                    break;
                 }
-  
-                c.OnRelease(currZone);
+                else
+                {
+                    player.RpcHideHighlightedCard();
+                }
             }
-        }
 
-        if(UIManager.instance.m_heldCard != null)
-        {
-            UIManager.instance.m_heldCard.transform.position = pointerData.position;                      
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (c != null)
+                {
+                    c.OnClick(currZone);
+                }
+                else if (currZone == GameZone.Deck)
+                {
+                    player.m_myDeck.CmdDrawTopCard();
+                }
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                if (player.m_heldCard != null)
+                {
+                    if (c == null)
+                    {
+                        c = player.m_heldCard.GetComponent<ClickableInterface>();
+                    }
+
+                    c.OnRelease(currZone);
+                }
+            }
+
+            if (player.m_heldCard != null)
+            {
+                player.RpcSetPos(pointerData.position);
+            }
         }
     }
 }

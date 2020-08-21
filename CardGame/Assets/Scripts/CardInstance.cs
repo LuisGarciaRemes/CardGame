@@ -21,10 +21,10 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
         if(currState == CardState.InHand)
         {
             Debug.Log("Clicked on card in hand");
-            UIManager.instance.HideHighlightedCard();
-            currState = CardState.Selected;
-            transform.SetParent(transform.parent.transform.parent,false);
-            UIManager.instance.SetHeldCard(gameObject);
+            player.RpcHideHighlightedCard();
+            currState = CardState.Selected;          
+            player.RpcSetHeldCard(gameObject);
+            player.RpcUnparentCard();
         }
         else if (currState == CardState.InPlay)
         {
@@ -40,18 +40,16 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
     {
         if (currState == CardState.InHand || currState == CardState.InPlay || currState == CardState.InDiscard)
         {
-            UIManager.instance.DisplayHighlightedCard(card);
+            player.RpcDisplayHighlightedCard(card);
         }
     }
 
     public void OnRelease(MouseControls.GameZone i_zone)
     {
-        if (i_zone == MouseControls.GameZone.Play && UIManager.instance.m_myArea.transform.childCount <= 5)
+        if (i_zone == MouseControls.GameZone.Play && player.m_myArea.transform.childCount <= 5)
         {
-            currState = CardState.InPlay;       
-            UIManager.instance.m_heldCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
-            transform.SetParent(UIManager.instance.m_myArea.transform, false);
-            UIManager.instance.SetHeldCard(null);
+            currState = CardState.InPlay;
+            player.RpcSetInPlay();
         }
         else if(i_zone == MouseControls.GameZone.MyDiscard && player.m_canDiscard)
         {
@@ -61,9 +59,7 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
         else
         {
             currState = CardState.InHand;
-            UIManager.instance.m_heldCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
-            transform.SetParent(UIManager.instance.m_myHand.transform, false);
-            UIManager.instance.SetHeldCard(null);
+            player.RpcSetInHand();
         }
     }
 

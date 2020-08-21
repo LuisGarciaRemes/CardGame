@@ -10,6 +10,7 @@ public class Deck : NetworkBehaviour
     [SerializeField] private Text Amount;
     [SerializeField] GameObject CardPrefab;
     [SerializeField] GameObject CardBack;
+    private PlayerManagerScript player;
     GameObject ScreenSpace;
     private static System.Random rng = new System.Random();
 
@@ -23,6 +24,8 @@ public class Deck : NetworkBehaviour
         {
             CardBack.SetActive(false);
         }
+
+        player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
     }
 
     [Command]
@@ -37,7 +40,7 @@ public class Deck : NetworkBehaviour
             temp.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
             temp.GetComponent<CardUI>().LoadCard(tempinfo);
             DeckList.RemoveAt(DeckList.Count - 1);
-            UIManager.instance.SetHeldCard(temp);
+            player.RpcSetHeldCard(temp);
         }
 
         if(DeckList.Count <= 0)
