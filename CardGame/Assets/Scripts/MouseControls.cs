@@ -17,29 +17,16 @@ public class MouseControls : NetworkBehaviour
     public Vector2 OppDiscardZoneDim;
 
     public int playerCount = 0;
+    public bool check = true;
 
     public enum GameZone { Hand, MyDiscard, OppDiscard, Deck, Play, Null };
-
-    private PlayerManagerScript player;
-
-    public void AddCount()
-    {
-        playerCount++;
-
-        if (playerCount >= 2)
-        {
-            player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
-            player.CmdAddDeck();
-            player.CmdAddDiscard();
-            player.RpcSetDeckPos();
-        }
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if (player)
+        if (NetworkClient.connection.identity.GetComponent<PlayerManagerScript>())
         {
+            PlayerManagerScript player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
             PointerEventData pointerData = new PointerEventData(EventSystem.current)
             {
                 position = Input.mousePosition
@@ -78,8 +65,9 @@ public class MouseControls : NetworkBehaviour
                 {
                     UIManager.instance.m_discardPiles[1].DisplayPrevious();
                 }
-                */
+               
                 currZone = GameZone.OppDiscard;
+                */
             }
             else if (pointerData.position.x <= (DeckZonePos.x + DeckZoneDim.x / 2) && pointerData.position.x >= (DeckZonePos.x - DeckZoneDim.x / 2) && pointerData.position.y <= (DeckZonePos.y + DeckZoneDim.y / 2) && pointerData.position.y >= (DeckZonePos.y - DeckZoneDim.y / 2))
             {
@@ -112,7 +100,7 @@ public class MouseControls : NetworkBehaviour
                 }
                 else if (currZone == GameZone.Deck)
                 {
-                    player.m_myDeck.CmdDrawTopCard();
+                    player.m_myDeck.DrawTopCard();
                 }
             }
             else if (Input.GetMouseButtonUp(0))

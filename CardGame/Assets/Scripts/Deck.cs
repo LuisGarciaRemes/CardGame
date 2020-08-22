@@ -4,43 +4,41 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 
-public class Deck : NetworkBehaviour
+public class Deck : MonoBehaviour
 {
     public List<CardInfo> DeckList;
     [SerializeField] private Text Amount;
     [SerializeField] GameObject CardPrefab;
     [SerializeField] GameObject CardBack;
-    private PlayerManagerScript player;
+    public Sprite altback;
     GameObject ScreenSpace;
     private static System.Random rng = new System.Random();
 
     private void Start()
     {
         ScreenSpace = GameObject.Find("Screen Overlay (Hand)");
-        CmdShuffle();
+        Shuffle();
         Amount.text = DeckList.Count.ToString();
 
         if (DeckList.Count <= 0)
         {
             CardBack.SetActive(false);
         }
-
-        player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
     }
 
-    [Command]
-    public void CmdDrawTopCard()
+    public void SwitchCardBack()
     {
+        CardBack.GetComponent<Image>().sprite = altback;
+    }
+
+    public void DrawTopCard()
+    {
+        PlayerManagerScript player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
         if (DeckList.Count > 0)
         {
-            GameObject temp = Instantiate(CardPrefab, ScreenSpace.transform);
-            NetworkServer.Spawn(temp,connectionToClient);
             CardInfo tempinfo = DeckList[DeckList.Count - 1];
-            temp.GetComponent<CardInstance>().LoadCardInfo(tempinfo);
-            temp.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
-            temp.GetComponent<CardUI>().LoadCard(tempinfo);
+            player.CmdSpawnCard(ScreenSpace.transform,tempinfo);
             DeckList.RemoveAt(DeckList.Count - 1);
-            player.RpcSetHeldCard(temp);
         }
 
         if(DeckList.Count <= 0)
@@ -51,8 +49,7 @@ public class Deck : NetworkBehaviour
         Amount.text = DeckList.Count.ToString();
     }
 
-    [Command]
-    public void CmdShuffle()
+    public void Shuffle()
     {
         int n = DeckList.Count;
         while (n > 1)

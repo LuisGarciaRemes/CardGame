@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestCard 1
   m_EditorClassIdentifier: 
   cardName: Card Name
-  art: {fileID: 21300000, guid: c81828accd4e0054f902a0f7941ddde4, type: 3}
+  art: BackGround
   cardText: Text
   cardType: Text
   cardCost: 0

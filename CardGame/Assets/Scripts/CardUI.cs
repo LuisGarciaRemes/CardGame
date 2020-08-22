@@ -28,7 +28,7 @@ public class CardUI : MonoBehaviour
     {
         if (i_card)
         {
-            cardArt.sprite = i_card.art;
+            cardArt.sprite = Resources.Load<Sprite>(i_card.art);
             cardCostText.text = i_card.cardCost.ToString();
             cardText.text = i_card.cardText;
             cardValueText.text = i_card.cardValue.ToString();
