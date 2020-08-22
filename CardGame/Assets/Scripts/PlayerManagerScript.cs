@@ -41,6 +41,7 @@ public class PlayerManagerScript : NetworkBehaviour
             m_myDiscard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             this.gameObject.name = "MyPlayer";
             m_myDeck.SwitchCardBack();
+            GameObject.Find("Controls").GetComponent<MouseControls>().player = this;
         }
         else
         {
@@ -135,7 +136,6 @@ public class PlayerManagerScript : NetworkBehaviour
     [ClientRpc]
     public void RpcSetInPlay()
     {
-        m_heldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
 
         if (hasAuthority)
         {
@@ -146,13 +146,17 @@ public class PlayerManagerScript : NetworkBehaviour
             m_heldCard.transform.SetParent(m_oppArea.transform, true);
         }
 
+        m_heldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        m_heldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        m_heldCard.transform.localRotation = new Quaternion();
+
         m_heldCard = null;
     }
 
     [ClientRpc]
     public void RpcSetInHand()
     {
-        m_heldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        m_heldCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
 
         if (hasAuthority)
         {

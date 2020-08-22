@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Mirror;
 
-public class MouseControls : NetworkBehaviour
+public class MouseControls : MonoBehaviour
 {
     internal GameZone currZone = GameZone.Null;
     public Vector2 PlayZonePos;
@@ -15,18 +15,15 @@ public class MouseControls : NetworkBehaviour
     public Vector2 DeckZoneDim;
     public Vector2 OppDiscardZonePos;
     public Vector2 OppDiscardZoneDim;
-
-    public int playerCount = 0;
-    public bool check = true;
+    public PlayerManagerScript player;
 
     public enum GameZone { Hand, MyDiscard, OppDiscard, Deck, Play, Null };
 
     // Update is called once per frame
     void Update()
     {
-        if (NetworkClient.connection.identity.GetComponent<PlayerManagerScript>())
+        if (player)
         {
-            PlayerManagerScript player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
             PointerEventData pointerData = new PointerEventData(EventSystem.current)
             {
                 position = Input.mousePosition

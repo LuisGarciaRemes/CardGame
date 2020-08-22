@@ -362,7 +362,6 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 8046487223384618135, guid: d018920ad93bfb04ca7da5e3656514ca, type: 3}
-  - {fileID: 9161241301070325110, guid: e58b5f7f412ab6544ae95a94c7c16f46, type: 3}
   - {fileID: 6894889865902428849, guid: 895e0698e4ed7cf4db9ee50fc14ca83a, type: 3}
   - {fileID: 7966017952517592228, guid: cfa707a1d99ade64ebd66b954d2388f8, type: 3}
 --- !u!4 &1852627100
@@ -552,7 +551,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Controls
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5471092330742609194, guid: e58b5f7f412ab6544ae95a94c7c16f46, type: 3}
+    - {fileID: 9161241301070325108, guid: e58b5f7f412ab6544ae95a94c7c16f46, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e58b5f7f412ab6544ae95a94c7c16f46, type: 3}
 --- !u!1001 &6894889864308693038
 PrefabInstance:
