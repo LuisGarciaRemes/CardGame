@@ -19,6 +19,11 @@ public class MouseControls : MonoBehaviour
 
     public enum GameZone { Hand, MyDiscard, OppDiscard, Deck, Play, Null };
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -102,21 +107,18 @@ public class MouseControls : MonoBehaviour
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                if (player.m_heldCard != null)
+                if (player.m_myHeldCard != null)
                 {
                     if (c == null)
                     {
-                        c = player.m_heldCard.GetComponent<ClickableInterface>();
+                        c = player.m_myHeldCard.GetComponent<ClickableInterface>();
                     }
 
                     c.OnRelease(currZone);
                 }
             }
-
-            if (player.m_heldCard != null)
-            {
-                player.RpcSetPos(pointerData.position);
-            }
+            
+            player.CmdSetHeldCardPos(pointerData.position);
         }
     }
 }

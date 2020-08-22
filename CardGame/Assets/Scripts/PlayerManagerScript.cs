@@ -15,7 +15,8 @@ public class PlayerManagerScript : NetworkBehaviour
     internal bool m_canDraw = true;
 
     private CardUI m_highlightedCard;
-    internal GameObject m_heldCard = null;
+    internal GameObject m_myHeldCard = null;
+    internal GameObject m_oppHeldCard = null;
     public GameObject m_myHand;
     public GameObject m_oppHand;
     public GameObject m_myArea;
@@ -61,21 +62,13 @@ public class PlayerManagerScript : NetworkBehaviour
         }
     }
 
-    [ClientRpc]
-    public void RpcUnparentCard()
-    {
-        if (hasAuthority)
-        {
-            m_heldCard.transform.SetParent(m_heldCard.transform.parent.transform.parent, true);
-        }
-    }
-
     [Command]
     public void CmdSpawnCard(Transform i_trans, CardInfo i_info)
     {
         GameObject temp = Instantiate(CardPrefab,i_trans);
         temp.GetComponent<CardInstance>().LoadCardInfo(i_info);
         temp.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
+        temp.GetComponent<CardInstance>().player = this;
         temp.GetComponent<CardUI>().LoadCard(i_info);
         NetworkServer.Spawn(temp, connectionToClient);
         RpcSetHeldCard(temp);
@@ -111,63 +104,88 @@ public class PlayerManagerScript : NetworkBehaviour
         }
     }
     
+    [Command]
+    public void CmdSetHeldCard(GameObject i_card)
+    {
+        RpcSetHeldCard(i_card);
+    }
+
     [ClientRpc]
     public void RpcSetHeldCard(GameObject i_card)
     {
+        i_card.transform.SetParent(m_myHand.transform.parent, true);
+        i_card.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        i_card.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        i_card.transform.localRotation = new Quaternion();
+
         if (hasAuthority)
         {
-            m_heldCard = i_card;
+            m_myHeldCard = i_card;
         }
         else
         {
-            i_card.transform.SetParent(m_oppHand.transform,true);
+            m_oppHeldCard = i_card;
+            m_oppHeldCard.SetActive(false);
         }
     }
 
     [ClientRpc]
-    public void RpcSetPos(Vector2 pos)
+    public void RpcSetHeldCardPos(Vector2 pos)
     {
-        if (hasAuthority && m_heldCard != null)
+        if (m_myHeldCard != null)
         {
-            m_heldCard.transform.position = pos;
+            m_myHeldCard.transform.position = pos;
         }
     }
 
     [ClientRpc]
     public void RpcSetInPlay()
     {
-
         if (hasAuthority)
         {
-            m_heldCard.transform.SetParent(m_myArea.transform, true);
+            m_myHeldCard.transform.SetParent(m_myArea.transform, true);
+            m_myHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+            m_myHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            m_myHeldCard.transform.localRotation = new Quaternion();
+            m_myHeldCard = null;
         }
         else
         {
-            m_heldCard.transform.SetParent(m_oppArea.transform, true);
+            m_oppHeldCard.SetActive(true);
+            m_oppHeldCard.transform.SetParent(m_oppArea.transform, true);
+            m_oppHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+            m_oppHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            m_oppHeldCard.transform.localRotation = new Quaternion();
+            m_oppHeldCard = null;
         }
-
-        m_heldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-        m_heldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        m_heldCard.transform.localRotation = new Quaternion();
-
-        m_heldCard = null;
     }
 
     [ClientRpc]
     public void RpcSetInHand()
     {
-        m_heldCard.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
-
         if (hasAuthority)
         {
-            m_heldCard.transform.SetParent(m_myHand.transform, false);
+            m_myHeldCard.transform.SetParent(m_myHand.transform, false);
+            m_myHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+            m_myHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            m_myHeldCard.transform.localRotation = new Quaternion();
+            m_myHeldCard = null;
         }
         else
         {
-            m_heldCard.transform.SetParent(m_oppHand.transform, false);
-        }
+            m_oppHeldCard.SetActive(true);
+            m_oppHeldCard.transform.SetParent(m_oppHand.transform, false);
+            m_oppHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+            m_oppHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            m_oppHeldCard.transform.localRotation = new Quaternion();
+            m_oppHeldCard = null;
+        }     
+    }
 
-        m_heldCard = null;
+    [Command]
+    public void CmdSetHeldCardPos(Vector2 i_pos)
+    {
+        RpcSetHeldCardPos(i_pos);
     }
 }
 
