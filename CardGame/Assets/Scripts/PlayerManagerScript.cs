@@ -60,11 +60,12 @@ public class PlayerManagerScript : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
     public void RpcUnparentCard()
     {
         if (hasAuthority)
         {
-            m_heldCard.transform.SetParent(m_heldCard.transform.parent.transform.parent, false);
+            m_heldCard.transform.SetParent(m_heldCard.transform.parent.transform.parent, true);
         }
     }
 
@@ -100,6 +101,7 @@ public class PlayerManagerScript : NetworkBehaviour
         }
     }
 
+ 
     public void RpcHideHighlightedCard()
     {
         if (m_highlightedCard.gameObject.activeSelf)
@@ -108,15 +110,20 @@ public class PlayerManagerScript : NetworkBehaviour
         }
     }
     
+    [ClientRpc]
     public void RpcSetHeldCard(GameObject i_card)
     {
         if (hasAuthority)
         {
             m_heldCard = i_card;
         }
+        else
+        {
+            i_card.transform.SetParent(m_oppHand.transform,true);
+        }
     }
 
-
+    [ClientRpc]
     public void RpcSetPos(Vector2 pos)
     {
         if (hasAuthority && m_heldCard != null)
@@ -125,24 +132,24 @@ public class PlayerManagerScript : NetworkBehaviour
         }
     }
 
-
+    [ClientRpc]
     public void RpcSetInPlay()
     {
         m_heldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
 
         if (hasAuthority)
         {
-            m_heldCard.transform.SetParent(m_myArea.transform, false);
+            m_heldCard.transform.SetParent(m_myArea.transform, true);
         }
         else
         {
-            m_heldCard.transform.SetParent(m_oppArea.transform, false);
+            m_heldCard.transform.SetParent(m_oppArea.transform, true);
         }
 
         m_heldCard = null;
     }
 
-
+    [ClientRpc]
     public void RpcSetInHand()
     {
         m_heldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);

@@ -9,16 +9,12 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
     public enum CardState { InHand, InPlay, InDeck, InDiscard, Selected };
     public CardState currState = CardState.InDeck;
     public GameObject CardBack;
-    private PlayerManagerScript player;
-
-    private void Start()
-    {
-       player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
-    }
 
     public void OnClick(MouseControls.GameZone i_zone)
     {
-        if(currState == CardState.InHand)
+        PlayerManagerScript player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
+
+        if (currState == CardState.InHand)
         {
             Debug.Log("Clicked on card in hand");
             player.RpcHideHighlightedCard();
@@ -38,6 +34,8 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
 
     public void OnHighlighted()
     {
+        PlayerManagerScript player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
+
         if (currState == CardState.InHand || currState == CardState.InPlay || currState == CardState.InDiscard)
         {
             player.RpcDisplayHighlightedCard(card);
@@ -46,6 +44,8 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
 
     public void OnRelease(MouseControls.GameZone i_zone)
     {
+        PlayerManagerScript player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
+
         if (i_zone == MouseControls.GameZone.Play && player.m_myArea.transform.childCount <= 5)
         {
             currState = CardState.InPlay;

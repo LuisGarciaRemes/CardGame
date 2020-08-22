@@ -8,7 +8,6 @@ public class Deck : MonoBehaviour
 {
     public List<CardInfo> DeckList;
     [SerializeField] private Text Amount;
-    [SerializeField] GameObject CardPrefab;
     [SerializeField] GameObject CardBack;
     public Sprite altback;
     GameObject ScreenSpace;
