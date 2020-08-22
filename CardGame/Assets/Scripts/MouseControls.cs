@@ -16,6 +16,7 @@ public class MouseControls : MonoBehaviour
     public Vector2 OppDiscardZonePos;
     public Vector2 OppDiscardZoneDim;
     public PlayerManagerScript player;
+    public static int num = 0;
 
     public enum GameZone { Hand, MyDiscard, OppDiscard, Deck, Play, Null };
 
@@ -27,6 +28,11 @@ public class MouseControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (num == 2)
+        {
+            player.m_canDraw = true;
+        }
+
         if (player)
         {
             PointerEventData pointerData = new PointerEventData(EventSystem.current)
@@ -100,7 +106,7 @@ public class MouseControls : MonoBehaviour
                 {
                     c.OnClick(currZone);
                 }
-                else if (currZone == GameZone.Deck)
+                else if (currZone == GameZone.Deck && player.m_canDraw)
                 {
                     player.m_myDeck.DrawTopCard();
                 }

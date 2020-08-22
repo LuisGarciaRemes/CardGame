@@ -11,12 +11,12 @@ public class PlayerManagerScript : NetworkBehaviour
     [SerializeField] private GameObject CardPrefab;
     public Deck m_myDeck;
     public DiscardPile m_myDiscard;
-    internal bool m_canDiscard = true;
-    internal bool m_canDraw = true;
+    public bool m_canDiscard = false;
+    public bool m_canDraw = false;
 
     private CardUI m_highlightedCard;
-    internal GameObject m_myHeldCard = null;
-    internal GameObject m_oppHeldCard = null;
+    public GameObject m_myHeldCard = null;
+    public GameObject m_oppHeldCard = null;
     public GameObject m_myHand;
     public GameObject m_oppHand;
     public GameObject m_myArea;
@@ -58,8 +58,13 @@ public class PlayerManagerScript : NetworkBehaviour
             m_myDiscard.gameObject.transform.localPosition = new Vector3(335.0f, 150.0f, 0.0f);
             m_myDeck.transform.localScale = new Vector3(1.0f,1.0f,1.0f);
             m_myDiscard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            this.gameObject.name = "OppPlayer";         
+            this.gameObject.name = "OppPlayer";
         }
+    }
+
+    private void Start()
+    {
+        MouseControls.num++;
     }
 
     [Command]
@@ -68,7 +73,6 @@ public class PlayerManagerScript : NetworkBehaviour
         GameObject temp = Instantiate(CardPrefab,i_trans);
         temp.GetComponent<CardInstance>().LoadCardInfo(i_info);
         temp.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
-        temp.GetComponent<CardInstance>().player = this;
         temp.GetComponent<CardUI>().LoadCard(i_info);
         NetworkServer.Spawn(temp, connectionToClient);
         RpcSetHeldCard(temp);
@@ -120,6 +124,7 @@ public class PlayerManagerScript : NetworkBehaviour
 
         if (hasAuthority)
         {
+            i_card.GetComponent<CardInstance>().player = this;
             m_myHeldCard = i_card;
         }
         else

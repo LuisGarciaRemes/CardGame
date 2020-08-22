@@ -643,6 +643,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1562258552657726887, guid: 3ca6dc519403ac44bb8154d927d9cc35,
+        type: 3}
+      propertyPath: clientAuthority
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5775938400412078284, guid: 3ca6dc519403ac44bb8154d927d9cc35,
         type: 3}
       propertyPath: sceneId
@@ -776,6 +781,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002252643733745441, guid: 6a04070309f4bc842a51a12bd834abcd,
+        type: 3}
+      propertyPath: clientAuthority
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a04070309f4bc842a51a12bd834abcd, type: 3}
