@@ -17,6 +17,7 @@ public class MouseControls : MonoBehaviour
     public Vector2 OppDiscardZoneDim;
     public PlayerManagerScript player;
     public static int num = 0;
+    public bool initCheck = false;
 
     public enum GameZone { Hand, MyDiscard, OppDiscard, Deck, Play, Null };
 
@@ -28,9 +29,11 @@ public class MouseControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (num == 2)
-        {
+        if (num == 2 && player && !initCheck)
+        {          
+            player.CmdSetOpposingReferences();
             player.m_canDraw = true;
+            initCheck = true;
         }
 
         if (player)
@@ -40,7 +43,6 @@ public class MouseControls : MonoBehaviour
                 position = Input.mousePosition
             };
 
-            //Debug.Log(pointerData.position.ToString());
             List<RaycastResult> results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerData, results);
 
@@ -96,7 +98,7 @@ public class MouseControls : MonoBehaviour
                 }
                 else
                 {
-                    player.RpcHideHighlightedCard();
+                    player.HideHighlightedCard();
                 }
             }
 
@@ -124,7 +126,7 @@ public class MouseControls : MonoBehaviour
                 }
             }
             
-            player.CmdSetHeldCardPos(pointerData.position);
+            player.SetHeldCardPos(pointerData.position);
         }
     }
 }

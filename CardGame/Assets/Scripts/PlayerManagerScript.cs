@@ -11,12 +11,13 @@ public class PlayerManagerScript : NetworkBehaviour
     [SerializeField] private GameObject CardPrefab;
     public Deck m_myDeck;
     public DiscardPile m_myDiscard;
+    public Deck m_oppDeck;
+    public DiscardPile m_oppDiscard;
     public bool m_canDiscard = false;
     public bool m_canDraw = false;
 
     private CardUI m_highlightedCard;
     public GameObject m_myHeldCard = null;
-    public GameObject m_oppHeldCard = null;
     public GameObject m_myHand;
     public GameObject m_oppHand;
     public GameObject m_myArea;
@@ -24,41 +25,9 @@ public class PlayerManagerScript : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        GameObject overlay = GameObject.Find("Screen Space (World)");
         if (hasAuthority)
         {
-            m_highlightedCard = GameObject.Find("HighlightedPrefab").GetComponent<CardUI>();
-            m_myHand = GameObject.Find("MyHand");
-            m_oppHand = GameObject.Find("OppHand");
-            m_myArea = GameObject.Find("MyArea");
-            m_oppArea = GameObject.Find("OppArea");
-            m_myDeck.gameObject.name = "MyDeck";
-            m_myDiscard.gameObject.name = "MyDiscard";
-            m_myDeck.gameObject.transform.SetParent(overlay.transform,true);
-            m_myDiscard.gameObject.transform.SetParent(overlay.transform,true);
-            m_myDeck.gameObject.transform.localPosition = new Vector3(335.0f,-150.0f,0.0f);
-            m_myDiscard.gameObject.transform.localPosition = new Vector3(-335.0f, -150.0f, 0.0f);
-            m_myDeck.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            m_myDiscard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            this.gameObject.name = "MyPlayer";
-            m_myDeck.SwitchCardBack();
-            GameObject.Find("Controls").GetComponent<MouseControls>().player = this;
-        }
-        else
-        {
-            m_myHand = GameObject.Find("OppHand");
-            m_oppHand = GameObject.Find("MyHand");
-            m_myArea = GameObject.Find("OppArea");
-            m_oppArea = GameObject.Find("MyArea");
-            m_myDeck.gameObject.name = "OppDeck";
-            m_myDiscard.gameObject.name = "OppDiscard";
-            m_myDeck.gameObject.transform.SetParent(overlay.transform, true);
-            m_myDiscard.gameObject.transform.SetParent(overlay.transform, true);
-            m_myDeck.gameObject.transform.localPosition = new Vector3(-335.0f, 150.0f, 0.0f);
-            m_myDiscard.gameObject.transform.localPosition = new Vector3(335.0f, 150.0f, 0.0f);
-            m_myDeck.transform.localScale = new Vector3(1.0f,1.0f,1.0f);
-            m_myDiscard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            this.gameObject.name = "OppPlayer";
+            CmdCreateDeck();
         }
     }
 
@@ -70,15 +39,15 @@ public class PlayerManagerScript : NetworkBehaviour
     [Command]
     public void CmdSpawnCard(Transform i_trans, CardInfo i_info)
     {
-        GameObject temp = Instantiate(CardPrefab,i_trans);
+        GameObject temp = Instantiate(CardPrefab, i_trans);
+        NetworkServer.Spawn(temp, connectionToClient);
         temp.GetComponent<CardInstance>().LoadCardInfo(i_info);
         temp.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
         temp.GetComponent<CardUI>().LoadCard(i_info);
-        NetworkServer.Spawn(temp, connectionToClient);
         RpcSetHeldCard(temp);
     }
 
-    public void RpcDisplayHighlightedCard(CardInfo info)
+    public void DisplayHighlightedCard(CardInfo info)
     {
         if (!m_highlightedCard.gameObject.activeSelf)
         {
@@ -99,15 +68,14 @@ public class PlayerManagerScript : NetworkBehaviour
         }
     }
 
- 
-    public void RpcHideHighlightedCard()
+    public void HideHighlightedCard()
     {
         if (m_highlightedCard.gameObject.activeSelf)
         {
             m_highlightedCard.gameObject.SetActive(false);
         }
     }
-    
+
     [Command]
     public void CmdSetHeldCard(GameObject i_card)
     {
@@ -117,25 +85,23 @@ public class PlayerManagerScript : NetworkBehaviour
     [ClientRpc]
     public void RpcSetHeldCard(GameObject i_card)
     {
-        i_card.transform.SetParent(m_myHand.transform.parent, true);
-        i_card.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-        i_card.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        i_card.transform.localRotation = new Quaternion();
-
         if (hasAuthority)
         {
-            i_card.GetComponent<CardInstance>().player = this;
-            m_myHeldCard = i_card;
+            i_card.transform.SetParent(m_myHand.transform.parent, true);
         }
         else
         {
-            m_oppHeldCard = i_card;
-            m_oppHeldCard.SetActive(false);
+            i_card.transform.SetParent(m_myHand.transform, true);
+            i_card.GetComponent<CardInstance>().FlipCard(true);
         }
+
+        i_card.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        i_card.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        i_card.transform.localRotation = new Quaternion();
+        m_myHeldCard = i_card;
     }
 
-    [ClientRpc]
-    public void RpcSetHeldCardPos(Vector2 pos)
+    public void SetHeldCardPos(Vector2 pos)
     {
         if (m_myHeldCard != null)
         {
@@ -143,32 +109,37 @@ public class PlayerManagerScript : NetworkBehaviour
         }
     }
 
+    [Command]
+    public void CmdSetInPlay()
+    {
+        RpcSetInPlay();
+    }
+
     [ClientRpc]
     public void RpcSetInPlay()
     {
-        if (hasAuthority)
+        if(hasAuthority)
         {
-            m_myHeldCard.transform.SetParent(m_myArea.transform, true);
-            m_myHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-            m_myHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            m_myHeldCard.transform.localRotation = new Quaternion();
-            m_myHeldCard = null;
+            m_myHeldCard.GetComponent<CardInstance>().FlipCard(false);
         }
-        else
-        {
-            m_oppHeldCard.SetActive(true);
-            m_oppHeldCard.transform.SetParent(m_oppArea.transform, true);
-            m_oppHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-            m_oppHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            m_oppHeldCard.transform.localRotation = new Quaternion();
-            m_oppHeldCard = null;
-        }
+        m_myHeldCard.transform.SetParent(m_myArea.transform, true);
+        m_myHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        m_myHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        m_myHeldCard.transform.localRotation = new Quaternion();
+        m_myHeldCard = null;
+
+    }
+
+    [Command]
+    public void CmdSetInHand()
+    {
+        RpcSetInHand();
     }
 
     [ClientRpc]
     public void RpcSetInHand()
     {
-        if (hasAuthority)
+        if (m_myHeldCard)
         {
             m_myHeldCard.transform.SetParent(m_myHand.transform, false);
             m_myHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
@@ -176,21 +147,84 @@ public class PlayerManagerScript : NetworkBehaviour
             m_myHeldCard.transform.localRotation = new Quaternion();
             m_myHeldCard = null;
         }
-        else
+    }
+
+
+    [Command]
+    public void CmdCreateDeck()
+    {
+        GameObject overlay = GameObject.Find("Screen Space (World)");
+        GameObject temp = Instantiate(DeckPrefab, overlay.transform);
+        NetworkServer.Spawn(temp,connectionToClient);
+        m_myDeck = temp.GetComponent<Deck>();
+        temp = Instantiate(DiscardPrefab, overlay.transform);
+        NetworkServer.Spawn(temp, connectionToClient);
+        m_myDiscard = temp.GetComponent<DiscardPile>();
+        m_myHand = GameObject.Find("MyHand");
+        m_oppHand = GameObject.Find("OppHand");
+        m_myArea = GameObject.Find("MyArea");
+        m_oppArea = GameObject.Find("OppArea");
+        RpcSetMyPlayerReferences(m_myDeck.gameObject,m_myDiscard.gameObject);
+    }
+
+    [ClientRpc]
+    public void RpcSetMyPlayerReferences(GameObject myDeck, GameObject myDiscard)
+    {
+        if (hasAuthority)
         {
-            m_oppHeldCard.SetActive(true);
-            m_oppHeldCard.transform.SetParent(m_oppHand.transform, false);
-            m_oppHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-            m_oppHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            m_oppHeldCard.transform.localRotation = new Quaternion();
-            m_oppHeldCard = null;
-        }     
+            GameObject overlay = GameObject.Find("Screen Space (World)");
+            m_highlightedCard = GameObject.Find("HighlightedPrefab").GetComponent<CardUI>();
+            m_myDeck = myDeck.GetComponent<Deck>();
+            myDeck.name = "MyDeck";
+            m_myDiscard = myDiscard.GetComponent<DiscardPile>();
+            myDiscard.name = "MyDiscard";
+            m_myHand = GameObject.Find("MyHand");
+            m_oppHand = GameObject.Find("OppHand");
+            m_myArea = GameObject.Find("MyArea");
+            m_oppArea = GameObject.Find("OppArea");
+            m_myDeck.gameObject.transform.SetParent(overlay.transform, true);
+            m_myDiscard.gameObject.transform.SetParent(overlay.transform, true);
+            m_myDeck.gameObject.transform.localPosition = new Vector3(335.0f, -150.0f, 0.0f);
+            m_myDiscard.gameObject.transform.localPosition = new Vector3(-335.0f, -150.0f, 0.0f);
+            m_myDeck.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            m_myDiscard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            this.gameObject.name = "MyPlayer";
+            m_myDeck.SwitchCardBack();
+            GameObject.Find("Controls").GetComponent<MouseControls>().player = this;
+        }
     }
 
     [Command]
-    public void CmdSetHeldCardPos(Vector2 i_pos)
+    public void CmdSetOpposingReferences()
     {
-        RpcSetHeldCardPos(i_pos);
+        RpcSetOppPlayerReferences();
     }
+
+    [ClientRpc]
+    public void RpcSetOppPlayerReferences()
+    {
+        if (hasAuthority)
+        {
+            GameObject overlay = GameObject.Find("Screen Space (World)");
+            m_oppDeck = GameObject.Find("OppDeck(Clone)").GetComponent<Deck>();
+            m_oppDiscard = GameObject.Find("OppDiscard(Clone)").GetComponent<DiscardPile>();
+            m_oppDeck.gameObject.transform.SetParent(overlay.transform, true);
+            m_oppDiscard.gameObject.transform.SetParent(overlay.transform, true);
+            m_oppDeck.gameObject.transform.localPosition = new Vector3(-335.0f, 150.0f, 0.0f);
+            m_oppDiscard.gameObject.transform.localPosition = new Vector3(335.0f, 150.0f, 0.0f);
+            m_oppDeck.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            m_oppDiscard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            PlayerManagerScript opp = GameObject.Find("OppPlayer(Clone)").GetComponent<PlayerManagerScript>();
+            opp.m_myDeck = m_oppDeck;
+            opp.m_myDiscard = m_oppDiscard;
+            opp.m_oppDeck = m_myDeck;
+            opp.m_oppDiscard = m_myDiscard;
+            opp.m_myHand = m_oppHand;
+            opp.m_myArea = m_oppArea;
+            opp.m_oppArea = m_myArea;
+            opp.m_oppHand = m_myHand;
+        }
+    }
+
 }
 

@@ -526,7 +526,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 87c47e9f6a58c404bab251f6f8b8f47c, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -546,7 +546,6 @@ GameObject:
   - component: {fileID: 748705374071689096}
   - component: {fileID: 5824315652086109071}
   - component: {fileID: 8956970371654527962}
-  - component: {fileID: 5205853139065393168}
   m_Layer: 5
   m_Name: CardPrefab
   m_TagString: Card
@@ -611,6 +610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28023327b877944699faad2893eb383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   card: {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
   currState: 2
   CardBack: {fileID: 7630040289942364944}
@@ -630,24 +631,6 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &5205853139065393168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8046487223384618135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  clientAuthority: 1
-  localPositionSensitivity: 0.01
-  localRotationSensitivity: 0.01
-  localScaleSensitivity: 0.01
 --- !u!1 &8929517945736818886
 GameObject:
   m_ObjectHideFlags: 0
