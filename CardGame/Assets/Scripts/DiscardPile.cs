@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 
-public class DiscardPile : MonoBehaviour
+public class DiscardPile : NetworkBehaviour
 {
     private List<CardInfo> PileList;
     [SerializeField] private Text Amount;

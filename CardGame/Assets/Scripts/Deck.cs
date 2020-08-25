@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 
-public class Deck : MonoBehaviour
+public class Deck : NetworkBehaviour
 {
     public List<CardInfo> DeckList;
     [SerializeField] private Text Amount;
