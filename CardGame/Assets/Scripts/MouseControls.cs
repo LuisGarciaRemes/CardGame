@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Mirror;
+using UnityEngine.UI;
 
 public class MouseControls : MonoBehaviour
 {
@@ -16,8 +17,9 @@ public class MouseControls : MonoBehaviour
     public Vector2 OppDiscardZonePos;
     public Vector2 OppDiscardZoneDim;
     public PlayerManagerScript player;
-    public static int num = 0;
-    public bool initCheck = false;
+    [SerializeField] private Button button;
+    public static int playersInGame = 0;
+    public static int playersReady = 0;
 
     public enum GameZone { Hand, MyDiscard, OppDiscard, Deck, Play, Null };
 
@@ -26,14 +28,23 @@ public class MouseControls : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
     }
 
+    public void ReadyUp()
+    {
+        if (playersInGame == 2 && player)
+        {
+            player.CmdSetOpposingReferences();
+            player.m_canDraw = true;
+            button.gameObject.SetActive(false);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (num == 2 && player && !initCheck)
-        {          
-            player.CmdSetOpposingReferences();
-            player.m_canDraw = true;
-            initCheck = true;
+        if (playersInGame == 2 && player && !button.interactable)
+        {
+            button.interactable = true;
+            button.GetComponentInChildren<Text>().text = "Ready Up";
         }
 
         if (player)

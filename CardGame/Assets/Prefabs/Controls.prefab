@@ -52,3 +52,4 @@ MonoBehaviour:
   OppDiscardZonePos: {x: 1760, y: 915}
   OppDiscardZoneDim: {x: 170, y: 250}
   player: {fileID: 0}
+  button: {fileID: 0}

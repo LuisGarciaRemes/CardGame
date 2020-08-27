@@ -282,6 +282,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Controls
       objectReference: {fileID: 0}
+    - target: {fileID: 6784115254772464667, guid: a9a9e03a9efb0e34490c0a32506df53f,
+        type: 3}
+      propertyPath: button
+      value: 
+      objectReference: {fileID: 1040442002110260174}
     - target: {fileID: 6784115254772464676, guid: a9a9e03a9efb0e34490c0a32506df53f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -339,6 +344,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9a9e03a9efb0e34490c0a32506df53f, type: 3}
+--- !u!114 &1757271389 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6784115254772464667, guid: a9a9e03a9efb0e34490c0a32506df53f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1757271388}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84e04208bd2fa244d9e90d8edfca28aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1852627097
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,8 +684,60 @@ PrefabInstance:
       propertyPath: sceneId
       value: 3891644634
       objectReference: {fileID: 0}
+    - target: {fileID: 4938550048530549996, guid: 3ca6dc519403ac44bb8154d927d9cc35,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 3ca6dc519403ac44bb8154d927d9cc35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983596381778241391, guid: 3ca6dc519403ac44bb8154d927d9cc35,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1757271389}
+    - target: {fileID: 7983596381778241391, guid: 3ca6dc519403ac44bb8154d927d9cc35,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983596381778241391, guid: 3ca6dc519403ac44bb8154d927d9cc35,
+        type: 3}
+      propertyPath: m_Colors.m_DisabledColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983596381778241391, guid: 3ca6dc519403ac44bb8154d927d9cc35,
+        type: 3}
+      propertyPath: m_Colors.m_DisabledColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7983596381778241391, guid: 3ca6dc519403ac44bb8154d927d9cc35,
+        type: 3}
+      propertyPath: m_Colors.m_DisabledColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7985132173801818898, guid: 3ca6dc519403ac44bb8154d927d9cc35,
+        type: 3}
+      propertyPath: m_Text
+      value: Waiting For Opponent...
+      objectReference: {fileID: 0}
+    - target: {fileID: 7985132173801818898, guid: 3ca6dc519403ac44bb8154d927d9cc35,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ca6dc519403ac44bb8154d927d9cc35, type: 3}
+--- !u!114 &1040442002110260174 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7983596381778241391, guid: 3ca6dc519403ac44bb8154d927d9cc35,
+    type: 3}
+  m_PrefabInstance: {fileID: 1040442002110260172}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7488728397771114577
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -680,6 +749,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sceneId
       value: 1379972527
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299037800840678092, guid: 6a04070309f4bc842a51a12bd834abcd,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 6a04070309f4bc842a51a12bd834abcd
       objectReference: {fileID: 0}
     - target: {fileID: 7488728398057119800, guid: 6a04070309f4bc842a51a12bd834abcd,
         type: 3}

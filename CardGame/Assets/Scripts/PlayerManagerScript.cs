@@ -13,7 +13,7 @@ public class PlayerManagerScript : NetworkBehaviour
     public DiscardPile m_myDiscard;
     public Deck m_oppDeck;
     public DiscardPile m_oppDiscard;
-    public bool m_canDiscard = false;
+    public bool m_canDiscard = true;
     public bool m_canDraw = false;
 
     private CardUI m_highlightedCard;
@@ -33,7 +33,7 @@ public class PlayerManagerScript : NetworkBehaviour
 
     private void Start()
     {
-        MouseControls.num++;
+        MouseControls.playersInGame++;
     }
 
     [Command]

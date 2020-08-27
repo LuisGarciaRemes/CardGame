@@ -38,6 +38,7 @@ public class Deck : NetworkBehaviour
             CardInfo tempinfo = DeckList[DeckList.Count - 1];
             player.CmdSpawnCard(ScreenSpace.transform,tempinfo);
             DeckList.RemoveAt(DeckList.Count - 1);
+            CmdRemoveCardFromDeck();
         }
 
         if(DeckList.Count <= 0)
@@ -46,6 +47,26 @@ public class Deck : NetworkBehaviour
         }
 
         Amount.text = DeckList.Count.ToString();
+    }
+
+    [Command]
+    public void CmdRemoveCardFromDeck()
+    {
+        RpcRemoveCardFromDeck();
+    }
+
+    [ClientRpc]
+    public void RpcRemoveCardFromDeck()
+    {
+        if (!hasAuthority)
+        {
+            DeckList.RemoveAt(DeckList.Count - 1);
+            if (DeckList.Count <= 0)
+            {
+                CardBack.SetActive(false);
+            }
+            Amount.text = DeckList.Count.ToString();
+        }
     }
 
     public void Shuffle()
