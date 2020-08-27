@@ -14,12 +14,12 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
         PlayerManagerScript player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
         if (player)
         {
-            if (currState == CardState.InHand)
+            if (currState == CardState.InHand && hasAuthority)
             {
                 Debug.Log("Clicked on card in hand");
                 player.HideHighlightedCard();
                 currState = CardState.Selected;
-                player.CmdSetHeldCard(gameObject);
+                player.CmdSetHeldCard(gameObject , card);
             }
             else if (currState == CardState.InPlay)
             {
@@ -35,9 +35,9 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
     public void OnHighlighted()
     {
         PlayerManagerScript player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
-        if (player)
+        if (player && !player.m_myHeldCard)
         {
-            if (currState == CardState.InHand || currState == CardState.InPlay || currState == CardState.InDiscard)
+            if (!CardBack.activeSelf && (currState == CardState.InHand || currState == CardState.InPlay || currState == CardState.InDiscard))
             {
                 player.DisplayHighlightedCard(card);
             }

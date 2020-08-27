@@ -44,7 +44,7 @@ public class PlayerManagerScript : NetworkBehaviour
         temp.GetComponent<CardInstance>().LoadCardInfo(i_info);
         temp.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
         temp.GetComponent<CardUI>().LoadCard(i_info);
-        RpcSetHeldCard(temp);
+        RpcSetHeldCard(temp, i_info);
     }
 
     public void DisplayHighlightedCard(CardInfo info)
@@ -77,14 +77,18 @@ public class PlayerManagerScript : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSetHeldCard(GameObject i_card)
+    public void CmdSetHeldCard(GameObject i_card, CardInfo i_info)
     {
-        RpcSetHeldCard(i_card);
+        RpcSetHeldCard(i_card, i_info);
     }
 
     [ClientRpc]
-    public void RpcSetHeldCard(GameObject i_card)
+    public void RpcSetHeldCard(GameObject i_card, CardInfo i_info)
     {
+        i_card.GetComponent<CardInstance>().LoadCardInfo(i_info);
+        i_card.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
+        i_card.GetComponent<CardUI>().LoadCard(i_info);
+
         if (hasAuthority)
         {
             i_card.transform.SetParent(m_myHand.transform.parent, true);
@@ -118,10 +122,11 @@ public class PlayerManagerScript : NetworkBehaviour
     [ClientRpc]
     public void RpcSetInPlay()
     {
-        if(hasAuthority)
+        if (!hasAuthority)
         {
             m_myHeldCard.GetComponent<CardInstance>().FlipCard(false);
         }
+        m_myHeldCard.GetComponent<CardInstance>().currState = CardInstance.CardState.InPlay;
         m_myHeldCard.transform.SetParent(m_myArea.transform, true);
         m_myHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
         m_myHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
@@ -141,6 +146,7 @@ public class PlayerManagerScript : NetworkBehaviour
     {
         if (m_myHeldCard)
         {
+            m_myHeldCard.GetComponent<CardInstance>().currState = CardInstance.CardState.InHand;
             m_myHeldCard.transform.SetParent(m_myHand.transform, false);
             m_myHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
             m_myHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
