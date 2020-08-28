@@ -9,9 +9,15 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
     public enum CardState { InHand, InPlay, InDeck, InDiscard, Selected };
     public CardState currState = CardState.InDeck;
     public GameObject CardBack;
+    private PlayerManagerScript player;
+
+    private void Start()
+    {
+        player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
+    }
+
     public void OnClick(MouseControls.GameZone i_zone)
     {
-        PlayerManagerScript player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
         if (player)
         {
             if (currState == CardState.InHand && hasAuthority)
@@ -34,7 +40,6 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
 
     public void OnHighlighted()
     {
-        PlayerManagerScript player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
         if (player && !player.m_myHeldCard)
         {
             if (!CardBack.activeSelf && (currState == CardState.InHand || currState == CardState.InPlay || currState == CardState.InDiscard))
@@ -46,7 +51,6 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
 
     public void OnRelease(MouseControls.GameZone i_zone)
     {
-        PlayerManagerScript player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
         if (player)
         {
             if (i_zone == MouseControls.GameZone.Play && player.m_myArea.transform.childCount <= 5)
@@ -56,8 +60,7 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
             }
             else if (i_zone == MouseControls.GameZone.MyDiscard && player.m_canDiscard)
             {
-                player.m_myDiscard.DiscardCard(card);
-                Destroy(this.gameObject);
+                player.m_myDiscard.CmdDiscardCard(card, this.gameObject);               
             }
             else
             {

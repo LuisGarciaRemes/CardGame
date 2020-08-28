@@ -13,8 +13,8 @@ public class PlayerManagerScript : NetworkBehaviour
     public DiscardPile m_myDiscard;
     public Deck m_oppDeck;
     public DiscardPile m_oppDiscard;
-    public bool m_canDiscard = true;
-    public bool m_canDraw = false;
+    internal bool m_canDiscard = true;
+    internal bool m_canDraw = false;
 
     private CardUI m_highlightedCard;
     public GameObject m_myHeldCard = null;
@@ -103,14 +103,6 @@ public class PlayerManagerScript : NetworkBehaviour
         i_card.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         i_card.transform.localRotation = new Quaternion();
         m_myHeldCard = i_card;
-    }
-
-    public void SetHeldCardPos(Vector2 pos)
-    {
-        if (m_myHeldCard != null)
-        {
-            m_myHeldCard.transform.position = pos;
-        }
     }
 
     [Command]
@@ -231,6 +223,18 @@ public class PlayerManagerScript : NetworkBehaviour
             opp.m_oppHand = m_myHand;
         }
     }
+    [Command]
+    public void CmdPlayerIsReady()
+    {
+        RpcPlayerIsReady();
+    }
+
+    [ClientRpc]
+    public void RpcPlayerIsReady()
+    {
+        MouseControls.playersReady++;
+    }
+
 
 }
 

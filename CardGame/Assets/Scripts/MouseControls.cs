@@ -33,8 +33,8 @@ public class MouseControls : MonoBehaviour
         if (playersInGame == 2 && player)
         {
             player.CmdSetOpposingReferences();
-            player.m_canDraw = true;
             button.gameObject.SetActive(false);
+            player.CmdPlayerIsReady();
         }
     }
 
@@ -45,6 +45,12 @@ public class MouseControls : MonoBehaviour
         {
             button.interactable = true;
             button.GetComponentInChildren<Text>().text = "Ready Up";
+        }
+
+        if (playersReady >= 2)
+        {
+            player.m_canDraw = true;
+            playersReady = 0;
         }
 
         if (player)
@@ -136,8 +142,11 @@ public class MouseControls : MonoBehaviour
                     c.OnRelease(currZone);
                 }
             }
-            
-            player.SetHeldCardPos(pointerData.position);
+
+            if (player.m_myHeldCard != null)
+            {
+                player.m_myHeldCard.transform.position = pointerData.position;
+            }
         }
     }
 }

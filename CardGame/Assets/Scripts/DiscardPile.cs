@@ -6,7 +6,7 @@ using Mirror;
 
 public class DiscardPile : NetworkBehaviour
 {
-    private List<CardInfo> PileList;
+    [SerializeField] private List<CardInfo> PileList;
     [SerializeField] private Text Amount;
     [SerializeField] private CardUI TopCard;
     private int DisplayIndex = 0;
@@ -68,7 +68,15 @@ public class DiscardPile : NetworkBehaviour
         DisplayCard();
     }
 
-    public void DiscardCard(CardInfo info)
+    [Command]
+    public void CmdDiscardCard(CardInfo info , GameObject obj)
+    {
+        RpcDiscardCard(info);
+        NetworkServer.Destroy(obj);
+    }
+
+    [ClientRpc]
+    public void RpcDiscardCard(CardInfo info)
     {
         PileList.Add(info);
         DisplayIndex = PileList.Count - 1;
