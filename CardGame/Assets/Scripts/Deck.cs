@@ -6,9 +6,9 @@ using Mirror;
 
 public class Deck : NetworkBehaviour
 {
-    public List<CardInfo> DeckList;
+    [SerializeField] private List<CardInfo> DeckList;
     [SerializeField] private Text Amount;
-    [SerializeField] GameObject CardBack;
+    [SerializeField] public GameObject CardBack;
     public Sprite altback;
     GameObject ScreenSpace;
     private static System.Random rng = new System.Random();

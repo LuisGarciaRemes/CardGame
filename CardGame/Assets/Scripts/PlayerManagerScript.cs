@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
+using UnityEngine.UI;
 
 public class PlayerManagerScript : NetworkBehaviour
 {
@@ -44,6 +45,7 @@ public class PlayerManagerScript : NetworkBehaviour
         temp.GetComponent<CardInstance>().LoadCardInfo(i_info);
         temp.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
         temp.GetComponent<CardUI>().LoadCard(i_info);
+        temp.GetComponent<CardInstance>().CardBack.GetComponent<Image>().sprite = m_myDeck.CardBack.GetComponent<Image>().sprite;
         RpcSetHeldCard(temp, i_info);
     }
 
@@ -88,7 +90,7 @@ public class PlayerManagerScript : NetworkBehaviour
         i_card.GetComponent<CardInstance>().LoadCardInfo(i_info);
         i_card.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
         i_card.GetComponent<CardUI>().LoadCard(i_info);
-
+        i_card.GetComponent<CardInstance>().CardBack.GetComponent<Image>().sprite = m_myDeck.CardBack.GetComponent<Image>().sprite;
         if (hasAuthority)
         {
             i_card.transform.SetParent(m_myHand.transform.parent, true);
