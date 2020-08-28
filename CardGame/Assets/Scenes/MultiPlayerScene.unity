@@ -694,36 +694,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1757271389}
-    - target: {fileID: 7983596381778241391, guid: 3ca6dc519403ac44bb8154d927d9cc35,
-        type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983596381778241391, guid: 3ca6dc519403ac44bb8154d927d9cc35,
-        type: 3}
-      propertyPath: m_Colors.m_DisabledColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983596381778241391, guid: 3ca6dc519403ac44bb8154d927d9cc35,
-        type: 3}
-      propertyPath: m_Colors.m_DisabledColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983596381778241391, guid: 3ca6dc519403ac44bb8154d927d9cc35,
-        type: 3}
-      propertyPath: m_Colors.m_DisabledColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7985132173801818898, guid: 3ca6dc519403ac44bb8154d927d9cc35,
-        type: 3}
-      propertyPath: m_Text
-      value: Waiting For Opponent...
-      objectReference: {fileID: 0}
-    - target: {fileID: 7985132173801818898, guid: 3ca6dc519403ac44bb8154d927d9cc35,
-        type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ca6dc519403ac44bb8154d927d9cc35, type: 3}
 --- !u!114 &1040442002110260174 stripped

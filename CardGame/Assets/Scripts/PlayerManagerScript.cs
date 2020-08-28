@@ -24,11 +24,19 @@ public class PlayerManagerScript : NetworkBehaviour
     public GameObject m_myArea;
     public GameObject m_oppArea;
 
+    public int m_health = 20;
+    public int m_maxDaze = 3;
+    public int m_currDaze = 0;
+    public int m_maxStar = 3;
+    public int m_currStar = 0;
+
+    public PlayerInfo m_myInfo;
+
     public override void OnStartClient()
     {
         if (hasAuthority)
         {
-            CmdCreateDeck();
+            CmdCreateDeckAndDiscard();
         }
     }
 
@@ -151,7 +159,7 @@ public class PlayerManagerScript : NetworkBehaviour
 
 
     [Command]
-    public void CmdCreateDeck()
+    public void CmdCreateDeckAndDiscard()
     {
         GameObject overlay = GameObject.Find("Screen Space (World)");
         GameObject temp = Instantiate(DeckPrefab, overlay.transform);
@@ -164,6 +172,7 @@ public class PlayerManagerScript : NetworkBehaviour
         m_oppHand = GameObject.Find("OppHand");
         m_myArea = GameObject.Find("MyArea");
         m_oppArea = GameObject.Find("OppArea");
+        m_myInfo = GameObject.Find("PlayerInfo").GetComponent<PlayerInfo>();
         RpcSetMyPlayerReferences(m_myDeck.gameObject,m_myDiscard.gameObject);
     }
 
@@ -182,6 +191,7 @@ public class PlayerManagerScript : NetworkBehaviour
             m_oppHand = GameObject.Find("OppHand");
             m_myArea = GameObject.Find("MyArea");
             m_oppArea = GameObject.Find("OppArea");
+            m_myInfo = GameObject.Find("PlayerInfo").GetComponent<PlayerInfo>();
             m_myDeck.gameObject.transform.SetParent(overlay.transform, true);
             m_myDiscard.gameObject.transform.SetParent(overlay.transform, true);
             m_myDeck.gameObject.transform.localPosition = new Vector3(335.0f, -150.0f, 0.0f);
@@ -223,6 +233,7 @@ public class PlayerManagerScript : NetworkBehaviour
             opp.m_myArea = m_oppArea;
             opp.m_oppArea = m_myArea;
             opp.m_oppHand = m_myHand;
+            opp.m_myInfo = GameObject.Find("OpponentInfo").GetComponent<PlayerInfo>();
         }
     }
     [Command]

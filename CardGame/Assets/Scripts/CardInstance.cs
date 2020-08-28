@@ -10,6 +10,7 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
     public CardState currState = CardState.InDeck;
     public GameObject CardBack;
     private PlayerManagerScript player;
+    private const int MAXPLAYEDCARDS = 5;
 
     private void Start()
     {
@@ -53,7 +54,7 @@ public class CardInstance : NetworkBehaviour , ClickableInterface
     {
         if (player)
         {
-            if (i_zone == MouseControls.GameZone.Play && player.m_myArea.transform.childCount <= 5)
+            if (i_zone == MouseControls.GameZone.Play && player.m_myArea.transform.childCount < MAXPLAYEDCARDS)
             {
                 currState = CardState.InPlay;
                 player.CmdSetInPlay();
