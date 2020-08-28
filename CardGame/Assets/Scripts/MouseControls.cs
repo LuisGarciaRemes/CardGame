@@ -82,19 +82,17 @@ public class MouseControls : MonoBehaviour
                 currZone = GameZone.MyDiscard;
             }
             else if (pointerData.position.x <= (OppDiscardZonePos.x + OppDiscardZoneDim.x / 2) && pointerData.position.x >= (OppDiscardZonePos.x - OppDiscardZoneDim.x / 2) && pointerData.position.y <= (OppDiscardZonePos.y + OppDiscardZoneDim.y / 2) && pointerData.position.y >= (OppDiscardZonePos.y - OppDiscardZoneDim.y / 2))
-            {
-                /*
+            {             
                 if (Input.GetAxis("Mouse ScrollWheel") > 0f)
                 {
-                    UIManager.instance.m_discardPiles[1].DisplayNext();
+                    player.m_oppDiscard.DisplayNext();
                 }
                 else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
                 {
-                    UIManager.instance.m_discardPiles[1].DisplayPrevious();
+                    player.m_oppDiscard.DisplayPrevious();
                 }
                
-                currZone = GameZone.OppDiscard;
-                */
+                currZone = GameZone.OppDiscard;              
             }
             else if (pointerData.position.x <= (DeckZonePos.x + DeckZoneDim.x / 2) && pointerData.position.x >= (DeckZonePos.x - DeckZoneDim.x / 2) && pointerData.position.y <= (DeckZonePos.y + DeckZoneDim.y / 2) && pointerData.position.y >= (DeckZonePos.y - DeckZoneDim.y / 2))
             {
