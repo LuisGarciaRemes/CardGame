@@ -70,7 +70,7 @@ public class Deck : NetworkBehaviour
 
     public void SetDeckList(List<CardInfo> i_DeckList)
     {
-        DeckList = i_DeckList;
+        DeckList = new List<CardInfo>(i_DeckList);
 
         if (DeckList.Count <= 0)
         {

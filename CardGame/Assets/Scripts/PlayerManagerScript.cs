@@ -190,7 +190,6 @@ public class PlayerManagerScript : NetworkBehaviour
             default:
                 break;
         }
-        m_myDeck.Shuffle();
         temp = Instantiate(DiscardPrefab, overlay.transform);
         NetworkServer.Spawn(temp, connectionToClient);
         m_myDiscard = temp.GetComponent<DiscardPile>();
@@ -222,6 +221,7 @@ public class PlayerManagerScript : NetworkBehaviour
                 default:
                     break;
             }
+            m_myDeck.Shuffle();
             myDeck.name = "MyDeck";            
             m_myDiscard = myDiscard.GetComponent<DiscardPile>();
             myDiscard.name = "MyDiscard";
