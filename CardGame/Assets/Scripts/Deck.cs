@@ -9,7 +9,6 @@ public class Deck : NetworkBehaviour
     [SerializeField] private List<CardInfo> DeckList;
     [SerializeField] private Text Amount;
     [SerializeField] public GameObject CardBack;
-    public Sprite altback;
     GameObject ScreenSpace;
     private static System.Random rng = new System.Random();
 
@@ -22,11 +21,6 @@ public class Deck : NetworkBehaviour
         {
             CardBack.SetActive(false);
         }
-    }
-
-    public void SwitchCardBack()
-    {
-        CardBack.GetComponent<Image>().sprite = altback;
     }
 
     public void DrawTopCard()

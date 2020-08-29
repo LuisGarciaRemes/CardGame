@@ -66,7 +66,6 @@ public class PlayerManagerScript : NetworkBehaviour
         temp.GetComponent<CardInstance>().LoadCardInfo(i_info);
         temp.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
         temp.GetComponent<CardUI>().LoadCard(i_info);
-        temp.GetComponent<CardInstance>().CardBack.GetComponent<Image>().sprite = m_myDeck.CardBack.GetComponent<Image>().sprite;
         RpcSetHeldCard(temp, i_info);
     }
 
@@ -111,7 +110,6 @@ public class PlayerManagerScript : NetworkBehaviour
         i_card.GetComponent<CardInstance>().LoadCardInfo(i_info);
         i_card.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
         i_card.GetComponent<CardUI>().LoadCard(i_info);
-        i_card.GetComponent<CardInstance>().CardBack.GetComponent<Image>().sprite = m_myDeck.CardBack.GetComponent<Image>().sprite;
         if (hasAuthority)
         {
             i_card.transform.SetParent(m_myHand.transform.parent, true);
@@ -237,7 +235,6 @@ public class PlayerManagerScript : NetworkBehaviour
             m_myDeck.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             m_myDiscard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             this.gameObject.name = "MyPlayer";
-            m_myDeck.SwitchCardBack();
             GameObject.Find("Controls").GetComponent<MouseControls>().player = this;
         }
     }
