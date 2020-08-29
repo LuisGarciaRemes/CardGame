@@ -2,6 +2,7 @@
 // confusion if someone accidentally presses one.
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Mirror
 {
@@ -17,6 +18,7 @@ namespace Mirror
     public class NetworkManagerHUD : MonoBehaviour
     {
         NetworkManager manager;
+        public GameObject charSelect;
 
         /// <summary>
         /// Whether to show the default control HUD at runtime.
@@ -81,7 +83,11 @@ namespace Mirror
                 {
                     if (GUILayout.Button("Host (Server + Client)"))
                     {
-                        manager.StartHost();
+                        if (charSelect.GetComponent<Toggle>().isOn)
+                        {
+                            manager.StartHost();
+                            charSelect.SetActive(false);
+                        }
                     }
                 }
 
@@ -89,11 +95,16 @@ namespace Mirror
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("Client"))
                 {
-                    manager.StartClient();
+                    if (charSelect.GetComponent<Toggle>().isOn)
+                    {
+                        manager.StartClient();
+                        charSelect.SetActive(false);
+                    }
                 }
                 manager.networkAddress = GUILayout.TextField(manager.networkAddress);
                 GUILayout.EndHorizontal();
 
+                /*
                 // Server Only
                 if (Application.platform == RuntimePlatform.WebGLPlayer)
                 {
@@ -104,6 +115,7 @@ namespace Mirror
                 {
                     if (GUILayout.Button("Server Only")) manager.StartServer();
                 }
+                */
             }
             else
             {

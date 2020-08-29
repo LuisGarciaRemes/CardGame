@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8248136496742594393}
   - component: {fileID: 2873049173440660177}
   m_Layer: 0
-  m_Name: PlayerManager
-  m_TagString: Untagged
+  m_Name: OppPlayer
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,6 +81,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  m_LMDeckList:
+  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  m_BHDeckList:
+  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
+  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
+  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
+  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
+  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
   DeckPrefab: {fileID: 8866969935482603010, guid: a440685b72dad984f8e2e43e41727d4a,
     type: 3}
   DiscardPrefab: {fileID: 2023071621648278134, guid: f844460c624b0294e9f37637f53bbb16,
@@ -89,11 +103,17 @@ MonoBehaviour:
     type: 3}
   m_myDeck: {fileID: 0}
   m_myDiscard: {fileID: 0}
-  m_canDiscard: 0
-  m_canDraw: 0
+  m_oppDeck: {fileID: 0}
+  m_oppDiscard: {fileID: 0}
   m_myHeldCard: {fileID: 0}
-  m_oppHeldCard: {fileID: 0}
   m_myHand: {fileID: 0}
   m_oppHand: {fileID: 0}
   m_myArea: {fileID: 0}
   m_oppArea: {fileID: 0}
+  m_health: 20
+  m_maxDaze: 3
+  m_currDaze: 0
+  m_maxStar: 3
+  m_currStar: 0
+  m_myInfo: {fileID: 0}
+  m_deckID: -1

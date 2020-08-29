@@ -355,13 +355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  DeckList:
-  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
+  DeckList: []
   Amount: {fileID: 8866969934792703362}
   CardBack: {fileID: 8866969934225890051}
   altback: {fileID: 21300000, guid: 87c47e9f6a58c404bab251f6f8b8f47c, type: 3}
