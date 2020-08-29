@@ -77,7 +77,7 @@ public class PlayerManagerScript : NetworkBehaviour
 
             if (!m_highlightedCard.transform.GetChild(0).gameObject.activeSelf)
             {
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < 8; i++)
                 {
                     m_highlightedCard.transform.GetChild(i).gameObject.SetActive(true);
                 }
