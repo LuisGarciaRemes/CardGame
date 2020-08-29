@@ -88,12 +88,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
   - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
   - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
   m_BHDeckList:
   - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
   - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
   - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
   - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
   - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
   - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
   DeckPrefab: {fileID: 8866969935482603010, guid: a440685b72dad984f8e2e43e41727d4a,
     type: 3}

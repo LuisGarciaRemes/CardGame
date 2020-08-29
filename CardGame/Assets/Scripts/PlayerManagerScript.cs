@@ -110,17 +110,16 @@ public class PlayerManagerScript : NetworkBehaviour
         i_card.GetComponent<CardInstance>().LoadCardInfo(i_info);
         i_card.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
         i_card.GetComponent<CardUI>().LoadCard(i_info);
+
         if (hasAuthority)
         {
-            i_card.transform.SetParent(m_myHand.transform.parent, true);
+            i_card.transform.SetParent(m_myHand.transform.parent, false);
         }
         else
         {
-            i_card.transform.SetParent(m_myHand.transform, true);
+            i_card.transform.SetParent(m_myHand.transform, false);
             i_card.GetComponent<CardInstance>().FlipCard(true);
         }
-
-        i_card.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
         i_card.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         i_card.transform.localRotation = new Quaternion();
         m_myHeldCard = i_card;
@@ -140,12 +139,10 @@ public class PlayerManagerScript : NetworkBehaviour
             m_myHeldCard.GetComponent<CardInstance>().FlipCard(false);
         }
         m_myHeldCard.GetComponent<CardInstance>().currState = CardInstance.CardState.InPlay;
-        m_myHeldCard.transform.SetParent(m_myArea.transform, true);
-        m_myHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        m_myHeldCard.transform.SetParent(m_myArea.transform, false);
         m_myHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         m_myHeldCard.transform.localRotation = new Quaternion();
         m_myHeldCard = null;
-
     }
 
     [Command]
@@ -161,7 +158,6 @@ public class PlayerManagerScript : NetworkBehaviour
         {
             m_myHeldCard.GetComponent<CardInstance>().currState = CardInstance.CardState.InHand;
             m_myHeldCard.transform.SetParent(m_myHand.transform, false);
-            m_myHeldCard.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
             m_myHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             m_myHeldCard.transform.localRotation = new Quaternion();
             m_myHeldCard = null;
@@ -228,8 +224,8 @@ public class PlayerManagerScript : NetworkBehaviour
             m_myArea = GameObject.Find("MyArea");
             m_oppArea = GameObject.Find("OppArea");
             m_myInfo = GameObject.Find("PlayerInfo").GetComponent<PlayerInfo>();
-            m_myDeck.gameObject.transform.SetParent(overlay.transform, true);
-            m_myDiscard.gameObject.transform.SetParent(overlay.transform, true);
+            m_myDeck.gameObject.transform.SetParent(overlay.transform, false);
+            m_myDiscard.gameObject.transform.SetParent(overlay.transform, false);
             m_myDeck.gameObject.transform.localPosition = new Vector3(335.0f, -150.0f, 0.0f);
             m_myDiscard.gameObject.transform.localPosition = new Vector3(-335.0f, -150.0f, 0.0f);
             m_myDeck.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
@@ -264,8 +260,8 @@ public class PlayerManagerScript : NetworkBehaviour
             GameObject overlay = GameObject.Find("Screen Space (World)");
             m_oppDeck = GameObject.Find("OppDeck(Clone)").GetComponent<Deck>();
             m_oppDiscard = GameObject.Find("OppDiscard(Clone)").GetComponent<DiscardPile>();
-            m_oppDeck.gameObject.transform.SetParent(overlay.transform, true);
-            m_oppDiscard.gameObject.transform.SetParent(overlay.transform, true);
+            m_oppDeck.gameObject.transform.SetParent(overlay.transform, false);
+            m_oppDiscard.gameObject.transform.SetParent(overlay.transform, false);
             m_oppDeck.gameObject.transform.localPosition = new Vector3(-335.0f, 150.0f, 0.0f);
             m_oppDiscard.gameObject.transform.localPosition = new Vector3(335.0f, 150.0f, 0.0f);
             m_oppDeck.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
