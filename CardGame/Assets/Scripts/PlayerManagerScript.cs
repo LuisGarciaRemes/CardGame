@@ -257,7 +257,7 @@ public class PlayerManagerScript : NetworkBehaviour
             opp.m_myArea = m_oppArea;
             opp.m_oppArea = m_myArea;
             opp.m_deckID = i_deckID;
-            opp.m_myDeck.SetDeckList(m_characters[m_deckID].m_deckList);
+            opp.m_myDeck.SetDeckList(m_characters[i_deckID].m_deckList);
             opp.m_oppHand = m_myHand;
             opp.m_myInfo = GameObject.Find("OpponentInfo").GetComponent<PlayerInfo>();
             opp.m_myInfo.UpdateCharacterStats(m_characters[i_deckID]);
