@@ -53,7 +53,11 @@ public class Deck : NetworkBehaviour
     {
         if (!hasAuthority)
         {
-            DeckList.RemoveAt(DeckList.Count - 1);
+            if (DeckList.Count > 0)
+            {
+                DeckList.RemoveAt(DeckList.Count - 1);
+            }
+
             if (DeckList.Count <= 0)
             {
                 CardBack.SetActive(false);

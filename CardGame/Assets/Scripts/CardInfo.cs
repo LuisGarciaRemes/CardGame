@@ -9,7 +9,7 @@ public class CardInfo : ScriptableObject
 {
     public string cardName;
     public string art;
-    public string cardText;
+    [TextArea] public string cardText;
     public string cardType;
     public string starValue;
     public string cardSymbol;

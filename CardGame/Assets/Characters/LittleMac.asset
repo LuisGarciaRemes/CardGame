@@ -16,10 +16,45 @@ MonoBehaviour:
   m_dazeVal: 3
   m_starVal: 3
   m_deckList:
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  - {fileID: 11400000, guid: f1dc64e17a492534d9af372167c9d1ee, type: 2}
+  - {fileID: 11400000, guid: f1dc64e17a492534d9af372167c9d1ee, type: 2}
+  - {fileID: 11400000, guid: 5d068a334921a424b91ecb689fb0182d, type: 2}
+  - {fileID: 11400000, guid: 5d068a334921a424b91ecb689fb0182d, type: 2}
+  - {fileID: 11400000, guid: 5d068a334921a424b91ecb689fb0182d, type: 2}
+  - {fileID: 11400000, guid: 2a9fedb71a30c8745a3703d19d5afa42, type: 2}
+  - {fileID: 11400000, guid: 2a9fedb71a30c8745a3703d19d5afa42, type: 2}
+  - {fileID: 11400000, guid: f45780382f84cf944a6b72cc7888f44d, type: 2}
+  - {fileID: 11400000, guid: f45780382f84cf944a6b72cc7888f44d, type: 2}
+  - {fileID: 11400000, guid: dc66dfb1419e99f448ac1db8a51ea000, type: 2}
+  - {fileID: 11400000, guid: dc66dfb1419e99f448ac1db8a51ea000, type: 2}
+  - {fileID: 11400000, guid: dc66dfb1419e99f448ac1db8a51ea000, type: 2}
+  - {fileID: 11400000, guid: 92a83f8ad1d8f944985ce7d462829298, type: 2}
+  - {fileID: 11400000, guid: 92a83f8ad1d8f944985ce7d462829298, type: 2}
+  - {fileID: 11400000, guid: 92a83f8ad1d8f944985ce7d462829298, type: 2}
   - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
+  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
+  - {fileID: 11400000, guid: f6ebb48850ffb4a498441796196fcc90, type: 2}
+  - {fileID: 11400000, guid: f6ebb48850ffb4a498441796196fcc90, type: 2}
+  - {fileID: 11400000, guid: 37bfe616cde3c164db13cb1788c6d75c, type: 2}
+  - {fileID: 11400000, guid: 37bfe616cde3c164db13cb1788c6d75c, type: 2}
+  - {fileID: 11400000, guid: 740858647a2310e4d8cc8ffc60df52c4, type: 2}
+  - {fileID: 11400000, guid: 740858647a2310e4d8cc8ffc60df52c4, type: 2}
+  - {fileID: 11400000, guid: 7bf630c1d1e5ff74e86288bdf4790421, type: 2}
+  - {fileID: 11400000, guid: 7bf630c1d1e5ff74e86288bdf4790421, type: 2}
+  - {fileID: 11400000, guid: da0fd290b9f152a40bada90b1b4089aa, type: 2}
+  - {fileID: 11400000, guid: da0fd290b9f152a40bada90b1b4089aa, type: 2}
+  - {fileID: 11400000, guid: da0fd290b9f152a40bada90b1b4089aa, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  - {fileID: 11400000, guid: 982f24a8ea87517499951ecebc4b0216, type: 2}
+  - {fileID: 11400000, guid: 982f24a8ea87517499951ecebc4b0216, type: 2}
+  - {fileID: 11400000, guid: 982f24a8ea87517499951ecebc4b0216, type: 2}
+  - {fileID: 11400000, guid: 89381be6e12bb744bb7c52c9fd8fb128, type: 2}
+  - {fileID: 11400000, guid: 89381be6e12bb744bb7c52c9fd8fb128, type: 2}
+  - {fileID: 11400000, guid: 89381be6e12bb744bb7c52c9fd8fb128, type: 2}
+  - {fileID: 11400000, guid: 39ec68450635ce34dbbbef583addf246, type: 2}
+  - {fileID: 11400000, guid: 39ec68450635ce34dbbbef583addf246, type: 2}
+  - {fileID: 11400000, guid: 39ec68450635ce34dbbbef583addf246, type: 2}
   m_pic: {fileID: 21300000, guid: 6e881806131257547854b1b5d7ae6797, type: 3}
   m_name: Little Mac

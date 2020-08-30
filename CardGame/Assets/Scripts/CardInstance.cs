@@ -7,9 +7,10 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 {
     public enum CardState { InHand, InPlay, InDeck, InDiscard, Selected };
     public enum CardColor { Red, Blue, Yellow};
-    public enum CardSide { Left, Right, Straight, None };
-    public enum CardHight { Low, High, Mid, None };
+    public enum CardSide { Left, Right, Straight, None};
+    public enum CardHeight { Low, High, Mid, None};
     public enum StarColor { Red, Gray, Yellow, None };
+    public enum CardType { Technique, Single_Strike, Multi_Strike};
 
 
     public CardInfo m_card = null;
@@ -17,7 +18,8 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     public CardColor m_cardColor;
     public StarColor m_starColor;
     public CardSide m_cardSide;
-    public CardHight m_cardHight;
+    public CardType m_cardType;
+    public CardHeight m_cardHeight;
     public GameObject m_cardBack;
     private PlayerManagerScript m_player;
     private const int MAXPLAYEDCARDS = 5;
@@ -122,7 +124,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         {
             m_starColor = StarColor.Yellow;
         }
-        else if (info.starValue.Contains("None"))
+        else
         {
             m_starColor = StarColor.None;
         }
@@ -146,19 +148,32 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
         if (info.cardSymbol.Contains("High"))
         {
-            m_cardHight = CardHight.High;
+            m_cardHeight = CardHeight.High;
         }
         else if (info.cardSymbol.Contains("Low"))
         {
-            m_cardHight = CardHight.Low;
+            m_cardHeight = CardHeight.Low;
         }
         else if (info.cardSymbol.Contains("Mid"))
         {
-            m_cardHight = CardHight.Mid;
+            m_cardHeight = CardHeight.Mid;
         }
         else
         {
-            m_cardHight = CardHight.None;
+            m_cardHeight = CardHeight.None;
+        }
+
+        if (info.cardType.Contains("Technique"))
+        {
+            m_cardType = CardType.Technique;
+        }
+        else if (info.cardType.Contains("Single-Strike"))
+        {
+            m_cardType = CardType.Single_Strike;
+        }
+        else if (info.cardType.Contains("Multi-Strike"))
+        {
+            m_cardType = CardType.Multi_Strike;
         }
 
     }

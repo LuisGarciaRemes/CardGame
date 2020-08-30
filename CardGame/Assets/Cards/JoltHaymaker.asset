@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22d8e8caf0a7bf14d9d0e34db1dbb078, type: 3}
-  m_Name: Blue
+  m_Name: JoltHaymaker
   m_EditorClassIdentifier: 
-  cardName: Card Name
-  art: BackGround
-  cardText: Text
-  cardType: Text
-  starValue: RedStar
-  cardSymbol: RedHigh
-  cardDamage: 5
+  cardName: Jolt Haymaker
+  art: Samurai
+  cardText: 'Star: This cannot be Blocked'
+  cardType: Single-Strike
+  starValue: GrayStar
+  cardSymbol: BlueHighRight
+  cardDamage: 3

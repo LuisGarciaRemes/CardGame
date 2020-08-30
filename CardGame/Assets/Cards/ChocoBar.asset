@@ -10,12 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22d8e8caf0a7bf14d9d0e34db1dbb078, type: 3}
-  m_Name: Samurai
+  m_Name: ChocoBar
   m_EditorClassIdentifier: 
-  cardName: Joe Momma
+  cardName: Psych Up
   art: Samurai
-  cardText: Is So Fat
-  cardType: She Big
-  starValue: YellowStar
-  cardSymbol: BlueRight
-  cardDamage: 1
+  cardText: 'Gain 2 health if this lands
+
+    Star: Gain 2 additional health if this
+    lands'
+  cardType: Technique
+  starValue: RedStar
+  cardSymbol: YellowMidStraight
+  cardDamage: 0
