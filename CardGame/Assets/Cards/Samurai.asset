@@ -16,5 +16,6 @@ MonoBehaviour:
   art: Samurai
   cardText: Is So Fat
   cardType: She Big
-  cardCost: 0
-  cardValue: 500
+  starValue: GoldStar
+  cardSymbol: BlueRight
+  cardDamage: 1

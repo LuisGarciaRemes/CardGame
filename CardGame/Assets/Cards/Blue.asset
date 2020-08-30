@@ -16,5 +16,6 @@ MonoBehaviour:
   art: BackGround
   cardText: Text
   cardType: Text
-  cardCost: 0
-  cardValue: 0
+  starValue: RedStar
+  cardSymbol: AntiHigh
+  cardDamage: 5

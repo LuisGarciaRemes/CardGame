@@ -732,7 +732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
+  m_Color: {r: 0.12941177, g: 0.31764707, b: 0.7411765, a: 0.5019608}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1625,12 +1625,6 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 3ca6dc519403ac44bb8154d927d9cc35
       objectReference: {fileID: 0}
-    - target: {fileID: 5877975392821278099, guid: 3ca6dc519403ac44bb8154d927d9cc35,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0c0588c9cae350446ad17af8bc68619f,
-        type: 3}
     - target: {fileID: 7983596381778241391, guid: 3ca6dc519403ac44bb8154d927d9cc35,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1657,6 +1651,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 28851381, guid: 6a04070309f4bc842a51a12bd834abcd, type: 3}
+      propertyPath: m_Color.r
+      value: 0.0627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 28851381, guid: 6a04070309f4bc842a51a12bd834abcd, type: 3}
+      propertyPath: m_Color.g
+      value: 0.57254905
+      objectReference: {fileID: 0}
+    - target: {fileID: 28851381, guid: 6a04070309f4bc842a51a12bd834abcd, type: 3}
+      propertyPath: m_Color.b
+      value: 0.83921576
+      objectReference: {fileID: 0}
+    - target: {fileID: 517208370, guid: 6a04070309f4bc842a51a12bd834abcd, type: 3}
+      propertyPath: m_Color.r
+      value: 0.0627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 517208370, guid: 6a04070309f4bc842a51a12bd834abcd, type: 3}
+      propertyPath: m_Color.g
+      value: 0.57254905
+      objectReference: {fileID: 0}
+    - target: {fileID: 517208370, guid: 6a04070309f4bc842a51a12bd834abcd, type: 3}
+      propertyPath: m_Color.b
+      value: 0.83921576
+      objectReference: {fileID: 0}
     - target: {fileID: 3299037800840678092, guid: 6a04070309f4bc842a51a12bd834abcd,
         type: 3}
       propertyPath: sceneId
@@ -1782,5 +1800,50 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 7488728398535516397, guid: 6a04070309f4bc842a51a12bd834abcd,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.0627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 7488728398535516397, guid: 6a04070309f4bc842a51a12bd834abcd,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.57254905
+      objectReference: {fileID: 0}
+    - target: {fileID: 7488728398535516397, guid: 6a04070309f4bc842a51a12bd834abcd,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.83921576
+      objectReference: {fileID: 0}
+    - target: {fileID: 7488728398913580878, guid: 6a04070309f4bc842a51a12bd834abcd,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.0627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 7488728398913580878, guid: 6a04070309f4bc842a51a12bd834abcd,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.57254905
+      objectReference: {fileID: 0}
+    - target: {fileID: 7488728398913580878, guid: 6a04070309f4bc842a51a12bd834abcd,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.83921576
+      objectReference: {fileID: 0}
+    - target: {fileID: 7488728399081497683, guid: 6a04070309f4bc842a51a12bd834abcd,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.12941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 7488728399081497683, guid: 6a04070309f4bc842a51a12bd834abcd,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.31764707
+      objectReference: {fileID: 0}
+    - target: {fileID: 7488728399081497683, guid: 6a04070309f4bc842a51a12bd834abcd,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.7411765
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a04070309f4bc842a51a12bd834abcd, type: 3}

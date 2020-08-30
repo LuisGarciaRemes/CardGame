@@ -7,8 +7,9 @@ using Mirror;
 public class CardUI : MonoBehaviour
 {
     [SerializeField] Image cardArt;
-    [SerializeField] Text cardCostText;
-    [SerializeField] Text cardValueText;
+    [SerializeField] Image starValue;
+    [SerializeField] Image cardSymbol;
+    [SerializeField] Text cardDamageText;
     [SerializeField] Text cardText;
     [SerializeField] Text cardTypeText;
     [SerializeField] Text cardNameText;
@@ -29,9 +30,16 @@ public class CardUI : MonoBehaviour
         if (i_card)
         {
             cardArt.sprite = Resources.Load<Sprite>(i_card.art);
-            cardCostText.text = i_card.cardCost.ToString();
+            starValue.sprite = Resources.Load<Sprite>(i_card.starValue);
+            cardSymbol.sprite = Resources.Load<Sprite>(i_card.cardSymbol);
             cardText.text = i_card.cardText;
-            cardValueText.text = i_card.cardValue.ToString();
+            cardDamageText.text = i_card.cardDamage.ToString();
+
+            if(cardDamageText.text == "0")
+            {
+                cardDamageText.text = "";
+            }
+            
             cardTypeText.text = i_card.cardType;
             cardNameText.text = i_card.cardName;
             card = i_card;

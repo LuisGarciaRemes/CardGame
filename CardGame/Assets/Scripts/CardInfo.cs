@@ -11,6 +11,7 @@ public class CardInfo : ScriptableObject
     public string art;
     public string cardText;
     public string cardType;
-    public int cardCost;
-    public int cardValue;
+    public string starValue;
+    public string cardSymbol;
+    public int cardDamage;
 }
