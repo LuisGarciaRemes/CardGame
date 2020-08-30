@@ -7,8 +7,7 @@ using UnityEngine.UI;
 
 public class PlayerManagerScript : NetworkBehaviour
 {
-    [SerializeField] private List<CardInfo> m_LMDeckList;
-    [SerializeField] private List<CardInfo> m_BHDeckList;
+    [SerializeField] private List<CharacterStats> m_characters;
     [SerializeField] private GameObject DeckPrefab;
     [SerializeField] private GameObject DiscardPrefab;
     [SerializeField] private GameObject CardPrefab;
@@ -26,10 +25,11 @@ public class PlayerManagerScript : NetworkBehaviour
     public GameObject m_myArea;
     public GameObject m_oppArea;
 
-    public int m_health = 20;
-    public int m_maxDaze = 3;
+    public int[] m_health = {0,0,0};
+    public int m_currHealthIndex = 0;
+    public int m_maxDaze = 0;
     public int m_currDaze = 0;
-    public int m_maxStar = 3;
+    public int m_maxStar = 0;
     public int m_currStar = 0;
 
     public PlayerInfo m_myInfo;
@@ -173,17 +173,7 @@ public class PlayerManagerScript : NetworkBehaviour
         NetworkServer.Spawn(temp,connectionToClient);
         m_myDeck = temp.GetComponent<Deck>();
         m_deckID = i_deckID;
-        switch (m_deckID)
-        {
-            case 0:
-                m_myDeck.SetDeckList(m_LMDeckList);
-                break;
-            case 1:
-                m_myDeck.SetDeckList(m_BHDeckList);
-                break;
-            default:
-                break;
-        }
+        m_myDeck.SetDeckList(m_characters[m_deckID].m_deckList);
         temp = Instantiate(DiscardPrefab, overlay.transform);
         NetworkServer.Spawn(temp, connectionToClient);
         m_myDiscard = temp.GetComponent<DiscardPile>();
@@ -204,17 +194,7 @@ public class PlayerManagerScript : NetworkBehaviour
             m_highlightedCard = GameObject.Find("HighlightedPrefab").GetComponent<CardUI>();
             m_myDeck = myDeck.GetComponent<Deck>();
             m_deckID = i_deckID;
-            switch (m_deckID)
-            {
-                case 0:
-                    m_myDeck.SetDeckList(m_LMDeckList);
-                    break;
-                case 1:
-                    m_myDeck.SetDeckList(m_BHDeckList);
-                    break;
-                default:
-                    break;
-            }
+            m_myDeck.SetDeckList(m_characters[m_deckID].m_deckList);
             m_myDeck.Shuffle();
             myDeck.name = "MyDeck";            
             m_myDiscard = myDiscard.GetComponent<DiscardPile>();
@@ -224,6 +204,8 @@ public class PlayerManagerScript : NetworkBehaviour
             m_myArea = GameObject.Find("MyArea");
             m_oppArea = GameObject.Find("OppArea");
             m_myInfo = GameObject.Find("PlayerInfo").GetComponent<PlayerInfo>();
+            m_myInfo.UpdateCharacterStats(m_characters[i_deckID]);
+            UpdateCharStats();
             m_myDeck.gameObject.transform.SetParent(overlay.transform, false);
             m_myDiscard.gameObject.transform.SetParent(overlay.transform, false);
             m_myDeck.gameObject.transform.localPosition = new Vector3(335.0f, -150.0f, 0.0f);
@@ -275,19 +257,11 @@ public class PlayerManagerScript : NetworkBehaviour
             opp.m_myArea = m_oppArea;
             opp.m_oppArea = m_myArea;
             opp.m_deckID = i_deckID;
-            switch (opp.m_deckID)
-            {
-                case 0:
-                    opp.m_myDeck.SetDeckList(m_LMDeckList);
-                    break;
-                case 1:
-                    opp.m_myDeck.SetDeckList(m_BHDeckList);
-                    break;
-                default:
-                    break;
-            }
+            opp.m_myDeck.SetDeckList(m_characters[m_deckID].m_deckList);
             opp.m_oppHand = m_myHand;
-            opp.m_myInfo = GameObject.Find("OpponentInfo").GetComponent<PlayerInfo>();         
+            opp.m_myInfo = GameObject.Find("OpponentInfo").GetComponent<PlayerInfo>();
+            opp.m_myInfo.UpdateCharacterStats(m_characters[i_deckID]);
+            opp.UpdateCharStats();
         }     
     }
 
@@ -301,6 +275,17 @@ public class PlayerManagerScript : NetworkBehaviour
     public void RpcPlayerIsReady()
     {
         MouseControls.playersReady++;
+    }
+
+    private void UpdateCharStats()
+    {
+        for(int i = 0; i < 3; i++)
+        {
+            m_health[i] = m_characters[m_deckID].m_health[i];
+        }
+
+        m_maxDaze = m_characters[m_deckID].m_dazeVal;
+        m_maxStar = m_characters[m_deckID].m_starVal;
     }
 }
 

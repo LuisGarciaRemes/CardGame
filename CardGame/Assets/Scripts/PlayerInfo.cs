@@ -43,8 +43,11 @@ public class PlayerInfo : MonoBehaviour
         m_health.text = i_value.ToString();
     }
 
-    public void UpdateChar(Image i_image)
+    public void UpdateCharacterStats(CharacterStats i_stats)
     {
-        m_char.sprite = i_image.sprite;
+        m_char.sprite = i_stats.m_pic;
+        UpdateDazeMax(i_stats.m_dazeVal);
+        UpdateStarMax(i_stats.m_starVal);
+        UpdateHealth(i_stats.m_health[0]);
     }
 }

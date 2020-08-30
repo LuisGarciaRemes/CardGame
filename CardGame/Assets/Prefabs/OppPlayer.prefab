@@ -81,22 +81,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  m_LMDeckList:
-  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  m_BHDeckList:
-  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
-  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
-  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
-  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
-  - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  m_characters:
+  - {fileID: 11400000, guid: b315bc71d3d5c5a44ae5c76c373c7adb, type: 2}
+  - {fileID: 11400000, guid: 5c194656482f2924aae0301d353c5c6c, type: 2}
   DeckPrefab: {fileID: 8866969935482603010, guid: a440685b72dad984f8e2e43e41727d4a,
     type: 3}
   DiscardPrefab: {fileID: 2023071621648278134, guid: f844460c624b0294e9f37637f53bbb16,
@@ -112,7 +99,10 @@ MonoBehaviour:
   m_oppHand: {fileID: 0}
   m_myArea: {fileID: 0}
   m_oppArea: {fileID: 0}
-  m_health: 20
+  m_healthSeg1: 20
+  m_healthSeg2: 20
+  m_healthSeg3: 20
+  m_currHealth: 0
   m_maxDaze: 3
   m_currDaze: 0
   m_maxStar: 3
