@@ -11,4 +11,5 @@ public class CharacterStats : ScriptableObject
     public int m_starVal;
     public List<CardInfo> m_deckList;
     public Sprite m_pic;
+    public string m_name;
 }

@@ -22,3 +22,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
   - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
   m_pic: {fileID: 21300000, guid: 15a638ad1ba17b546893bd62c3da7c85, type: 3}
+  m_name: Bear Hugger

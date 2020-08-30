@@ -49,5 +49,6 @@ public class PlayerInfo : MonoBehaviour
         UpdateDazeMax(i_stats.m_dazeVal);
         UpdateStarMax(i_stats.m_starVal);
         UpdateHealth(i_stats.m_health[0]);
+        UpdateName(i_stats.m_name);
     }
 }

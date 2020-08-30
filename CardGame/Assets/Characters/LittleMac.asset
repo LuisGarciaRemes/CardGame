@@ -22,3 +22,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
   - {fileID: 11400000, guid: 29f28cb3ea2fed84786798142eb9ba49, type: 2}
   m_pic: {fileID: 21300000, guid: 6e881806131257547854b1b5d7ae6797, type: 3}
+  m_name: Little Mac
