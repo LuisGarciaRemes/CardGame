@@ -21,7 +21,7 @@ public class CardUI : MonoBehaviour
 
         if (transform.TryGetComponent<CardInstance>(out temp))
         {
-            LoadCard(temp.card);
+            LoadCard(temp.m_card);
         }
     }
 

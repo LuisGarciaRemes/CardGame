@@ -684,9 +684,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  card: {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
-  currState: 2
-  CardBack: {fileID: 7630040289942364944}
+  m_card: {fileID: 0}
+  m_currState: 2
+  m_cardColor: 0
+  m_starColor: 0
+  m_cardSide: 0
+  m_cardHight: 0
+  m_cardBack: {fileID: 7630040289942364944}
 --- !u!114 &8956970371654527962
 MonoBehaviour:
   m_ObjectHideFlags: 0

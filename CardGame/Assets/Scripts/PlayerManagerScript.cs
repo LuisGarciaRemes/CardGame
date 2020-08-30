@@ -64,7 +64,7 @@ public class PlayerManagerScript : NetworkBehaviour
         GameObject temp = Instantiate(CardPrefab, i_trans);
         NetworkServer.Spawn(temp, connectionToClient);
         temp.GetComponent<CardInstance>().LoadCardInfo(i_info);
-        temp.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
+        temp.GetComponent<CardInstance>().m_currState = CardInstance.CardState.Selected;
         temp.GetComponent<CardUI>().LoadCard(i_info);
         RpcSetHeldCard(temp, i_info);
     }
@@ -108,7 +108,7 @@ public class PlayerManagerScript : NetworkBehaviour
     public void RpcSetHeldCard(GameObject i_card, CardInfo i_info)
     {
         i_card.GetComponent<CardInstance>().LoadCardInfo(i_info);
-        i_card.GetComponent<CardInstance>().currState = CardInstance.CardState.Selected;
+        i_card.GetComponent<CardInstance>().m_currState = CardInstance.CardState.Selected;
         i_card.GetComponent<CardUI>().LoadCard(i_info);
 
         if (hasAuthority)
@@ -138,7 +138,7 @@ public class PlayerManagerScript : NetworkBehaviour
         {
             m_myHeldCard.GetComponent<CardInstance>().FlipCard(false);
         }
-        m_myHeldCard.GetComponent<CardInstance>().currState = CardInstance.CardState.InPlay;
+        m_myHeldCard.GetComponent<CardInstance>().m_currState = CardInstance.CardState.InPlay;
         m_myHeldCard.transform.SetParent(m_myArea.transform, false);
         m_myHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         m_myHeldCard.transform.localRotation = new Quaternion();
@@ -156,7 +156,7 @@ public class PlayerManagerScript : NetworkBehaviour
     {
         if (m_myHeldCard)
         {
-            m_myHeldCard.GetComponent<CardInstance>().currState = CardInstance.CardState.InHand;
+            m_myHeldCard.GetComponent<CardInstance>().m_currState = CardInstance.CardState.InHand;
             m_myHeldCard.transform.SetParent(m_myHand.transform, false);
             m_myHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             m_myHeldCard.transform.localRotation = new Quaternion();

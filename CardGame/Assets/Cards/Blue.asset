@@ -17,5 +17,5 @@ MonoBehaviour:
   cardText: Text
   cardType: Text
   starValue: RedStar
-  cardSymbol: AntiHigh
+  cardSymbol: RedHigh
   cardDamage: 5
