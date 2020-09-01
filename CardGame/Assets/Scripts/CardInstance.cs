@@ -53,10 +53,13 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
     public void OnHighlighted()
     {
+        Debug.Log("Called Highlight");
         if (m_player && !m_player.m_myHeldCard)
         {
+            Debug.Log("Has player and heldcard is null");
             if (!m_cardBack.activeSelf && (m_currState == CardState.InHand || m_currState == CardState.InPlay || m_currState == CardState.InDiscard))
             {
+                Debug.Log("Should be displaying");
                 m_player.DisplayHighlightedCard(m_card);
             }
         }
