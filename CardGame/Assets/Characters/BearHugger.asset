@@ -16,14 +16,45 @@ MonoBehaviour:
   m_dazeVal: 4
   m_starVal: 2
   m_deckList:
-  - {fileID: 11400000, guid: 982f24a8ea87517499951ecebc4b0216, type: 2}
-  - {fileID: 11400000, guid: 89381be6e12bb744bb7c52c9fd8fb128, type: 2}
-  - {fileID: 11400000, guid: 39ec68450635ce34dbbbef583addf246, type: 2}
-  - {fileID: 11400000, guid: da0fd290b9f152a40bada90b1b4089aa, type: 2}
-  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  - {fileID: 11400000, guid: 455a7d66cc71c2a4090b9f53dffef5e1, type: 2}
+  - {fileID: 11400000, guid: 455a7d66cc71c2a4090b9f53dffef5e1, type: 2}
+  - {fileID: 11400000, guid: 455a7d66cc71c2a4090b9f53dffef5e1, type: 2}
+  - {fileID: 11400000, guid: 455a7d66cc71c2a4090b9f53dffef5e1, type: 2}
+  - {fileID: 11400000, guid: 26736cab3e3a36a469703b1511552ba7, type: 2}
+  - {fileID: 11400000, guid: 26736cab3e3a36a469703b1511552ba7, type: 2}
+  - {fileID: 11400000, guid: 270d30ebd02588a4ea2e4a6372667c10, type: 2}
+  - {fileID: 11400000, guid: 270d30ebd02588a4ea2e4a6372667c10, type: 2}
+  - {fileID: 11400000, guid: 0b7fe89cec39ffd4d83deed8e5ee3f47, type: 2}
+  - {fileID: 11400000, guid: 0b7fe89cec39ffd4d83deed8e5ee3f47, type: 2}
+  - {fileID: 11400000, guid: ab77e95b8e84b884985bc725f482f244, type: 2}
+  - {fileID: 11400000, guid: ab77e95b8e84b884985bc725f482f244, type: 2}
+  - {fileID: 11400000, guid: ab77e95b8e84b884985bc725f482f244, type: 2}
+  - {fileID: 11400000, guid: 26736cab3e3a36a469703b1511552ba7, type: 2}
+  - {fileID: 11400000, guid: 26736cab3e3a36a469703b1511552ba7, type: 2}
+  - {fileID: 11400000, guid: 26736cab3e3a36a469703b1511552ba7, type: 2}
+  - {fileID: 11400000, guid: f45780382f84cf944a6b72cc7888f44d, type: 2}
+  - {fileID: 11400000, guid: f45780382f84cf944a6b72cc7888f44d, type: 2}
+  - {fileID: 11400000, guid: 7bf630c1d1e5ff74e86288bdf4790421, type: 2}
+  - {fileID: 11400000, guid: 7bf630c1d1e5ff74e86288bdf4790421, type: 2}
   - {fileID: 11400000, guid: 7bf630c1d1e5ff74e86288bdf4790421, type: 2}
   - {fileID: 11400000, guid: f6ebb48850ffb4a498441796196fcc90, type: 2}
-  - {fileID: 11400000, guid: 740858647a2310e4d8cc8ffc60df52c4, type: 2}
+  - {fileID: 11400000, guid: f6ebb48850ffb4a498441796196fcc90, type: 2}
+  - {fileID: 11400000, guid: f6ebb48850ffb4a498441796196fcc90, type: 2}
   - {fileID: 11400000, guid: 37bfe616cde3c164db13cb1788c6d75c, type: 2}
+  - {fileID: 11400000, guid: 37bfe616cde3c164db13cb1788c6d75c, type: 2}
+  - {fileID: 11400000, guid: 37bfe616cde3c164db13cb1788c6d75c, type: 2}
+  - {fileID: 11400000, guid: 740858647a2310e4d8cc8ffc60df52c4, type: 2}
+  - {fileID: 11400000, guid: 740858647a2310e4d8cc8ffc60df52c4, type: 2}
+  - {fileID: 11400000, guid: 740858647a2310e4d8cc8ffc60df52c4, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  - {fileID: 11400000, guid: 5770cc05e05bbdf4c9ddbab93b3ab1e6, type: 2}
+  - {fileID: 11400000, guid: da0fd290b9f152a40bada90b1b4089aa, type: 2}
+  - {fileID: 11400000, guid: da0fd290b9f152a40bada90b1b4089aa, type: 2}
+  - {fileID: 11400000, guid: 982f24a8ea87517499951ecebc4b0216, type: 2}
+  - {fileID: 11400000, guid: 982f24a8ea87517499951ecebc4b0216, type: 2}
+  - {fileID: 11400000, guid: 39ec68450635ce34dbbbef583addf246, type: 2}
+  - {fileID: 11400000, guid: 39ec68450635ce34dbbbef583addf246, type: 2}
+  - {fileID: 11400000, guid: 39ec68450635ce34dbbbef583addf246, type: 2}
+  - {fileID: 11400000, guid: 39ec68450635ce34dbbbef583addf246, type: 2}
   m_pic: {fileID: 21300000, guid: 15a638ad1ba17b546893bd62c3da7c85, type: 3}
   m_name: Bear Hugger
