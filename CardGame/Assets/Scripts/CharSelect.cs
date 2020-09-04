@@ -16,6 +16,7 @@ public class CharSelect : MonoBehaviour
         m_lMSelector.gameObject.SetActive(false);
         check.isOn = true;
         m_deckID = 1;
+        MusicManager.m_instance.PlayClick();
     }
 
     public void SelectLM()
@@ -24,5 +25,6 @@ public class CharSelect : MonoBehaviour
         m_bHSelector.gameObject.SetActive(false);
         check.isOn = true;
         m_deckID = 0;
+        MusicManager.m_instance.PlayClick();
     }
 }

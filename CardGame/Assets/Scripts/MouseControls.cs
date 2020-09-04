@@ -30,21 +30,50 @@ public class MouseControls : MonoBehaviour
 
     public void ReadyUp()
     {
-        if (playersInGame == 2 && player)
+        if (playersInGame == 2 && player && GameStateManager.m_instance.isGameOver)
         {
             player.CmdSetOpposingReferences();
             button.gameObject.SetActive(false);
             player.CmdPlayerIsReady();
+            MusicManager.m_instance.PlayClick();
+            GameStateManager.m_instance.isGameOver = false;
+        }
+        else if(!GameStateManager.m_instance.isGameOver && player.m_myHand.transform.childCount == 7)
+        {
+            button.gameObject.SetActive(false);
+            MusicManager.m_instance.PlayFight();
+            GameStateManager.m_instance.m_currPhase = GameStateManager.RoundPhase.RoundMid;
+
+            if(player == GameStateManager.m_instance.m_attackingPlayer)
+            {
+                player.m_canPlay = true;
+            }
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (player)
+        {
+
+        int count = player.m_myHand.transform.childCount;
+
         if (playersInGame == 2 && player && !button.interactable)
         {
             button.interactable = true;
             button.GetComponentInChildren<Text>().text = "Ready Up";
+        }
+        else if(playersInGame == 2 && player && count >= 7 && GameStateManager.m_instance.m_currPhase == GameStateManager.RoundPhase.RoundStart)
+        {
+            if (count > 7)
+            {
+                button.gameObject.SetActive(false);
+            }
+            else
+            {
+                button.gameObject.SetActive(true);
+            }
         }
 
         if (playersReady >= 2)
@@ -53,8 +82,6 @@ public class MouseControls : MonoBehaviour
             playersReady = 0;
         }
 
-        if (player)
-        {
             PointerEventData pointerData = new PointerEventData(EventSystem.current)
             {
                 position = Input.mousePosition

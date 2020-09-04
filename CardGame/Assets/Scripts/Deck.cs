@@ -10,6 +10,7 @@ public class Deck : NetworkBehaviour
     [SerializeField] private Text Amount;
     [SerializeField] public GameObject CardBack;
     GameObject ScreenSpace;
+    internal PlayerManagerScript player;
     private static System.Random rng = new System.Random();
 
     private void Start()
@@ -21,17 +22,25 @@ public class Deck : NetworkBehaviour
         {
             CardBack.SetActive(false);
         }
+
+        player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
     }
 
     public void DrawTopCard()
     {
-        PlayerManagerScript player = NetworkClient.connection.identity.GetComponent<PlayerManagerScript>();
         if (DeckList.Count > 0)
         {
             CardInfo tempinfo = DeckList[DeckList.Count - 1];
             player.CmdSpawnCard(ScreenSpace.transform,tempinfo);
             DeckList.RemoveAt(DeckList.Count - 1);
             CmdRemoveCardFromDeck();
+            player.m_drawnThisRound++;
+
+            if(player.m_drawnThisRound == 7)
+            {
+                player.m_canDraw = false;
+                player.m_drawnThisRound = 0;
+            }
         }
 
         if(DeckList.Count <= 0)

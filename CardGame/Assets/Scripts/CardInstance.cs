@@ -35,7 +35,6 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         {
             if (m_currState == CardState.InHand && hasAuthority)
             {
-                Debug.Log("Clicked on card in hand");
                 m_player.HideHighlightedCard();
                 m_currState = CardState.Selected;
                 m_player.CmdSetHeldCard(gameObject, m_card);
@@ -53,13 +52,10 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
     public void OnHighlighted()
     {
-        Debug.Log("Called Highlight");
         if (m_player && !m_player.m_myHeldCard)
         {
-            Debug.Log("Has player and heldcard is null");
             if (!m_cardBack.activeSelf && (m_currState == CardState.InHand || m_currState == CardState.InPlay || m_currState == CardState.InDiscard))
             {
-                Debug.Log("Should be displaying");
                 m_player.DisplayHighlightedCard(m_card);
             }
         }
@@ -69,10 +65,11 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     {
         if (m_player)
         {
-            if (i_zone == MouseControls.GameZone.Play && m_player.m_myArea.transform.childCount < MAXPLAYEDCARDS)
+            if (i_zone == MouseControls.GameZone.Play && m_player.m_myArea.transform.childCount < MAXPLAYEDCARDS && m_player.m_canPlay)
             {
                 m_currState = CardState.InPlay;
                 m_player.CmdSetInPlay();
+                CmdPlayCard();
             }
             else if (i_zone == MouseControls.GameZone.MyDiscard && m_player.m_canDiscard)
             {
@@ -181,10 +178,30 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
     }
 
-
-    public void PlayCard()
+    [Command]
+    public void CmdPlayCard()
     {
-        Invoke(m_card.name, 0.0f);
+        RpcPlayCard();
+    }
+
+    [ClientRpc]
+    public void RpcPlayCard()
+    {
+        GameStateManager.m_instance.m_lastPlayedCard = m_card;
+
+        //Because a card instance will always have the localPlayer as its player reference.
+        if(hasAuthority)
+        {
+            m_player.m_canPlay = false;
+            m_player.m_opp.m_canPlay = true;
+        }
+        else
+        {
+            m_player.m_canPlay = true;
+            m_player.m_opp.m_canPlay = false;
+        }
+
+        //Invoke(m_card.name, 0.0f);
     }
 
     //Below are the methods that corespond to the specific name of the card

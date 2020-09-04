@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6784115254772464676}
   - component: {fileID: 6784115254772464667}
+  - component: {fileID: 1757271391}
   m_Layer: 0
   m_Name: Controls
   m_TagString: Untagged
@@ -53,3 +54,18 @@ MonoBehaviour:
   OppDiscardZoneDim: {x: 170, y: 250}
   player: {fileID: 0}
   button: {fileID: 0}
+--- !u!114 &1757271391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6784115254772464666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb718b89aac0854ab3112f23602b118, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lastPlayedCard: {fileID: 0}
+  m_attackingPlayer: {fileID: 0}
+  m_defendingPlayer: {fileID: 0}

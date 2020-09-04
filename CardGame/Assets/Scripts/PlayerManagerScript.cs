@@ -15,8 +15,9 @@ public class PlayerManagerScript : NetworkBehaviour
     public DiscardPile m_myDiscard;
     public Deck m_oppDeck;
     public DiscardPile m_oppDiscard;
-    internal bool m_canDiscard = true;
+    internal bool m_canDiscard = false;
     internal bool m_canDraw = false;
+    internal bool m_canPlay = false;
 
     private CardUI m_highlightedCard;
     public GameObject m_myHeldCard = null;
@@ -34,6 +35,9 @@ public class PlayerManagerScript : NetworkBehaviour
 
     public PlayerInfo m_myInfo;
     public int m_deckID = -1;
+
+    public int m_drawnThisRound = 0;
+    public PlayerManagerScript m_opp;
 
     public override void OnStartClient()
     {
@@ -231,6 +235,30 @@ public class PlayerManagerScript : NetworkBehaviour
             }
         }
 
+        if(GameStateManager.m_instance.m_hasChosenFirstAttacker == false)
+        {
+            GameStateManager.m_instance.m_hasChosenFirstAttacker = true;
+
+            switch(UnityEngine.Random.Range(0, 2))
+            {
+                case 0:
+                    GameStateManager.m_instance.SetAttackingPlayer(players[0].GetComponent<PlayerManagerScript>());
+                    players[0].GetComponent<PlayerManagerScript>().RpcSetAsAttacker();
+                    GameStateManager.m_instance.SetDefendingPlayer(players[1].GetComponent<PlayerManagerScript>());
+                    players[1].GetComponent<PlayerManagerScript>().RpcSetAsDefender();
+
+                    break;
+                case 1:
+                    GameStateManager.m_instance.SetAttackingPlayer(players[1].GetComponent<PlayerManagerScript>());
+                    players[1].GetComponent<PlayerManagerScript>().RpcSetAsAttacker();
+                    GameStateManager.m_instance.SetDefendingPlayer(players[0].GetComponent<PlayerManagerScript>());
+                    players[0].GetComponent<PlayerManagerScript>().RpcSetAsDefender();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         RpcSetOppPlayerReferences(tempID);
     }
 
@@ -239,6 +267,7 @@ public class PlayerManagerScript : NetworkBehaviour
     {
         if (hasAuthority)
         {
+            GameStateManager.m_instance.m_hasChosenFirstAttacker = true;
             GameObject overlay = GameObject.Find("Screen Space (World)");
             m_oppDeck = GameObject.Find("OppDeck(Clone)").GetComponent<Deck>();
             m_oppDiscard = GameObject.Find("OppDiscard(Clone)").GetComponent<DiscardPile>();
@@ -248,20 +277,20 @@ public class PlayerManagerScript : NetworkBehaviour
             m_oppDiscard.gameObject.transform.localPosition = new Vector3(335.0f, 150.0f, 0.0f);
             m_oppDeck.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             m_oppDiscard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            PlayerManagerScript opp = GameObject.Find("OppPlayer(Clone)").GetComponent<PlayerManagerScript>();
-            opp.m_myDeck = m_oppDeck;
-            opp.m_myDiscard = m_oppDiscard;
-            opp.m_oppDeck = m_myDeck;
-            opp.m_oppDiscard = m_myDiscard;
-            opp.m_myHand = m_oppHand;
-            opp.m_myArea = m_oppArea;
-            opp.m_oppArea = m_myArea;
-            opp.m_deckID = i_deckID;
-            opp.m_myDeck.SetDeckList(m_characters[i_deckID].m_deckList);
-            opp.m_oppHand = m_myHand;
-            opp.m_myInfo = GameObject.Find("OpponentInfo").GetComponent<PlayerInfo>();
-            opp.m_myInfo.UpdateCharacterStats(m_characters[i_deckID]);
-            opp.UpdateCharStats();
+            m_opp = GameObject.Find("OppPlayer(Clone)").GetComponent<PlayerManagerScript>();
+            m_opp.m_myDeck = m_oppDeck;
+            m_opp.m_myDiscard = m_oppDiscard;
+            m_opp.m_oppDeck = m_myDeck;
+            m_opp.m_oppDiscard = m_myDiscard;
+            m_opp.m_myHand = m_oppHand;
+            m_opp.m_myArea = m_oppArea;
+            m_opp.m_oppArea = m_myArea;
+            m_opp.m_deckID = i_deckID;
+            m_opp.m_myDeck.SetDeckList(m_characters[i_deckID].m_deckList);
+            m_opp.m_oppHand = m_myHand;
+            m_opp.m_myInfo = GameObject.Find("OpponentInfo").GetComponent<PlayerInfo>();
+            m_opp.m_myInfo.UpdateCharacterStats(m_characters[i_deckID]);
+            m_opp.UpdateCharStats();
         }     
     }
 
@@ -286,6 +315,83 @@ public class PlayerManagerScript : NetworkBehaviour
 
         m_maxDaze = m_characters[m_deckID].m_dazeVal;
         m_maxStar = m_characters[m_deckID].m_starVal;
+    }
+
+    public void TakeDamage(int i_value)
+    {
+        m_health[m_currHealthIndex] -= i_value;
+
+        if(m_health[m_currHealthIndex] <= 0)
+        {
+            //To do --- 1. Knock down stuff 2. Check if knock out
+        }
+    }
+
+    public void GainHealth(int i_value)
+    {
+        m_health[m_currHealthIndex] += i_value;
+        m_health[m_currHealthIndex] = Math.Min(m_health[m_currHealthIndex],m_characters[m_deckID].m_health[m_currHealthIndex]);
+    }
+
+    public void ShuffleDiscardIntoDeck()
+    {
+        //To do place discard into deck and shuffle
+    }
+
+    public  void AddDaze(int i_value)
+    {
+        m_currDaze += i_value;
+
+        if(m_currDaze >= m_maxDaze)
+        {
+            m_currDaze = 0;
+            //To do 1. Get dazed
+        }
+    }
+
+    public void RemoveDaze(int i_value)
+    {
+        m_currDaze -= i_value;
+
+        m_currDaze = Math.Max(m_currDaze,0);
+    }
+
+    public void AddStar()
+    {
+        m_currStar++;
+        m_currStar = Math.Min(m_currStar,m_maxDaze);
+    }
+
+    public void RemoveStar()
+    {
+        m_currStar--;
+        m_currStar = Math.Max(m_currStar, 0);
+    }
+
+    [Command]
+    public void CmdSetAsAttacker()
+    {
+        GameStateManager.m_instance.SetAttackingPlayer(this);
+        RpcSetAsAttacker();
+    }
+
+    [ClientRpc]
+    public void RpcSetAsAttacker()
+    {
+        GameStateManager.m_instance.SetAttackingPlayer(this);
+    }
+
+    [Command]
+    public void CmdSetAsDefender()
+    {
+        GameStateManager.m_instance.SetDefendingPlayer(this);
+        RpcSetAsDefender();
+    }
+
+    [ClientRpc]
+    public void RpcSetAsDefender()
+    {
+        GameStateManager.m_instance.SetDefendingPlayer(this);
     }
 }
 
