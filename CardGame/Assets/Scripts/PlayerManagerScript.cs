@@ -11,40 +11,41 @@ public class PlayerManagerScript : NetworkBehaviour
     [SerializeField] private GameObject DeckPrefab;
     [SerializeField] private GameObject DiscardPrefab;
     [SerializeField] private GameObject CardPrefab;
-    public Deck m_myDeck;
-    public DiscardPile m_myDiscard;
-    public Deck m_oppDeck;
-    public DiscardPile m_oppDiscard;
-    internal bool m_canDiscard = false;
-    internal bool m_canDraw = false;
-    internal bool m_canPlay = false;
+    private Deck m_myDeck;
+    private DiscardPile m_myDiscard;
+    private Deck m_oppDeck;
+    private DiscardPile m_oppDiscard;
+    private bool m_canDiscard = false;
+    private bool m_canDraw = false;
+    private bool m_canPlay = false;
 
     private CardUI m_highlightedCard;
-    public GameObject m_myHeldCard = null;
-    public GameObject m_myHand;
-    public GameObject m_oppHand;
-    public GameObject m_myArea;
-    public GameObject m_oppArea;
+    private GameObject m_myHeldCard = null;
+    private GameObject m_myHand;
 
-    public int[] m_health = {0,0,0};
-    public int m_currHealthIndex = 0;
-    public int m_maxDaze = 0;
-    public int m_currDaze = 0;
-    public int m_maxStar = 0;
-    public int m_currStar = 0;
+    private PlayerManagerScript m_oppPlayer;
+    private GameObject m_oppHand;
+    private GameObject m_myArea;
+    private GameObject m_oppArea;
 
-    public PlayerInfo m_myInfo;
-    public int m_deckID = -1;
+    private int[] m_health = {0,0,0};
+    private int m_currHealthIndex = 0;
+    private int m_maxDaze = 0;
+    private int m_currDaze = 0;
+    private int m_maxStar = 0;
+    private int m_currStar = 0;
 
-    public int m_drawnThisRound = 0;
-    public PlayerManagerScript m_opp;
+    private PlayerInfo m_myInfo;
+    private int m_deckID = -1;
+
+    private int m_drawnThisRound = 0;
 
     public override void OnStartClient()
     {
         base.OnStartClient();
         if (hasAuthority)
         {
-            CmdCreateDeckAndDiscard(m_deckID = GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().charSelect.GetComponent<CharSelect>().m_deckID);
+            CmdCreateDeckAndDiscard(m_deckID = GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().charSelect.GetComponent<CharSelect>().GetDeckID());
         }
     }
 
@@ -59,7 +60,7 @@ public class PlayerManagerScript : NetworkBehaviour
 
     private void Start()
     {
-        MouseControls.playersInGame++;
+        MouseControls.AddPlayerInGame();
     }
 
     [Command]
@@ -68,7 +69,7 @@ public class PlayerManagerScript : NetworkBehaviour
         GameObject temp = Instantiate(CardPrefab, i_trans);
         NetworkServer.Spawn(temp, connectionToClient);
         temp.GetComponent<CardInstance>().LoadCardInfo(i_info);
-        temp.GetComponent<CardInstance>().m_currState = CardInstance.CardState.Selected;
+        temp.GetComponent<CardInstance>().SetCardState(CardInstance.CardState.Selected);
         temp.GetComponent<CardUI>().LoadCard(i_info);
         RpcSetHeldCard(temp, i_info);
     }
@@ -112,7 +113,7 @@ public class PlayerManagerScript : NetworkBehaviour
     public void RpcSetHeldCard(GameObject i_card, CardInfo i_info)
     {
         i_card.GetComponent<CardInstance>().LoadCardInfo(i_info);
-        i_card.GetComponent<CardInstance>().m_currState = CardInstance.CardState.Selected;
+        i_card.GetComponent<CardInstance>().SetCardState(CardInstance.CardState.Selected);
         i_card.GetComponent<CardUI>().LoadCard(i_info);
 
         if (hasAuthority)
@@ -142,7 +143,7 @@ public class PlayerManagerScript : NetworkBehaviour
         {
             m_myHeldCard.GetComponent<CardInstance>().FlipCard(false);
         }
-        m_myHeldCard.GetComponent<CardInstance>().m_currState = CardInstance.CardState.InPlay;
+        m_myHeldCard.GetComponent<CardInstance>().SetCardState(CardInstance.CardState.InPlay);
         m_myHeldCard.transform.SetParent(m_myArea.transform, false);
         m_myHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         m_myHeldCard.transform.localRotation = new Quaternion();
@@ -160,7 +161,7 @@ public class PlayerManagerScript : NetworkBehaviour
     {
         if (m_myHeldCard)
         {
-            m_myHeldCard.GetComponent<CardInstance>().m_currState = CardInstance.CardState.InHand;
+            m_myHeldCard.GetComponent<CardInstance>().SetCardState(CardInstance.CardState.InHand);
             m_myHeldCard.transform.SetParent(m_myHand.transform, false);
             m_myHeldCard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             m_myHeldCard.transform.localRotation = new Quaternion();
@@ -217,7 +218,7 @@ public class PlayerManagerScript : NetworkBehaviour
             m_myDeck.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             m_myDiscard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             this.gameObject.name = "MyPlayer";
-            GameObject.Find("Controls").GetComponent<MouseControls>().player = this;
+            GameObject.Find("Controls").GetComponent<MouseControls>().SetPlayer(this);
         }
     }
 
@@ -235,9 +236,9 @@ public class PlayerManagerScript : NetworkBehaviour
             }
         }
 
-        if(GameStateManager.m_instance.m_hasChosenFirstAttacker == false)
+        if(GameStateManager.m_instance.FirstPlayerChosen() == false)
         {
-            GameStateManager.m_instance.m_hasChosenFirstAttacker = true;
+            GameStateManager.m_instance.SetFirstPlayerChosen(true);
 
             switch(UnityEngine.Random.Range(0, 2))
             {
@@ -267,7 +268,7 @@ public class PlayerManagerScript : NetworkBehaviour
     {
         if (hasAuthority)
         {
-            GameStateManager.m_instance.m_hasChosenFirstAttacker = true;
+            GameStateManager.m_instance.SetFirstPlayerChosen(true);
             GameObject overlay = GameObject.Find("Screen Space (World)");
             m_oppDeck = GameObject.Find("OppDeck(Clone)").GetComponent<Deck>();
             m_oppDiscard = GameObject.Find("OppDiscard(Clone)").GetComponent<DiscardPile>();
@@ -277,20 +278,20 @@ public class PlayerManagerScript : NetworkBehaviour
             m_oppDiscard.gameObject.transform.localPosition = new Vector3(335.0f, 150.0f, 0.0f);
             m_oppDeck.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             m_oppDiscard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            m_opp = GameObject.Find("OppPlayer(Clone)").GetComponent<PlayerManagerScript>();
-            m_opp.m_myDeck = m_oppDeck;
-            m_opp.m_myDiscard = m_oppDiscard;
-            m_opp.m_oppDeck = m_myDeck;
-            m_opp.m_oppDiscard = m_myDiscard;
-            m_opp.m_myHand = m_oppHand;
-            m_opp.m_myArea = m_oppArea;
-            m_opp.m_oppArea = m_myArea;
-            m_opp.m_deckID = i_deckID;
-            m_opp.m_myDeck.SetDeckList(m_characters[i_deckID].m_deckList);
-            m_opp.m_oppHand = m_myHand;
-            m_opp.m_myInfo = GameObject.Find("OpponentInfo").GetComponent<PlayerInfo>();
-            m_opp.m_myInfo.UpdateCharacterStats(m_characters[i_deckID]);
-            m_opp.UpdateCharStats();
+            m_oppPlayer = GameObject.Find("OppPlayer(Clone)").GetComponent<PlayerManagerScript>();
+            m_oppPlayer.m_myDeck = m_oppDeck;
+            m_oppPlayer.m_myDiscard = m_oppDiscard;
+            m_oppPlayer.m_oppDeck = m_myDeck;
+            m_oppPlayer.m_oppDiscard = m_myDiscard;
+            m_oppPlayer.m_myHand = m_oppHand;
+            m_oppPlayer.m_myArea = m_oppArea;
+            m_oppPlayer.m_oppArea = m_myArea;
+            m_oppPlayer.m_deckID = i_deckID;
+            m_oppPlayer.m_myDeck.SetDeckList(m_characters[i_deckID].m_deckList);
+            m_oppPlayer.m_oppHand = m_myHand;
+            m_oppPlayer.m_myInfo = GameObject.Find("OpponentInfo").GetComponent<PlayerInfo>();
+            m_oppPlayer.m_myInfo.UpdateCharacterStats(m_characters[i_deckID]);
+            m_oppPlayer.UpdateCharStats();
         }     
     }
 
@@ -303,7 +304,7 @@ public class PlayerManagerScript : NetworkBehaviour
     [ClientRpc]
     public void RpcPlayerIsReady()
     {
-        MouseControls.playersReady++;
+        MouseControls.AddPlayerReady();
     }
 
     private void UpdateCharStats()
@@ -392,6 +393,87 @@ public class PlayerManagerScript : NetworkBehaviour
     public void RpcSetAsDefender()
     {
         GameStateManager.m_instance.SetDefendingPlayer(this);
+    }
+
+    public DiscardPile GetDiscardPile()
+    {
+        return m_myDiscard;
+    }
+
+    public DiscardPile GetOppDiscardPile()
+    {
+        return m_oppDiscard;
+    }
+
+    public bool CanDiscard()
+    {
+        return m_canDiscard;
+    }
+
+    public bool CanPlayCards()
+    {
+        return m_canPlay;
+    }
+
+    public bool CanDrawCards()
+    {
+        return m_canDraw;
+    }
+
+
+    public void SetCanPlayCards(bool i_bool)
+    {
+        m_canPlay = i_bool;
+    }
+
+    public bool IsHoldingACard()
+    {
+        return m_myHeldCard;
+    }
+
+    public GameObject GetHeldCard()
+    {
+        return m_myHeldCard;
+    }
+
+    public int GetPlayAreaCardCount()
+    {
+        return m_myArea.transform.childCount;
+    }
+
+    public int GetHandCardCount()
+    {
+        return m_myHand.transform.childCount;
+    }
+
+    public int GetCardsDrawn()
+    {
+        return m_drawnThisRound;
+    }
+
+    public void SetCardsDrawn(int i_val)
+    {
+        m_drawnThisRound = i_val;
+    }
+
+    public void SetCanDraw(bool i_bool)
+    {
+        m_canDraw = i_bool;
+    }
+
+    public Deck GetMyDeck()
+    {
+        return m_myDeck;
+    }
+
+    public Deck GetOppDeck()
+    {
+        return m_oppDeck;
+    }
+
+    public PlayerManagerScript GetOppPlayer()
+    {
+        return m_oppPlayer;
     }
 }
 

@@ -7,8 +7,8 @@ public class CharSelect : MonoBehaviour
 {
     [SerializeField] private Image m_bHSelector;
     [SerializeField] private Image m_lMSelector;
-    public int m_deckID = -1;
-    public Toggle check;
+    private int m_deckID = -1;
+    [SerializeField] private Toggle check;
 
     public void SelectBH()
     {
@@ -26,5 +26,10 @@ public class CharSelect : MonoBehaviour
         check.isOn = true;
         m_deckID = 0;
         MusicManager.m_instance.PlayClick();
+    }
+
+    public int GetDeckID()
+    {
+        return m_deckID;
     }
 }

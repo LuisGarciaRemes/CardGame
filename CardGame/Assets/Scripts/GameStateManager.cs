@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
-    public CardInfo m_lastPlayedCard;
-    public PlayerManagerScript m_attackingPlayer;
-    public PlayerManagerScript m_defendingPlayer;
+    private CardInfo m_lastPlayedCard;
+    private PlayerManagerScript m_attackingPlayer;
+    private PlayerManagerScript m_defendingPlayer;
     public static GameStateManager m_instance;
-    public bool isGameOver = true;
+    private bool m_isGameOver = true;
     public enum RoundPhase {RoundStart,RoundMid,RoundEnd };
-    public RoundPhase m_currPhase = RoundPhase.RoundStart;
-    public bool m_hasChosenFirstAttacker = false;
+    private RoundPhase m_currPhase = RoundPhase.RoundStart;
+    private bool m_hasChosenFirstAttacker = false;
 
     private void Awake()
     {
@@ -32,4 +32,48 @@ public class GameStateManager : MonoBehaviour
         m_defendingPlayer = i_defender;
     }
 
+    public void SetLastPlayedCard(CardInfo i_card)
+    {
+        m_lastPlayedCard = i_card;
+    }
+
+    public bool IsGameOver()
+    {
+        return m_isGameOver;
+    }
+
+    public void SetGameOver(bool i_bool)
+    {
+        m_isGameOver = i_bool;
+    }
+
+    public PlayerManagerScript GetAttackingPlayer()
+    {
+        return m_attackingPlayer;
+    }
+
+    public PlayerManagerScript GetDefendingPlayer()
+    {
+        return m_defendingPlayer;
+    }
+
+    public RoundPhase GetCurrPhase()
+    {
+        return m_currPhase;
+    }
+
+    public void SetCurrPhase(RoundPhase i_phase)
+    {
+        m_currPhase = i_phase;
+    }
+
+    public bool FirstPlayerChosen()
+    {
+        return m_hasChosenFirstAttacker;
+    }
+
+    public void SetFirstPlayerChosen(bool i_bool)
+    {
+        m_hasChosenFirstAttacker = i_bool;
+    }
 }

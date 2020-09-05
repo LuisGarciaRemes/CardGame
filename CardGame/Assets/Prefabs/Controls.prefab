@@ -52,7 +52,6 @@ MonoBehaviour:
   DeckZoneDim: {x: 170, y: 250}
   OppDiscardZonePos: {x: 1760, y: 915}
   OppDiscardZoneDim: {x: 170, y: 250}
-  player: {fileID: 0}
   button: {fileID: 0}
 --- !u!114 &1757271391
 MonoBehaviour:
@@ -66,6 +65,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb718b89aac0854ab3112f23602b118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_lastPlayedCard: {fileID: 0}
-  m_attackingPlayer: {fileID: 0}
-  m_defendingPlayer: {fileID: 0}

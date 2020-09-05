@@ -13,14 +13,14 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     public enum CardType { Technique, Single_Strike, Multi_Strike};
 
 
-    public CardInfo m_card = null;
-    public CardState m_currState = CardState.InDeck;
-    public CardColor m_cardColor;
-    public StarColor m_starColor;
-    public CardSide m_cardSide;
-    public CardType m_cardType;
-    public CardHeight m_cardHeight;
-    public GameObject m_cardBack;
+    private CardInfo m_card = null;
+    private CardState m_currState = CardState.InDeck;
+    private CardColor m_cardColor;
+    private StarColor m_starColor;
+    private CardSide m_cardSide;
+    private CardType m_cardType;
+    private CardHeight m_cardHeight;
+    [SerializeField] private GameObject m_cardBack;
     private PlayerManagerScript m_player;
     private const int MAXPLAYEDCARDS = 5;
 
@@ -52,7 +52,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
     public void OnHighlighted()
     {
-        if (m_player && !m_player.m_myHeldCard)
+        if (m_player && !m_player.IsHoldingACard())
         {
             if (!m_cardBack.activeSelf && (m_currState == CardState.InHand || m_currState == CardState.InPlay || m_currState == CardState.InDiscard))
             {
@@ -65,15 +65,15 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     {
         if (m_player)
         {
-            if (i_zone == MouseControls.GameZone.Play && m_player.m_myArea.transform.childCount < MAXPLAYEDCARDS && m_player.m_canPlay)
+            if (i_zone == MouseControls.GameZone.Play && m_player.GetPlayAreaCardCount() < MAXPLAYEDCARDS && m_player.CanPlayCards())
             {
                 m_currState = CardState.InPlay;
                 m_player.CmdSetInPlay();
                 CmdPlayCard();
             }
-            else if (i_zone == MouseControls.GameZone.MyDiscard && m_player.m_canDiscard)
+            else if (i_zone == MouseControls.GameZone.MyDiscard && m_player.CanDiscard())
             {
-                m_player.m_myDiscard.CmdDiscardCard(m_card, this.gameObject);
+                m_player.GetDiscardPile().CmdDiscardCard(m_card, this.gameObject);
             }
             else
             {
@@ -178,6 +178,21 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
     }
 
+    public CardInfo GetCard()
+    {
+        return m_card;
+    }
+
+    public CardState GetCardState()
+    {
+        return m_currState;
+    }
+
+    public void SetCardState(CardState i_state)
+    {
+        m_currState = i_state;
+    }
+
     [Command]
     public void CmdPlayCard()
     {
@@ -187,18 +202,18 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     [ClientRpc]
     public void RpcPlayCard()
     {
-        GameStateManager.m_instance.m_lastPlayedCard = m_card;
+        GameStateManager.m_instance.SetLastPlayedCard(m_card);
 
         //Because a card instance will always have the localPlayer as its player reference.
         if(hasAuthority)
         {
-            m_player.m_canPlay = false;
-            m_player.m_opp.m_canPlay = true;
+            m_player.SetCanPlayCards(false);
+            m_player.GetOppPlayer().SetCanPlayCards(true);
         }
         else
         {
-            m_player.m_canPlay = true;
-            m_player.m_opp.m_canPlay = false;
+            m_player.SetCanPlayCards(true);
+            m_player.GetOppPlayer().SetCanPlayCards(false);
         }
 
         //Invoke(m_card.name, 0.0f);

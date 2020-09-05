@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HandSizeCount : MonoBehaviour
 {
-    public GameObject oppHand;
+   [SerializeField] private GameObject oppHand;
 
     private void Update()
     {

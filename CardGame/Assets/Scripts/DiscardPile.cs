@@ -14,7 +14,7 @@ public class DiscardPile : NetworkBehaviour
     private void Start()
     {
         PileList = new List<CardInfo>();
-        TopCard.GetComponent<CardInstance>().m_currState = CardInstance.CardState.InDiscard;
+        TopCard.GetComponent<CardInstance>().SetCardState(CardInstance.CardState.InDiscard);
     }
 
     private void DisplayCard()
