@@ -697,6 +697,14 @@ MonoBehaviour:
   m_bellRing: {fileID: 8300000, guid: 6e80061051662e54994ece3abbf31ba3, type: 3}
   m_click: {fileID: 8300000, guid: f643b68324b124246a1d0b8d4ed9b411, type: 3}
   m_fight: {fileID: 8300000, guid: 42eb9ef9c98369849886c1b82e6db865, type: 3}
+  m_punchMiss: {fileID: 8300000, guid: dafeb27a8101c0f4c92b8bb49c88581a, type: 3}
+  m_punchBlocked: {fileID: 8300000, guid: 90e7819117067e9439c023d80ce16eab, type: 3}
+  m_punchHit:
+  - {fileID: 8300000, guid: 18c6587969a8f8643884530d53d5e79f, type: 3}
+  - {fileID: 8300000, guid: 01b0e786e6ca3f243a1737ddf38d7d1b, type: 3}
+  - {fileID: 8300000, guid: 4e326eea3f7c4fc4f816773ea2f99044, type: 3}
+  - {fileID: 8300000, guid: 1855828c38cb0fa41bc16b87f54458ba, type: 3}
+  - {fileID: 8300000, guid: 4589fb53079b49648b64fe412c596e8a, type: 3}
 --- !u!1 &903293111
 GameObject:
   m_ObjectHideFlags: 0

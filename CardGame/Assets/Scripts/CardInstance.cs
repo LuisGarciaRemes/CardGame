@@ -231,12 +231,12 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     }
 
     private void JabWithResponse()
-    {
+    {       
         Debug.LogError("Jab resonded too");
     }
 
     private void JabNoResponse()
-    {
+    {       
         Debug.LogError("Jab no response");
     }
 

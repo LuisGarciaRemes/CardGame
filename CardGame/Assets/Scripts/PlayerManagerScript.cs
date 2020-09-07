@@ -327,6 +327,11 @@ public class PlayerManagerScript : NetworkBehaviour
 
         m_myInfo.UpdateHealth(m_health[m_currHealthIndex]);
 
+        if (i_value > 0.0f)
+        {
+            m_myInfo.PlayPunchAnimation();
+        }
+
         if(m_health[m_currHealthIndex] <= 0)
         {
             //To do --- 1. Knock down stuff 2. Check if knock out

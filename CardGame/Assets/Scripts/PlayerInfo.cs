@@ -12,6 +12,19 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] private Text m_name;
     [SerializeField] private Text m_health;
     [SerializeField] private Image m_char;
+    [SerializeField] private float m_flashTime = 1.0f;
+    [SerializeField] GameObject m_boxingGlove;
+    private float m_FlashTimer = 0.0f;
+    private bool m_shouldFlash = false;
+    private int m_frameCounter = 0;
+    [SerializeField] private float m_punchSpeed = 500.0f;
+    private Vector3 m_orgPos;
+    private bool m_shouldPunch = false;
+
+    private void Start()
+    {
+        m_orgPos = m_boxingGlove.transform.position;
+    }
 
     public void UpdateStarMax(int i_value)
     {
@@ -50,5 +63,62 @@ public class PlayerInfo : MonoBehaviour
         UpdateStarMax(i_stats.m_starVal);
         UpdateHealth(i_stats.m_health[0]);
         UpdateName(i_stats.m_name);
+    }
+
+    public void FlashRed()
+    {
+        m_shouldFlash = true;      
+    }
+
+    public void PlayPunchAnimation()
+    {
+        m_shouldPunch = true;
+        m_boxingGlove.SetActive(true);
+    }
+
+    private void Update()
+    {
+        if(m_shouldFlash)
+        {
+            if(m_FlashTimer >= m_flashTime)
+            {
+                m_shouldFlash = false;
+                m_char.color = Color.white;
+                m_FlashTimer = 0.0f;
+                m_frameCounter = 0;
+            }
+            else
+            {
+                m_FlashTimer += Time.deltaTime;
+
+                if(m_frameCounter % 20 == 0)
+                {
+                    if(m_char.color == Color.white)
+                    {
+                        m_char.color = Color.red;
+                    }
+                    else
+                    {
+                        m_char.color = Color.white;
+                    }
+                }
+
+                m_frameCounter++;
+            }
+        }
+
+        if(m_shouldPunch)
+        {
+            m_boxingGlove.transform.position = Vector3.MoveTowards(m_boxingGlove.transform.position,m_char.transform.position,Time.deltaTime * m_punchSpeed);
+
+            if((m_char.transform.position - m_boxingGlove.transform.position).magnitude <= 50.0f)
+            {
+                m_shouldPunch = false;
+                m_boxingGlove.SetActive(false);
+                m_boxingGlove.transform.position = m_orgPos;
+                MusicManager.m_instance.PlayPunchHit();
+                FlashRed();
+            }
+        }
     }
 }

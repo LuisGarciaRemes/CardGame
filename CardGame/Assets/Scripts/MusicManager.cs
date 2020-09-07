@@ -9,6 +9,9 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip m_bellRing;
     [SerializeField] private AudioClip m_click;
     [SerializeField] private AudioClip m_fight;
+    [SerializeField] private AudioClip m_punchMiss;
+    [SerializeField] private AudioClip m_punchBlocked;
+    [SerializeField] private AudioClip[] m_punchHit;
 
     private void Awake()
     {
@@ -26,7 +29,7 @@ public class MusicManager : MonoBehaviour
 
     public void PlayBell()
     {
-        source.PlayOneShot(m_bellRing,0.5f);
+        source.PlayOneShot(m_bellRing, 0.5f);
     }
 
     public void PlayClick()
@@ -37,5 +40,20 @@ public class MusicManager : MonoBehaviour
     public void PlayFight()
     {
         source.PlayOneShot(m_fight, 0.5f);
+    }
+
+    public void PlayPunchHit()
+    {
+        source.PlayOneShot(m_punchHit[Random.Range(0, m_punchHit.Length)], 0.5f);
+    }
+
+    public void PlayPunchMiss()
+    {
+        source.PlayOneShot(m_punchMiss, 0.5f);
+    }
+
+    public void PlayPunchBlocked()
+    {
+        source.PlayOneShot(m_punchBlocked,0.5f);
     }
 }
