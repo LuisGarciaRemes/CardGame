@@ -259,7 +259,6 @@ public class PlayerManagerScript : NetworkBehaviour
                     break;
             }
         }
-
         RpcSetOppPlayerReferences(tempID);
     }
 
@@ -292,6 +291,10 @@ public class PlayerManagerScript : NetworkBehaviour
             m_oppPlayer.m_myInfo = GameObject.Find("OpponentInfo").GetComponent<PlayerInfo>();
             m_oppPlayer.m_myInfo.UpdateCharacterStats(m_characters[i_deckID]);
             m_oppPlayer.UpdateCharStats();
+        }
+        else
+        {
+            m_oppPlayer = GameObject.Find("MyPlayer").GetComponent<PlayerManagerScript>();
         }     
     }
 
@@ -321,6 +324,8 @@ public class PlayerManagerScript : NetworkBehaviour
     public void TakeDamage(int i_value)
     {
         m_health[m_currHealthIndex] -= i_value;
+
+        m_myInfo.UpdateHealth(m_health[m_currHealthIndex]);
 
         if(m_health[m_currHealthIndex] <= 0)
         {
@@ -474,6 +479,37 @@ public class PlayerManagerScript : NetworkBehaviour
     public PlayerManagerScript GetOppPlayer()
     {
         return m_oppPlayer;
+    }
+
+
+    [Command]
+    public void CmdPassTheTurn()
+    {
+        RpcPassTheTurn();
+    }
+
+    [ClientRpc]
+    public void RpcPassTheTurn()
+    {
+        //Because a card instance will always have the localPlayer as its player reference.
+        if (hasAuthority)
+        {
+            SetCanPlayCards(false);
+            GetOppPlayer().SetCanPlayCards(true);
+        }
+        else
+        {
+            SetCanPlayCards(false);
+            GetOppPlayer().SetCanPlayCards(true);
+            GameStateManager.m_instance.EnablePassButton();
+        }
+
+        if (GameStateManager.m_instance.GetLastPlayedCard())
+        {
+            GameStateManager.m_instance.GetLastPlayedCard().NoResponse();
+        }
+
+        GameStateManager.m_instance.SetLastPlayedCard(null);
     }
 }
 

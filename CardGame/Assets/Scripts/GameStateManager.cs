@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
-    private CardInfo m_lastPlayedCard;
+    private CardInstance m_lastPlayedCard;
     private PlayerManagerScript m_attackingPlayer;
     private PlayerManagerScript m_defendingPlayer;
     public static GameStateManager m_instance;
     private bool m_isGameOver = true;
-    public enum RoundPhase {RoundStart,RoundMid,RoundEnd };
+    public enum RoundPhase { RoundStart, RoundMid, RoundEnd };
     private RoundPhase m_currPhase = RoundPhase.RoundStart;
     private bool m_hasChosenFirstAttacker = false;
+    [SerializeField] private MouseControls m_controls;
 
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class GameStateManager : MonoBehaviour
         m_defendingPlayer = i_defender;
     }
 
-    public void SetLastPlayedCard(CardInfo i_card)
+    public void SetLastPlayedCard(CardInstance i_card)
     {
         m_lastPlayedCard = i_card;
     }
@@ -76,4 +77,20 @@ public class GameStateManager : MonoBehaviour
     {
         m_hasChosenFirstAttacker = i_bool;
     }
+
+    public void EnablePassButton()
+    {
+        m_controls.EnablePassButton();
+    }
+
+    public void DisablePassButton()
+    {
+        m_controls.DisablePassButton();
+    }
+
+    public CardInstance GetLastPlayedCard()
+    {
+        return m_lastPlayedCard;
+    }
+
 }

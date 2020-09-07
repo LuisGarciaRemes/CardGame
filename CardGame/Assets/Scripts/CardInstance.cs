@@ -67,6 +67,8 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         {
             if (i_zone == MouseControls.GameZone.Play && m_player.GetPlayAreaCardCount() < MAXPLAYEDCARDS && m_player.CanPlayCards())
             {
+                //Todo Check if card can be played here
+
                 m_currState = CardState.InPlay;
                 m_player.CmdSetInPlay();
                 CmdPlayCard();
@@ -202,22 +204,64 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     [ClientRpc]
     public void RpcPlayCard()
     {
-        GameStateManager.m_instance.SetLastPlayedCard(m_card);
+        GameStateManager.m_instance.SetLastPlayedCard(this);
+        Invoke(m_card.cardName.Replace(" ",string.Empty) + "OnPlay", 0.0f);
 
         //Because a card instance will always have the localPlayer as its player reference.
         if(hasAuthority)
         {
             m_player.SetCanPlayCards(false);
             m_player.GetOppPlayer().SetCanPlayCards(true);
+            GameStateManager.m_instance.DisablePassButton();
         }
         else
         {
             m_player.SetCanPlayCards(true);
             m_player.GetOppPlayer().SetCanPlayCards(false);
+            GameStateManager.m_instance.EnablePassButton();
         }
-
-        //Invoke(m_card.name, 0.0f);
     }
 
     //Below are the methods that corespond to the specific name of the card
+
+    private void JabOnPlay()
+    {
+        Debug.LogError("Jab Played");
+        SetLastPlayedCard(this);
+    }
+
+    private void JabWithResponse()
+    {
+        Debug.LogError("Jab resonded too");
+    }
+
+    private void JabNoResponse()
+    {
+        Debug.LogError("Jab no response");
+    }
+
+    private void SetLastPlayedCard(CardInstance i_card)
+    {
+        GameStateManager.m_instance.SetLastPlayedCard(i_card);
+    }
+
+    public void Response()
+    {
+
+    }
+
+    public void NoResponse()
+    {
+        if(hasAuthority)
+        {
+            m_player.GetOppPlayer().TakeDamage(m_card.cardDamage);
+        }
+        else
+        {
+            m_player.TakeDamage(m_card.cardDamage);
+        }
+
+        Invoke(m_card.cardName.Replace(" ", string.Empty) + "NoResponse", 0.0f);
+    }
+
 }

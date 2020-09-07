@@ -16,7 +16,7 @@ public class MouseControls : MonoBehaviour
     [SerializeField] private Vector2 DeckZoneDim;
     [SerializeField] private Vector2 OppDiscardZonePos;
     [SerializeField] private Vector2 OppDiscardZoneDim;
-    private PlayerManagerScript player;
+    private PlayerManagerScript m_player;
     [SerializeField] private Button button;
     private static int playersInGame = 0;
     private static int playersReady = 0;
@@ -30,23 +30,29 @@ public class MouseControls : MonoBehaviour
 
     public void ReadyUp()
     {
-        if (playersInGame == 2 && player && GameStateManager.m_instance.IsGameOver())
+        if (button.GetComponentInChildren<Text>().text == "Pass")
         {
-            player.CmdSetOpposingReferences();
+            MusicManager.m_instance.PlayClick();
             button.gameObject.SetActive(false);
-            player.CmdPlayerIsReady();
+            m_player.CmdPassTheTurn();
+        }
+        else if (playersInGame == 2 && m_player && GameStateManager.m_instance.IsGameOver())
+        {
+            m_player.CmdSetOpposingReferences();
+            button.gameObject.SetActive(false);
+            m_player.CmdPlayerIsReady();
             MusicManager.m_instance.PlayClick();
             GameStateManager.m_instance.SetGameOver(false);
         }
-        else if(!GameStateManager.m_instance.IsGameOver() && player.GetHandCardCount() == 7)
+        else if(!GameStateManager.m_instance.IsGameOver() && m_player.GetHandCardCount() == 7)
         {
             button.gameObject.SetActive(false);
             MusicManager.m_instance.PlayFight();
             GameStateManager.m_instance.SetCurrPhase(GameStateManager.RoundPhase.RoundMid);
 
-            if(player == GameStateManager.m_instance.GetAttackingPlayer())
+            if(m_player == GameStateManager.m_instance.GetAttackingPlayer())
             {
-                player.SetCanPlayCards(true);
+                m_player.SetCanPlayCards(true);
             }
         }
     }
@@ -54,17 +60,17 @@ public class MouseControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player)
+        if (m_player)
         {
 
-        int count = player.GetHandCardCount();
+        int count = m_player.GetHandCardCount();
 
-        if (playersInGame == 2 && player && !button.interactable)
+        if (playersInGame == 2 && m_player && !button.interactable)
         {
             button.interactable = true;
             button.GetComponentInChildren<Text>().text = "Ready Up";
         }
-        else if(playersInGame == 2 && player && count >= 7 && GameStateManager.m_instance.GetCurrPhase() == GameStateManager.RoundPhase.RoundStart)
+        else if(playersInGame == 2 && m_player && count >= 7 && GameStateManager.m_instance.GetCurrPhase() == GameStateManager.RoundPhase.RoundStart)
         {
             if (count > 7)
             {
@@ -72,13 +78,14 @@ public class MouseControls : MonoBehaviour
             }
             else
             {
+                button.GetComponentInChildren<Text>().text = "Ready Up";
                 button.gameObject.SetActive(true);
             }
         }
 
         if (playersReady >= 2)
         {
-            player.SetCanDraw(true);
+            m_player.SetCanDraw(true);
             playersReady = 0;
         }
 
@@ -100,11 +107,11 @@ public class MouseControls : MonoBehaviour
             {
                 if (Input.GetAxis("Mouse ScrollWheel") > 0f)
                 {
-                    player.GetDiscardPile().DisplayNext();
+                    m_player.GetDiscardPile().DisplayNext();
                 }
                 else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
                 {
-                    player.GetDiscardPile().DisplayPrevious();
+                    m_player.GetDiscardPile().DisplayPrevious();
                 }
                 currZone = GameZone.MyDiscard;
             }
@@ -112,11 +119,11 @@ public class MouseControls : MonoBehaviour
             {             
                 if (Input.GetAxis("Mouse ScrollWheel") > 0f)
                 {
-                    player.GetOppDiscardPile().DisplayNext();
+                    m_player.GetOppDiscardPile().DisplayNext();
                 }
                 else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
                 {
-                    player.GetOppDiscardPile().DisplayPrevious();
+                    m_player.GetOppDiscardPile().DisplayPrevious();
                 }
                
                 currZone = GameZone.OppDiscard;              
@@ -140,7 +147,7 @@ public class MouseControls : MonoBehaviour
                 }
                 else
                 {
-                    player.HideHighlightedCard();
+                    m_player.HideHighlightedCard();
                 }
             }
 
@@ -150,34 +157,34 @@ public class MouseControls : MonoBehaviour
                 {
                     c.OnClick(currZone);
                 }
-                else if (currZone == GameZone.Deck && player.CanDrawCards())
+                else if (currZone == GameZone.Deck && m_player.CanDrawCards())
                 {
-                    player.GetMyDeck().DrawTopCard();
+                    m_player.GetMyDeck().DrawTopCard();
                 }
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                if (player.IsHoldingACard())
+                if (m_player.IsHoldingACard())
                 {
                     if (c == null)
                     {
-                        c = player.GetHeldCard().GetComponent<ClickableInterface>();
+                        c = m_player.GetHeldCard().GetComponent<ClickableInterface>();
                     }
 
                     c.OnRelease(currZone);
                 }
             }
 
-            if (player.IsHoldingACard())
+            if (m_player.IsHoldingACard())
             {
-                player.GetHeldCard().transform.position = pointerData.position;
+                m_player.GetHeldCard().transform.position = pointerData.position;
             }
         }
     }
 
     public void SetPlayer(PlayerManagerScript i_player)
     {
-        player = i_player;
+        m_player = i_player;
     }
 
     static public void AddPlayerInGame()
@@ -188,5 +195,17 @@ public class MouseControls : MonoBehaviour
     static public void AddPlayerReady()
     {
         playersReady++;
+    }
+
+    public void EnablePassButton()
+    {
+        button.GetComponentInChildren<Text>().text = "Pass";
+        button.gameObject.SetActive(true);
+    }
+
+    public void DisablePassButton()
+    {
+        button.GetComponentInChildren<Text>().text = "Pass";
+        button.gameObject.SetActive(false);
     }
 }
