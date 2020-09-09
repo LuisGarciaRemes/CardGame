@@ -17,7 +17,7 @@ public class PlayerInfo : MonoBehaviour
     private float m_FlashTimer = 0.0f;
     private bool m_shouldFlash = false;
     private int m_frameCounter = 0;
-    [SerializeField] private float m_punchSpeed = 500.0f;
+    [SerializeField] private float m_punchSpeed = 1000.0f;
     private Vector3 m_orgPos;
     private bool m_shouldPunch = false;
 
@@ -70,7 +70,7 @@ public class PlayerInfo : MonoBehaviour
         m_shouldFlash = true;      
     }
 
-    public void PlayPunchAnimation()
+    public void UnblockedPlayPunchAnimation()
     {
         m_shouldPunch = true;
         m_boxingGlove.SetActive(true);

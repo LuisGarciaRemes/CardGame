@@ -329,7 +329,7 @@ public class PlayerManagerScript : NetworkBehaviour
 
         if (i_value > 0.0f)
         {
-            m_myInfo.PlayPunchAnimation();
+            m_myInfo.UnblockedPlayPunchAnimation();
         }
 
         if(m_health[m_currHealthIndex] <= 0)
@@ -515,6 +515,11 @@ public class PlayerManagerScript : NetworkBehaviour
         }
 
         GameStateManager.m_instance.SetLastPlayedCard(null);
+
+        if(this == GameStateManager.m_instance.GetAttackingPlayer())
+        {
+            GameStateManager.m_instance.SwapAttackingPlayer();
+        }
     }
 }
 

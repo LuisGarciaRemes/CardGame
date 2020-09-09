@@ -350,7 +350,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &528758769
 RectTransform:
   m_ObjectHideFlags: 0
@@ -383,14 +383,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8470589, b: 0.2392157, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 0.12941177, g: 0.31764707, b: 0.7411765, a: 1}
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -699,6 +699,7 @@ MonoBehaviour:
   m_fight: {fileID: 8300000, guid: 42eb9ef9c98369849886c1b82e6db865, type: 3}
   m_punchMiss: {fileID: 8300000, guid: dafeb27a8101c0f4c92b8bb49c88581a, type: 3}
   m_punchBlocked: {fileID: 8300000, guid: 90e7819117067e9439c023d80ce16eab, type: 3}
+  m_clickError: {fileID: 8300000, guid: 3cdd3de25ca538d409f3cfd14885200a, type: 3}
   m_punchHit:
   - {fileID: 8300000, guid: 18c6587969a8f8643884530d53d5e79f, type: 3}
   - {fileID: 8300000, guid: 01b0e786e6ca3f243a1737ddf38d7d1b, type: 3}
@@ -756,14 +757,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.12941177, g: 0.31764707, b: 0.7411765, a: 0.5019608}
+  m_Color: {r: 0.0627451, g: 0.57254905, b: 0.83921576, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1106,7 +1107,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_bHSelector: {fileID: 528758770}
   m_lMSelector: {fileID: 2062210647}
-  check: {fileID: 1479952510}
+  m_check: {fileID: 1479952510}
+  m_unselected: {r: 0.12941177, g: 0.31764707, b: 0.7411765, a: 1}
+  m_selected: {r: 1, g: 0.8470589, b: 0.2392157, a: 1}
 --- !u!114 &1479952510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1161,10 +1164,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1757271391, guid: a9a9e03a9efb0e34490c0a32506df53f, type: 3}
-      propertyPath: m_controls
-      value: 
-      objectReference: {fileID: 1757271389}
     - target: {fileID: 6784115254772464666, guid: a9a9e03a9efb0e34490c0a32506df53f,
         type: 3}
       propertyPath: m_Name
@@ -1367,6 +1366,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charSelect: {fileID: 1479952504}
+  source: {fileID: 817349395}
+  error: {fileID: 8300000, guid: 3cdd3de25ca538d409f3cfd14885200a, type: 3}
+  click: {fileID: 8300000, guid: f643b68324b124246a1d0b8d4ed9b411, type: 3}
   showGUI: 1
   offsetX: 0
   offsetY: 0
@@ -1468,7 +1470,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2062210646
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1501,14 +1503,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8470589, b: 0.2392157, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 0.12941177, g: 0.31764707, b: 0.7411765, a: 1}
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

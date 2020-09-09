@@ -18,7 +18,10 @@ namespace Mirror
     public class NetworkManagerHUD : MonoBehaviour
     {
         NetworkManager manager;
-        public GameObject charSelect;
+        [SerializeField] public GameObject charSelect;
+        [SerializeField] private AudioSource source;
+        [SerializeField] private AudioClip error;
+        [SerializeField] private AudioClip click;
 
         /// <summary>
         /// Whether to show the default control HUD at runtime.
@@ -87,6 +90,11 @@ namespace Mirror
                         {
                             manager.StartHost();
                             charSelect.SetActive(false);
+                            source.PlayOneShot(click, 0.5f);
+                        }
+                        else
+                        {
+                            source.PlayOneShot(error,0.5f);
                         }
                     }
                 }
@@ -99,6 +107,11 @@ namespace Mirror
                     {
                         manager.StartClient();
                         charSelect.SetActive(false);
+                        source.PlayOneShot(click, 0.5f);
+                    }
+                    else
+                    {
+                        source.PlayOneShot(error, 0.5f);
                     }
                 }
                 manager.networkAddress = GUILayout.TextField(manager.networkAddress);

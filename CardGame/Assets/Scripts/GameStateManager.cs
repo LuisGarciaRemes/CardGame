@@ -5,8 +5,8 @@ using UnityEngine;
 public class GameStateManager : MonoBehaviour
 {
     private CardInstance m_lastPlayedCard;
-    private PlayerManagerScript m_attackingPlayer;
-    private PlayerManagerScript m_defendingPlayer;
+    [SerializeField] private PlayerManagerScript m_attackingPlayer;
+    [SerializeField] private PlayerManagerScript m_defendingPlayer;
     public static GameStateManager m_instance;
     private bool m_isGameOver = true;
     public enum RoundPhase { RoundStart, RoundMid, RoundEnd };
@@ -91,6 +91,13 @@ public class GameStateManager : MonoBehaviour
     public CardInstance GetLastPlayedCard()
     {
         return m_lastPlayedCard;
+    }
+
+    public void SwapAttackingPlayer()
+    {
+        PlayerManagerScript temp = m_attackingPlayer;
+        m_attackingPlayer = m_defendingPlayer;
+        m_defendingPlayer = temp;
     }
 
 }

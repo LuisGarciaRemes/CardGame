@@ -67,11 +67,37 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         {
             if (i_zone == MouseControls.GameZone.Play && m_player.GetPlayAreaCardCount() < MAXPLAYEDCARDS && m_player.CanPlayCards())
             {
-                //Todo Check if card can be played here
+                bool playCard = false;
+                CardInstance lastPlayedCard = GameStateManager.m_instance.GetLastPlayedCard();
+                // Currently only checking color. Need to check directions too. If red is played need to switch attacking and defending player and set lastplayed to null. If yellow is played and a blue is played need to switch attacking and defending players and set last played to null
+                if (!lastPlayedCard && (m_cardColor == CardColor.Blue || m_cardColor == CardColor.Yellow))
+                {
+                    playCard = true;
+                }
+                else if (lastPlayedCard)
+                {
+                    if (lastPlayedCard.m_cardColor == CardColor.Blue && m_cardColor == CardColor.Red)
+                    {
+                        playCard = true;
+                    }
+                    else if(lastPlayedCard.m_cardColor == CardColor.Yellow && m_cardColor == CardColor.Blue)
+                    {
+                        playCard = true;
+                    }
+                }
 
-                m_currState = CardState.InPlay;
-                m_player.CmdSetInPlay();
-                CmdPlayCard();
+                if (playCard)
+                {
+                    m_currState = CardState.InPlay;
+                    m_player.CmdSetInPlay();
+                    CmdPlayCard();
+                }
+                else
+                {
+                    m_currState = CardState.InHand;
+                    m_player.CmdSetInHand();
+                    MusicManager.m_instance.PlayClickError();
+                }
             }
             else if (i_zone == MouseControls.GameZone.MyDiscard && m_player.CanDiscard())
             {
@@ -80,7 +106,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
             else
             {
                 m_currState = CardState.InHand;
-                m_player.CmdSetInHand();
+                m_player.CmdSetInHand();              
             }
         }
     }
@@ -204,22 +230,12 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     [ClientRpc]
     public void RpcPlayCard()
     {
-        GameStateManager.m_instance.SetLastPlayedCard(this);
+        if((m_cardColor == CardColor.Blue || m_cardColor == CardColor.Yellow) && !GameStateManager.m_instance.GetLastPlayedCard())
+        {
+            SwitchPriority();
+        }
+     
         Invoke(m_card.cardName.Replace(" ",string.Empty) + "OnPlay", 0.0f);
-
-        //Because a card instance will always have the localPlayer as its player reference.
-        if(hasAuthority)
-        {
-            m_player.SetCanPlayCards(false);
-            m_player.GetOppPlayer().SetCanPlayCards(true);
-            GameStateManager.m_instance.DisablePassButton();
-        }
-        else
-        {
-            m_player.SetCanPlayCards(true);
-            m_player.GetOppPlayer().SetCanPlayCards(false);
-            GameStateManager.m_instance.EnablePassButton();
-        }
     }
 
     //Below are the methods that corespond to the specific name of the card
@@ -247,7 +263,8 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
     public void Response()
     {
-
+        GameStateManager.m_instance.SwapAttackingPlayer();
+        SetLastPlayedCard(null);
     }
 
     public void NoResponse()
@@ -262,6 +279,24 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         }
 
         Invoke(m_card.cardName.Replace(" ", string.Empty) + "NoResponse", 0.0f);
+        SetLastPlayedCard(null);
+    }
+
+    private void SwitchPriority()
+    {
+        //Because a card instance will always have the localPlayer as its player reference.
+        if (hasAuthority)
+        {
+            m_player.SetCanPlayCards(false);
+            m_player.GetOppPlayer().SetCanPlayCards(true);
+            GameStateManager.m_instance.DisablePassButton();
+        }
+        else
+        {
+            m_player.SetCanPlayCards(true);
+            m_player.GetOppPlayer().SetCanPlayCards(false);
+            GameStateManager.m_instance.EnablePassButton();
+        }
     }
 
 }

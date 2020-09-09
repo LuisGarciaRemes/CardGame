@@ -11,6 +11,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip m_fight;
     [SerializeField] private AudioClip m_punchMiss;
     [SerializeField] private AudioClip m_punchBlocked;
+    [SerializeField] private AudioClip m_clickError;
     [SerializeField] private AudioClip[] m_punchHit;
 
     private void Awake()
@@ -55,5 +56,10 @@ public class MusicManager : MonoBehaviour
     public void PlayPunchBlocked()
     {
         source.PlayOneShot(m_punchBlocked,0.5f);
+    }
+
+    public void PlayClickError()
+    {
+        source.PlayOneShot(m_clickError, 0.5f);
     }
 }
