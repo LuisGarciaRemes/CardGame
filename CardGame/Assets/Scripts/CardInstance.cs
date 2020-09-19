@@ -289,12 +289,16 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         {
             m_player.SetCanPlayCards(false);
             m_player.GetOppPlayer().SetCanPlayCards(true);
+            m_player.GetMyInfo().SetUnselected();
+            m_player.GetOppPlayer().GetMyInfo().SetSelected();
             GameStateManager.m_instance.DisablePassButton();
         }
         else
         {
             m_player.SetCanPlayCards(true);
             m_player.GetOppPlayer().SetCanPlayCards(false);
+            m_player.GetMyInfo().SetSelected();
+            m_player.GetOppPlayer().GetMyInfo().SetUnselected();
             GameStateManager.m_instance.EnablePassButton();
         }
     }

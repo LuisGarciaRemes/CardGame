@@ -10,6 +10,9 @@ public class DiscardPile : NetworkBehaviour
     [SerializeField] private Text Amount;
     [SerializeField] private CardUI TopCard;
     private int DisplayIndex = 0;
+    [SerializeField] private Color m_unselected;
+    [SerializeField] private Color m_selected;
+    [SerializeField] private Image m_outline;
 
     private void Start()
     {
@@ -82,6 +85,18 @@ public class DiscardPile : NetworkBehaviour
         PileList.Add(info);
         DisplayIndex = PileList.Count - 1;
         DisplayCard();
+    }
+
+    public void SetOutline(bool i_val)
+    {
+        if (i_val)
+        {
+            m_outline.color = m_selected;
+        }
+        else
+        {
+            m_outline.color = m_unselected;
+        }
     }
 
     public void ReturnCardToHand()

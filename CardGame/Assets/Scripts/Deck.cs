@@ -12,6 +12,9 @@ public class Deck : NetworkBehaviour
     private GameObject ScreenSpace;
     private PlayerManagerScript player;
     private static System.Random rng = new System.Random();
+    [SerializeField] private Color m_unselected;
+    [SerializeField] private Color m_selected;
+    [SerializeField] private Image m_outline;
 
     private void Start()
     {
@@ -106,6 +109,18 @@ public class Deck : NetworkBehaviour
             CardInfo value = DeckList[k];
             DeckList[k] = DeckList[n];
             DeckList[n] = value;
+        }
+    }
+
+    public void SetOutline(bool i_val)
+    {
+        if(i_val)
+        {
+            m_outline.color = m_selected;
+        }
+        else
+        {
+            m_outline.color = m_unselected;
         }
     }
 }

@@ -35,7 +35,7 @@ public class PlayerManagerScript : NetworkBehaviour
     private int m_maxStar = 0;
     private int m_currStar = 0;
 
-    private PlayerInfo m_myInfo;
+    [SerializeField] private PlayerInfo m_myInfo;
     private int m_deckID = -1;
 
     private int m_drawnThisRound = 0;
@@ -82,7 +82,7 @@ public class PlayerManagerScript : NetworkBehaviour
 
             if (!m_highlightedCard.transform.GetChild(0).gameObject.activeSelf)
             {
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 9; i++)
                 {
                     m_highlightedCard.transform.GetChild(i).gameObject.SetActive(true);
                 }
@@ -469,6 +469,13 @@ public class PlayerManagerScript : NetworkBehaviour
     public void SetCanDraw(bool i_bool)
     {
         m_canDraw = i_bool;
+        m_myDeck.SetOutline(i_bool);
+    }
+
+    public void SetCanDiscard(bool i_bool)
+    {
+        m_canDiscard = i_bool;
+        m_myDiscard.SetOutline(i_bool);
     }
 
     public Deck GetMyDeck()
@@ -486,11 +493,28 @@ public class PlayerManagerScript : NetworkBehaviour
         return m_oppPlayer;
     }
 
+    public PlayerInfo GetMyInfo()
+    {
+        return m_myInfo;
+    }
 
     [Command]
     public void CmdPassTheTurn()
     {
         RpcPassTheTurn();
+    }
+
+    [Command]
+    public void CmdSetInitialMarkers()
+    {
+        RpcSetInitialMarkers();
+    }
+
+    [ClientRpc]
+    public void RpcSetInitialMarkers()
+    {
+        m_myInfo.SetSelected();
+        m_oppPlayer.GetMyInfo().SetUnselected();
     }
 
     [ClientRpc]
@@ -501,12 +525,16 @@ public class PlayerManagerScript : NetworkBehaviour
         {
             SetCanPlayCards(false);
             GetOppPlayer().SetCanPlayCards(true);
+            m_myInfo.SetUnselected();
+            GetOppPlayer().m_myInfo.SetSelected();
         }
         else
         {
             SetCanPlayCards(false);
             GetOppPlayer().SetCanPlayCards(true);
             GameStateManager.m_instance.EnablePassButton();
+            m_myInfo.SetUnselected();
+            GetOppPlayer().m_myInfo.SetSelected();
         }
 
         if (GameStateManager.m_instance.GetLastPlayedCard())

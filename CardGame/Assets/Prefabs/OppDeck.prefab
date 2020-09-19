@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 110}
+  m_SizeDelta: {x: 80, y: 107.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8866969934049873790
 CanvasRenderer:
@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8470589, b: 0.2392157, a: 1}
+  m_Color: {r: 0.12941177, g: 0.31764707, b: 0.7411765, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -261,7 +261,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 20}
+  m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8866969934869477001
 CanvasRenderer:
@@ -290,8 +290,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -358,6 +358,9 @@ MonoBehaviour:
   DeckList: []
   Amount: {fileID: 8866969934792703362}
   CardBack: {fileID: 8866969934225890051}
+  m_unselected: {r: 0.12941177, g: 0.31764707, b: 0.7411765, a: 1}
+  m_selected: {r: 1, g: 0.8470589, b: 0.2392157, a: 1}
+  m_outline: {fileID: 8866969934049873789}
 --- !u!114 &3886769424628027777
 MonoBehaviour:
   m_ObjectHideFlags: 0

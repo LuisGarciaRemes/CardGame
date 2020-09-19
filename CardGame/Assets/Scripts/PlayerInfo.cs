@@ -12,6 +12,7 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] private Text m_name;
     [SerializeField] private Text m_health;
     [SerializeField] private Image m_char;
+    [SerializeField] private Image m_turnMarker;
     [SerializeField] private float m_flashTime = 1.0f;
     [SerializeField] GameObject m_boxingGlove;
     private float m_FlashTimer = 0.0f;
@@ -20,6 +21,8 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] private float m_punchSpeed = 1000.0f;
     private Vector3 m_orgPos;
     private bool m_shouldPunch = false;
+    [SerializeField] private Color m_unselected;
+    [SerializeField] private Color m_selected;
 
     private void Start()
     {
@@ -67,7 +70,7 @@ public class PlayerInfo : MonoBehaviour
 
     public void FlashRed()
     {
-        m_shouldFlash = true;      
+        m_shouldFlash = true;
     }
 
     public void UnblockedPlayPunchAnimation()
@@ -78,9 +81,9 @@ public class PlayerInfo : MonoBehaviour
 
     private void Update()
     {
-        if(m_shouldFlash)
+        if (m_shouldFlash)
         {
-            if(m_FlashTimer >= m_flashTime)
+            if (m_FlashTimer >= m_flashTime)
             {
                 m_shouldFlash = false;
                 m_char.color = Color.white;
@@ -91,9 +94,9 @@ public class PlayerInfo : MonoBehaviour
             {
                 m_FlashTimer += Time.deltaTime;
 
-                if(m_frameCounter % 20 == 0)
+                if (m_frameCounter % 20 == 0)
                 {
-                    if(m_char.color == Color.white)
+                    if (m_char.color == Color.white)
                     {
                         m_char.color = Color.red;
                     }
@@ -107,11 +110,11 @@ public class PlayerInfo : MonoBehaviour
             }
         }
 
-        if(m_shouldPunch)
+        if (m_shouldPunch)
         {
-            m_boxingGlove.transform.position = Vector3.MoveTowards(m_boxingGlove.transform.position,m_char.transform.position,Time.deltaTime * m_punchSpeed);
+            m_boxingGlove.transform.position = Vector3.MoveTowards(m_boxingGlove.transform.position, m_char.transform.position, Time.deltaTime * m_punchSpeed);
 
-            if((m_char.transform.position - m_boxingGlove.transform.position).magnitude <= 50.0f)
+            if ((m_char.transform.position - m_boxingGlove.transform.position).magnitude <= 50.0f)
             {
                 m_shouldPunch = false;
                 m_boxingGlove.SetActive(false);
@@ -120,5 +123,15 @@ public class PlayerInfo : MonoBehaviour
                 FlashRed();
             }
         }
+    }
+
+    public void SetSelected()
+    {
+        m_turnMarker.color = m_selected;
+    }
+
+    public void SetUnselected()
+    {
+        m_turnMarker.color = m_unselected;
     }
 }

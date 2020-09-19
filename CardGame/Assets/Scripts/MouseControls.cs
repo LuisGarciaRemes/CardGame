@@ -53,6 +53,7 @@ public class MouseControls : MonoBehaviour
             if(m_player == GameStateManager.m_instance.GetAttackingPlayer())
             {
                 m_player.SetCanPlayCards(true);
+                m_player.CmdSetInitialMarkers();
             }
         }
     }
