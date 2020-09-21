@@ -388,6 +388,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1040442003149300697}
   - component: {fileID: 461106116}
+  - component: {fileID: 1551990672}
   m_Layer: 5
   m_Name: MyHand
   m_TagString: Untagged
@@ -438,6 +439,19 @@ MonoBehaviour:
   m_Spacing: {x: -30, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 1
+--- !u!114 &1551990672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040442003149300696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecbd7cb079c5b2041bfa7ce19a33b85d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_myHand: {fileID: 1040442003149300696}
 --- !u!1 &1040442003769043041
 GameObject:
   m_ObjectHideFlags: 0

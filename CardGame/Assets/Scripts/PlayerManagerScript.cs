@@ -74,7 +74,7 @@ public class PlayerManagerScript : NetworkBehaviour
         RpcSetHeldCard(temp, i_info);
     }
 
-    public void DisplayHighlightedCard(CardInfo info)
+    public void DisplayHighlightedCard(CardInfo info, bool i_bool)
     {
         if (!m_highlightedCard.gameObject.activeSelf)
         {
@@ -92,6 +92,7 @@ public class PlayerManagerScript : NetworkBehaviour
         if (info != m_highlightedCard.card)
         {
             m_highlightedCard.LoadCard(info);
+            m_highlightedCard.SetOutlineColor(i_bool);
         }
     }
 
@@ -523,6 +524,8 @@ public class PlayerManagerScript : NetworkBehaviour
         //Because a card instance will always have the localPlayer as its player reference.
         if (hasAuthority)
         {
+            SetAllUnplayable();
+
             SetCanPlayCards(false);
             GetOppPlayer().SetCanPlayCards(true);
             m_myInfo.SetUnselected();
@@ -530,6 +533,8 @@ public class PlayerManagerScript : NetworkBehaviour
         }
         else
         {
+            GetOppPlayer().UpdatePlayable();
+
             SetCanPlayCards(false);
             GetOppPlayer().SetCanPlayCards(true);
             GameStateManager.m_instance.EnablePassButton();
@@ -548,6 +553,16 @@ public class PlayerManagerScript : NetworkBehaviour
         {
             GameStateManager.m_instance.SwapAttackingPlayer();
         }
+    }
+
+    public void UpdatePlayable()
+    {
+        m_myHand.GetComponent<PlayerHandManager>().SetPlayableCards(this);
+    }
+
+    public void SetAllUnplayable()
+    {
+        m_myHand.GetComponent<PlayerHandManager>().SetAllUnplayable();
     }
 }
 

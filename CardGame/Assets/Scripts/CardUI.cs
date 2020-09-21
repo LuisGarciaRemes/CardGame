@@ -13,7 +13,11 @@ public class CardUI : MonoBehaviour
     [SerializeField] Text cardText;
     [SerializeField] Text cardTypeText;
     [SerializeField] Text cardNameText;
+    [SerializeField] Image cardOutline;
     internal CardInfo card;
+    [SerializeField] private Color m_unselected;
+    [SerializeField] private Color m_selected;
+
 
     private void Start()
     {
@@ -47,6 +51,18 @@ public class CardUI : MonoBehaviour
         else
         {
             //gameObject.SetActive(false);
+        }
+    }
+
+    public void SetOutlineColor(bool i_val)
+    {
+        if (i_val)
+        {
+            cardOutline.color = m_selected;
+        }
+        else
+        {
+            cardOutline.color = m_unselected;
         }
     }
 

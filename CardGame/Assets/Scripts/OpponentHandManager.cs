@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HandSizeCount : MonoBehaviour
+public class OpponentHandManager : MonoBehaviour
 {
    [SerializeField] private GameObject oppHand;
 

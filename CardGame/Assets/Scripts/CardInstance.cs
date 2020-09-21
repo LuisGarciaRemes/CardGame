@@ -23,6 +23,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     [SerializeField] private GameObject m_cardBack;
     private PlayerManagerScript m_player;
     private const int MAXPLAYEDCARDS = 5;
+    private bool m_canPlay = false;
 
     private void Start()
     {
@@ -56,7 +57,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         {
             if (!m_cardBack.activeSelf && (m_currState == CardState.InHand || m_currState == CardState.InPlay || m_currState == CardState.InDiscard))
             {
-                m_player.DisplayHighlightedCard(m_card);
+                m_player.DisplayHighlightedCard(m_card, m_canPlay);
             }
         }
     }
@@ -67,6 +68,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         {
             if (i_zone == MouseControls.GameZone.Play && m_player.GetPlayAreaCardCount() < MAXPLAYEDCARDS && m_player.CanPlayCards())
             {
+                /*
                 bool playCard = false;
                 CardInstance lastPlayedCard = GameStateManager.m_instance.GetLastPlayedCard();
                 // Currently only checking color. Need to check directions too. If red is played need to switch attacking and defending player and set lastplayed to null. If yellow is played and a blue is played need to switch attacking and defending players and set last played to null
@@ -85,8 +87,8 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
                         playCard = true;
                     }
                 }
-
-                if (playCard)
+                */
+                if (m_canPlay)
                 {
                     m_currState = CardState.InPlay;
                     m_player.CmdSetInPlay();
@@ -234,6 +236,12 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         {
             SwitchPriority();
         }
+
+        if(hasAuthority)
+        {
+            m_canPlay = false;
+            transform.GetComponent<CardUI>().SetOutlineColor(false);
+        }
      
         Invoke(m_card.cardName.Replace(" ",string.Empty) + "OnPlay", 0.0f);
     }
@@ -288,6 +296,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         if (hasAuthority)
         {
             m_player.SetCanPlayCards(false);
+            m_player.SetAllUnplayable();
             m_player.GetOppPlayer().SetCanPlayCards(true);
             m_player.GetMyInfo().SetUnselected();
             m_player.GetOppPlayer().GetMyInfo().SetSelected();
@@ -296,11 +305,27 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         else
         {
             m_player.SetCanPlayCards(true);
+            m_player.UpdatePlayable();
             m_player.GetOppPlayer().SetCanPlayCards(false);
             m_player.GetMyInfo().SetSelected();
             m_player.GetOppPlayer().GetMyInfo().SetUnselected();
             GameStateManager.m_instance.EnablePassButton();
         }
+    }
+
+    public bool CanPlay()
+    {
+        return m_canPlay;
+    }
+
+    public void SetCanPlay(bool i_val)
+    {
+        m_canPlay = i_val;
+    }
+
+    public CardColor GetColor()
+    {
+        return m_cardColor;
     }
 
 }

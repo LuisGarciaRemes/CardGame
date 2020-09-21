@@ -54,6 +54,7 @@ public class MouseControls : MonoBehaviour
             {
                 m_player.SetCanPlayCards(true);
                 m_player.CmdSetInitialMarkers();
+                m_player.UpdatePlayable();
             }
         }
     }
