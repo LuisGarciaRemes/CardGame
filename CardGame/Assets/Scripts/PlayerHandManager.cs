@@ -20,7 +20,32 @@ public class PlayerHandManager : MonoBehaviour
             }
             else
             {
-                //To do. Check what cards can be played
+                CardInstance lastPlayedCard = GameStateManager.m_instance.GetLastPlayedCard();
+
+                if (lastPlayedCard.GetColor() == CardInstance.CardColor.Blue && card.GetColor() == CardInstance.CardColor.Red)
+                {
+                    if(lastPlayedCard.GetSide() == card.GetSide() || lastPlayedCard.GetHeight() == card.GetHeight() || (lastPlayedCard.GetSide() == CardInstance.CardSide.Straight && (card.GetSide() == CardInstance.CardSide.Left || card.GetSide() == CardInstance.CardSide.Right)))
+                    {
+                        if ((lastPlayedCard.IsUnblockable() && card.GetCard().cardName.Contains("Block")) || (lastPlayedCard.IsUndodgeable() && card.GetCard().cardName.Contains("Dodge")) || (lastPlayedCard.IsUncounterable() && card.GetCard().cardName.Contains("Counter")))
+                        {
+                            
+                        }
+                        else 
+                        {
+                            card.SetCanPlay(true);
+                            card.transform.GetComponent<CardUI>().SetOutlineColor(true);
+                        }
+                    }                  
+                }
+                else if (lastPlayedCard.GetColor() == CardInstance.CardColor.Yellow && card.GetColor() == CardInstance.CardColor.Blue)
+                {
+                    if (lastPlayedCard.GetSide() == card.GetSide() || lastPlayedCard.GetHeight() == card.GetHeight())
+                    {
+                        card.SetCanPlay(true);
+                        card.transform.GetComponent<CardUI>().SetOutlineColor(true);
+                    }
+                }
+
             }
         }
     }

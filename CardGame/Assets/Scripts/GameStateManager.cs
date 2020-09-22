@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
-    private CardInstance m_lastPlayedCard;
+    [SerializeField] private CardInstance m_lastPlayedCard;
     [SerializeField] private PlayerManagerScript m_attackingPlayer;
     [SerializeField] private PlayerManagerScript m_defendingPlayer;
     public static GameStateManager m_instance;

@@ -24,6 +24,9 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     private PlayerManagerScript m_player;
     private const int MAXPLAYEDCARDS = 5;
     private bool m_canPlay = false;
+    private bool m_cantBeBlocked = false;
+    private bool m_cantBeDodged = false;
+    private bool m_cantBeCountered= false;
 
     private void Start()
     {
@@ -68,26 +71,6 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         {
             if (i_zone == MouseControls.GameZone.Play && m_player.GetPlayAreaCardCount() < MAXPLAYEDCARDS && m_player.CanPlayCards())
             {
-                /*
-                bool playCard = false;
-                CardInstance lastPlayedCard = GameStateManager.m_instance.GetLastPlayedCard();
-                // Currently only checking color. Need to check directions too. If red is played need to switch attacking and defending player and set lastplayed to null. If yellow is played and a blue is played need to switch attacking and defending players and set last played to null
-                if (!lastPlayedCard && (m_cardColor == CardColor.Blue || m_cardColor == CardColor.Yellow))
-                {
-                    playCard = true;
-                }
-                else if (lastPlayedCard)
-                {
-                    if (lastPlayedCard.m_cardColor == CardColor.Blue && m_cardColor == CardColor.Red)
-                    {
-                        playCard = true;
-                    }
-                    else if(lastPlayedCard.m_cardColor == CardColor.Yellow && m_cardColor == CardColor.Blue)
-                    {
-                        playCard = true;
-                    }
-                }
-                */
                 if (m_canPlay)
                 {
                     m_currState = CardState.InPlay;
@@ -206,6 +189,9 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
             m_cardType = CardType.Multi_Strike;
         }
 
+        m_cantBeBlocked = info.m_cantBeBlocked;
+        m_cantBeDodged = info.m_cantBeDodged;
+        m_cantBeCountered = info.m_cantBeCountered;
     }
 
     public CardInfo GetCard()
@@ -234,10 +220,15 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     {
         if((m_cardColor == CardColor.Blue || m_cardColor == CardColor.Yellow) && !GameStateManager.m_instance.GetLastPlayedCard())
         {
-            SwitchPriority();
+            //Change this eventually to end round behaviour
         }
 
-        if(hasAuthority)
+        SetLastPlayedCard(this);
+
+        //Dont switch priority when responding.
+        SwitchPriority();
+
+        if (hasAuthority)
         {
             m_canPlay = false;
             transform.GetComponent<CardUI>().SetOutlineColor(false);
@@ -251,7 +242,6 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     private void JabOnPlay()
     {
         Debug.LogError("Jab Played");
-        SetLastPlayedCard(this);
     }
 
     private void JabWithResponse()
@@ -326,6 +316,31 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     public CardColor GetColor()
     {
         return m_cardColor;
+    }
+
+    public CardHeight GetHeight()
+    {
+        return m_cardHeight;
+    }
+
+    public CardSide GetSide()
+    {
+        return m_cardSide;
+    }
+
+    public bool IsUnblockable()
+    {
+        return m_cantBeBlocked;
+    }
+
+    public bool IsUndodgeable()
+    {
+        return m_cantBeDodged;
+    }
+
+    public bool IsUncounterable()
+    {
+        return m_cantBeCountered;
     }
 
 }

@@ -21,3 +21,6 @@ MonoBehaviour:
   starValue: GrayStar
   cardSymbol: BlueHighStraight
   cardDamage: 4
+  m_cantBeDodged: 0
+  m_cantBeBlocked: 1
+  m_cantBeCountered: 0

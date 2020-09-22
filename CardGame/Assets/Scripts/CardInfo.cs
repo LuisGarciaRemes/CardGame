@@ -14,4 +14,7 @@ public class CardInfo : ScriptableObject
     public string starValue;
     public string cardSymbol;
     public int cardDamage;
+    public bool m_cantBeDodged = false;
+    public bool m_cantBeBlocked = false;
+    public bool m_cantBeCountered = false;
 }
