@@ -330,13 +330,23 @@ public class PlayerManagerScript : NetworkBehaviour
 
         if (i_value > 0.0f)
         {
-            m_myInfo.UnblockedPlayPunchAnimation();
+            m_myInfo.PlayUnblockedPunchAnimation();
         }
 
         if(m_health[m_currHealthIndex] <= 0)
         {
             //To do --- 1. Knock down stuff 2. Check if knock out
         }
+    }
+
+    public void BlockDamage()
+    {
+        m_myInfo.PlayBlockedPunchAnimation();
+    }
+
+    public void DodgeDamage()
+    {
+        m_myInfo.PlayDodgeAnimation();
     }
 
     public void GainHealth(int i_value)

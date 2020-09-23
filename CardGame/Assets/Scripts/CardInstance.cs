@@ -218,22 +218,20 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     [ClientRpc]
     public void RpcPlayCard()
     {
-        if((m_cardColor == CardColor.Blue || m_cardColor == CardColor.Yellow) && !GameStateManager.m_instance.GetLastPlayedCard())
-        {
-            //Change this eventually to end round behaviour
-        }
-
-        SetLastPlayedCard(this);
-
-        //Dont switch priority when responding.
-        SwitchPriority();
-
         if (hasAuthority)
         {
             m_canPlay = false;
             transform.GetComponent<CardUI>().SetOutlineColor(false);
         }
      
+        if (GameStateManager.m_instance.GetLastPlayedCard())
+        {
+            Response();
+            return;
+        }
+
+        SetLastPlayedCard(this);
+      
         Invoke(m_card.cardName.Replace(" ",string.Empty) + "OnPlay", 0.0f);
     }
 
@@ -241,6 +239,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
     private void JabOnPlay()
     {
+        SwitchPriority();   
         Debug.LogError("Jab Played");
     }
 
@@ -262,6 +261,37 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     public void Response()
     {
         GameStateManager.m_instance.SwapAttackingPlayer();
+
+        if (hasAuthority)
+        {
+
+            if(m_card.cardName.Contains("Block"))
+            {
+                m_player.BlockDamage();
+            }
+            else
+            {
+                m_player.DodgeDamage();
+            }
+
+            GameStateManager.m_instance.GetAttackingPlayer().SetAllUnplayable();
+            GameStateManager.m_instance.GetAttackingPlayer().UpdatePlayable();
+        }
+        else
+        {
+
+            if (m_card.cardName.Contains("Block"))
+            {
+                m_player.GetOppPlayer().BlockDamage();
+            }
+            else
+            {
+                m_player.GetOppPlayer().DodgeDamage();
+            }
+
+        }
+
+        Invoke(GameStateManager.m_instance.GetLastPlayedCard().GetCard().cardName.Replace(" ", string.Empty) + "Response", 0.0f);
         SetLastPlayedCard(null);
     }
 

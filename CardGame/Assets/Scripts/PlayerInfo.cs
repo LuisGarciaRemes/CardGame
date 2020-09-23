@@ -14,19 +14,23 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] private Image m_char;
     [SerializeField] private Image m_turnMarker;
     [SerializeField] private float m_flashTime = 1.0f;
-    [SerializeField] GameObject m_boxingGlove;
+    [SerializeField] GameObject m_attackingGlove;
+    [SerializeField] GameObject m_blockingGloves;
     private float m_FlashTimer = 0.0f;
     private bool m_shouldFlash = false;
     private int m_frameCounter = 0;
     [SerializeField] private float m_punchSpeed = 1000.0f;
-    private Vector3 m_orgPos;
+    private Vector3 m_orgGlovePos;
+    private Vector3 m_orgCharPos;
     private bool m_shouldPunch = false;
     [SerializeField] private Color m_unselected;
     [SerializeField] private Color m_selected;
+    private bool m_shouldDodge;
 
     private void Start()
     {
-        m_orgPos = m_boxingGlove.transform.position;
+        m_orgGlovePos = m_attackingGlove.transform.position;
+        m_orgCharPos = m_turnMarker.transform.position;
     }
 
     public void UpdateStarMax(int i_value)
@@ -73,10 +77,24 @@ public class PlayerInfo : MonoBehaviour
         m_shouldFlash = true;
     }
 
-    public void UnblockedPlayPunchAnimation()
+    public void PlayUnblockedPunchAnimation()
     {
         m_shouldPunch = true;
-        m_boxingGlove.SetActive(true);
+        m_attackingGlove.SetActive(true);
+    }
+
+    public void PlayBlockedPunchAnimation()
+    {
+        m_shouldPunch = true;
+        m_attackingGlove.SetActive(true);
+        m_blockingGloves.SetActive(true);
+    }
+
+    public void PlayDodgeAnimation()
+    {
+        m_shouldPunch = true;
+        m_attackingGlove.SetActive(true);
+        m_shouldDodge = true;
     }
 
     private void Update()
@@ -112,16 +130,39 @@ public class PlayerInfo : MonoBehaviour
 
         if (m_shouldPunch)
         {
-            m_boxingGlove.transform.position = Vector3.MoveTowards(m_boxingGlove.transform.position, m_char.transform.position, Time.deltaTime * m_punchSpeed);
+            m_attackingGlove.transform.position = Vector3.MoveTowards(m_attackingGlove.transform.position, m_orgCharPos, Time.deltaTime * m_punchSpeed);
 
-            if ((m_char.transform.position - m_boxingGlove.transform.position).magnitude <= 50.0f)
+            if ((m_orgCharPos - m_attackingGlove.transform.position).magnitude <= 50.0f)
             {
                 m_shouldPunch = false;
-                m_boxingGlove.SetActive(false);
-                m_boxingGlove.transform.position = m_orgPos;
-                MusicManager.m_instance.PlayPunchHit();
-                FlashRed();
+                m_attackingGlove.SetActive(false);
+                m_attackingGlove.transform.position = m_orgGlovePos;
+
+                if (m_blockingGloves.activeSelf)
+                {
+                    MusicManager.m_instance.PlayPunchBlocked();
+                    m_blockingGloves.SetActive(false);
+                }
+                else
+                {
+                    if (m_shouldDodge)
+                    {
+                        MusicManager.m_instance.PlayPunchMiss();
+                        m_shouldDodge = false;
+                        m_turnMarker.transform.position = m_orgCharPos;
+                    }
+                    else
+                    {
+                        MusicManager.m_instance.PlayPunchHit();
+                        FlashRed();
+                    }
+                }
             }
+        }
+
+        if (m_shouldDodge)
+        {
+            m_turnMarker.transform.position = Vector3.MoveTowards(m_turnMarker.transform.position, m_orgCharPos - (m_turnMarker.transform.up * 50), Time.deltaTime * m_punchSpeed/2);
         }
     }
 
