@@ -24,7 +24,7 @@ public class PlayerHandManager : MonoBehaviour
 
                 if (lastPlayedCard.GetColor() == CardInstance.CardColor.Blue && card.GetColor() == CardInstance.CardColor.Red)
                 {
-                    if(lastPlayedCard.GetSide() == card.GetSide() || lastPlayedCard.GetHeight() == card.GetHeight() || (lastPlayedCard.GetSide() == CardInstance.CardSide.Straight && (card.GetSide() == CardInstance.CardSide.Left || card.GetSide() == CardInstance.CardSide.Right)))
+                    if(card.GetCard().cardName.Contains("Counter") || lastPlayedCard.GetSide() == card.GetSide() || lastPlayedCard.GetHeight() == card.GetHeight() || (lastPlayedCard.GetSide() == CardInstance.CardSide.Straight && (card.GetSide() == CardInstance.CardSide.Left || card.GetSide() == CardInstance.CardSide.Right)))
                     {
                         if ((lastPlayedCard.IsUnblockable() && card.GetCard().cardName.Contains("Block")) || (lastPlayedCard.IsUndodgeable() && card.GetCard().cardName.Contains("Dodge")) || (lastPlayedCard.IsUncounterable() && card.GetCard().cardName.Contains("Counter")))
                         {

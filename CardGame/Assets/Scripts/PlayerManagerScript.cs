@@ -214,8 +214,8 @@ public class PlayerManagerScript : NetworkBehaviour
             UpdateCharStats();
             m_myDeck.gameObject.transform.SetParent(overlay.transform, false);
             m_myDiscard.gameObject.transform.SetParent(overlay.transform, false);
-            m_myDeck.gameObject.transform.localPosition = new Vector3(335.0f, -150.0f, 0.0f);
-            m_myDiscard.gameObject.transform.localPosition = new Vector3(-335.0f, -150.0f, 0.0f);
+            m_myDeck.gameObject.transform.localPosition = new Vector3(347.5f, -155.0f, 0.0f);
+            m_myDiscard.gameObject.transform.localPosition = new Vector3(-347.5f, -155.0f, 0.0f);
             m_myDeck.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             m_myDiscard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             this.gameObject.name = "MyPlayer";
@@ -274,8 +274,8 @@ public class PlayerManagerScript : NetworkBehaviour
             m_oppDiscard = GameObject.Find("OppDiscard(Clone)").GetComponent<DiscardPile>();
             m_oppDeck.gameObject.transform.SetParent(overlay.transform, false);
             m_oppDiscard.gameObject.transform.SetParent(overlay.transform, false);
-            m_oppDeck.gameObject.transform.localPosition = new Vector3(-335.0f, 150.0f, 0.0f);
-            m_oppDiscard.gameObject.transform.localPosition = new Vector3(335.0f, 150.0f, 0.0f);
+            m_oppDeck.gameObject.transform.localPosition = new Vector3(-347.5f, 155.0f, 0.0f);
+            m_oppDiscard.gameObject.transform.localPosition = new Vector3(347.5f, 155.0f, 0.0f);
             m_oppDeck.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             m_oppDiscard.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             m_oppPlayer = GameObject.Find("OppPlayer(Clone)").GetComponent<PlayerManagerScript>();

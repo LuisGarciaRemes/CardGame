@@ -162,7 +162,7 @@ public class PlayerInfo : MonoBehaviour
 
         if (m_shouldDodge)
         {
-            m_turnMarker.transform.position = Vector3.MoveTowards(m_turnMarker.transform.position, m_orgCharPos - (m_turnMarker.transform.up * 50), Time.deltaTime * m_punchSpeed/2);
+            m_turnMarker.transform.position = Vector3.MoveTowards(m_turnMarker.transform.position, m_orgCharPos - (m_turnMarker.transform.up * 100), Time.deltaTime * m_punchSpeed/2);
         }
     }
 

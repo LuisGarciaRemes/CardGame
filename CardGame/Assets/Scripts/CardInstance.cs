@@ -235,23 +235,6 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         Invoke(m_card.cardName.Replace(" ",string.Empty) + "OnPlay", 0.0f);
     }
 
-    //Below are the methods that corespond to the specific name of the card
-
-    private void JabOnPlay()
-    {
-        SwitchPriority();   
-        Debug.LogError("Jab Played");
-    }
-
-    private void JabWithResponse()
-    {       
-        Debug.LogError("Jab resonded too");
-    }
-
-    private void JabNoResponse()
-    {       
-        Debug.LogError("Jab no response");
-    }
 
     private void SetLastPlayedCard(CardInstance i_card)
     {
@@ -265,9 +248,13 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         if (hasAuthority)
         {
 
-            if(m_card.cardName.Contains("Block"))
+            if (m_card.cardName.Contains("Block"))
             {
                 m_player.BlockDamage();
+            }
+            else if (m_card.cardName.Contains("Counter"))
+            {
+
             }
             else
             {
@@ -283,6 +270,10 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
             if (m_card.cardName.Contains("Block"))
             {
                 m_player.GetOppPlayer().BlockDamage();
+            }
+            else if (m_card.cardName.Contains("Counter"))
+            {
+
             }
             else
             {
@@ -373,4 +364,225 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         return m_cantBeCountered;
     }
 
+    //Below are the methods that corespond to the specific name of the card
+
+    //Jab Methods
+    private void JabOnPlay()
+    {
+        SwitchPriority();   
+        Debug.LogError("Jab Played");
+    }
+
+    private void JabWithResponse()
+    {       
+        Debug.LogError("Jab with response");
+    }
+
+    private void JabNoResponse()
+    {       
+        Debug.LogError("Jab no response");
+    }
+
+    //Bear Hug methods
+    private void BearHugOnPlay()
+    {
+        SwitchPriority();
+        Debug.LogError("Bear Hug Played");
+    }
+
+    private void BearHugWithResponse()
+    {
+        Debug.LogError("Bear Hug with response");
+    }
+
+    private void BearHugNoResponse()
+    {
+        Debug.LogError("Bear Hug no response");
+    }
+
+    //Belly Bump methods
+    private void BellyBumpOnPlay()
+    {
+        SwitchPriority();
+        Debug.LogError("Belly Bump Played");
+    }
+
+    private void BellyBumpWithResponse()
+    {
+        Debug.LogError("Belly Bump with response");
+    }
+
+    private void BellyBumpNoResponse()
+    {
+        Debug.LogError("Belly Bump no response");
+    }
+
+    //Grizzly Swipes methods
+    private void GrizzlySwipesOnPlay()
+    {
+        SwitchPriority();
+        Debug.LogError("Grizzly Swipes Played");
+    }
+
+    private void GrizzlySwipesWithResponse()
+    {
+        Debug.LogError("Grizzly Swipes with response");
+    }
+
+    private void GrizzlySwipesNoResponse()
+    {
+        Debug.LogError("Grizzly Swipes no response");
+    }
+
+    //Kodiak Smash methods
+    private void KodiakSmashOnPlay()
+    {
+        SwitchPriority();
+        Debug.LogError("Kodiak Smash Played");
+    }
+
+    private void KodiakSmashWithResponse()
+    {
+        Debug.LogError("Kodiak Smash with response");
+    }
+
+    private void KodiakSmashNoResponse()
+    {
+        Debug.LogError("Kodiak Smash no response");
+    }
+
+    //Psych Up methods
+    private void PsychUpOnPlay()
+    {
+        SwitchPriority();
+        Debug.LogError("Psych Up Played");
+    }
+
+    private void PsychUpWithResponse()
+    {
+        Debug.LogError("Psych Up with response");
+    }
+
+    private void PsychUpNoResponse()
+    {
+        Debug.LogError("Psych Up no response");
+    }
+
+    //Rising Uppercut methods
+    private void RisingUppercutOnPlay()
+    {
+        SwitchPriority();
+        Debug.LogError("Rising Uppercut Played");
+    }
+
+    private void RisingUppercutWithResponse()
+    {
+        Debug.LogError("Rising Uppercut with response");
+    }
+
+    private void RisingUppercutNoResponse()
+    {
+        Debug.LogError("Rising Uppercut no response");
+    }
+
+    //Slip Counter methods
+    private void SlipCounterOnPlay()
+    {
+        Debug.LogError("Slip Counter Played");
+
+        if (hasAuthority)
+        {
+            m_player.GetOppPlayer().TakeDamage(m_card.cardDamage);
+        }
+        else
+        {
+            m_player.TakeDamage(m_card.cardDamage);
+        }
+    }
+
+    private void SlipCounterWithResponse()
+    {
+        Debug.LogError("Slip Counter with response");
+    }
+
+    private void SlipCounterNoResponse()
+    {
+        Debug.LogError("Slip Counter no response");
+    }
+
+    //Squirrel Counter methods
+    private void SquirrelCounterrOnPlay()
+    {
+        Debug.LogError("Squirrel Counter Played");
+
+        if (hasAuthority)
+        {
+            m_player.GetOppPlayer().TakeDamage(m_card.cardDamage);
+        }
+        else
+        {
+            m_player.TakeDamage(m_card.cardDamage);
+        }
+    }
+
+    private void SquirrelCounterWithResponse()
+    {
+        Debug.LogError("Squirrel Counter with response");
+    }
+
+    private void SquirrelCounterNoResponse()
+    {
+        Debug.LogError("Squirrel Counter no response");
+    }
+
+    // Straight Lunge methods
+    private void StraightLungeOnPlay()
+    {
+        SwitchPriority();
+        Debug.LogError("Straight Lunge Played");
+    }
+
+    private void StraightLungeWithResponse()
+    {
+        Debug.LogError("Straight Lunge with response");
+    }
+
+    private void StraightLungeNoResponse()
+    {
+        Debug.LogError("Straight Lunge no response");
+    }
+
+    // Taunt methods
+    private void TauntOnPlay()
+    {
+        SwitchPriority();
+        Debug.LogError("Taunt Played");
+    }
+
+    private void TauntWithResponse()
+    {
+        Debug.LogError("Taunt with response");
+    }
+
+    private void TauntNoResponse()
+    {
+        Debug.LogError("Taunt no response");
+    }
+
+    // Jolt Haymaker methods
+    private void JoltHaymakerOnPlay()
+    {
+        SwitchPriority();
+        Debug.LogError("Jolt Haymaker Played");
+    }
+
+    private void JoltHaymakerWithResponse()
+    {
+        Debug.LogError("Jolt Haymaker with response");
+    }
+
+    private void JoltHaymakerNoResponse()
+    {
+        Debug.LogError("Jolt Haymaker no response");
+    }
 }
