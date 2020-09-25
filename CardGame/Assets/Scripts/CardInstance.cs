@@ -226,6 +226,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
      
         if (GameStateManager.m_instance.GetLastPlayedCard())
         {
+            Invoke(m_card.cardName.Replace(" ", string.Empty) + "OnPlay", 0.0f);
             Response();
             return;
         }
@@ -252,7 +253,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
             {
                 m_player.BlockDamage();
             }
-            else if (m_card.cardName.Contains("Counter"))
+            else if (m_card.cardName.Contains("Counter") || GameStateManager.m_instance.GetLastPlayedCard().GetColor() == CardColor.Yellow)
             {
 
             }
@@ -271,7 +272,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
             {
                 m_player.GetOppPlayer().BlockDamage();
             }
-            else if (m_card.cardName.Contains("Counter"))
+            else if (m_card.cardName.Contains("Counter") || GameStateManager.m_instance.GetLastPlayedCard().GetColor() == CardColor.Yellow)
             {
 
             }
@@ -282,8 +283,17 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
         }
 
-        Invoke(GameStateManager.m_instance.GetLastPlayedCard().GetCard().cardName.Replace(" ", string.Empty) + "Response", 0.0f);
-        SetLastPlayedCard(null);
+        Invoke(GameStateManager.m_instance.GetLastPlayedCard().GetCard().cardName.Replace(" ", string.Empty) + "WithResponse", 0.0f);
+
+        //Fixing respoding with blue to yellow
+        if(m_cardColor == CardColor.Blue)
+        {
+            SetLastPlayedCard(this);
+        }
+        else
+        {
+            SetLastPlayedCard(null);
+        }
     }
 
     public void NoResponse()
@@ -454,6 +464,8 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     //Psych Up methods
     private void PsychUpOnPlay()
     {
+        //To do, switching not a fix
+        //GameStateManager.m_instance.SwapAttackingPlayer();
         SwitchPriority();
         Debug.LogError("Psych Up Played");
     }
@@ -511,7 +523,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     }
 
     //Squirrel Counter methods
-    private void SquirrelCounterrOnPlay()
+    private void SquirrelCounterOnPlay()
     {
         Debug.LogError("Squirrel Counter Played");
 
@@ -555,6 +567,8 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     // Taunt methods
     private void TauntOnPlay()
     {
+        //To do, switching not a fix
+        //GameStateManager.m_instance.SwapAttackingPlayer();
         SwitchPriority();
         Debug.LogError("Taunt Played");
     }
@@ -584,5 +598,40 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     private void JoltHaymakerNoResponse()
     {
         Debug.LogError("Jolt Haymaker no response");
+    }
+
+    // Choco Bar methods
+    private void ChocoBarOnPlay()
+    {
+        //To do, switching not a fix
+        //GameStateManager.m_instance.SwapAttackingPlayer();
+        SwitchPriority();
+        Debug.LogError("Choco Bar Played");
+    }
+
+    private void ChocoBarWithResponse()
+    {
+        Debug.LogError("Choco Bar with response");
+    }
+
+    private void ChocoBarNoResponse()
+    {
+        Debug.LogError("Choco Bar no response");
+    }
+
+     //Fake Out methods
+    private void FakeOutOnPlay()
+    {
+        Debug.LogError("Fake Out Played");
+    }
+
+    private void FakeOutWithResponse()
+    {
+        Debug.LogError("Fake Out with response");
+    }
+
+    private void FakeOutNoResponse()
+    {
+        Debug.LogError("Fake Out no response");
     }
 }

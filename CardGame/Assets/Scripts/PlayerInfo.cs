@@ -16,6 +16,7 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] private float m_flashTime = 1.0f;
     [SerializeField] GameObject m_attackingGlove;
     [SerializeField] GameObject m_blockingGloves;
+    [SerializeField] GameObject m_dazeStars;
     private float m_FlashTimer = 0.0f;
     private bool m_shouldFlash = false;
     private int m_frameCounter = 0;
@@ -162,7 +163,7 @@ public class PlayerInfo : MonoBehaviour
 
         if (m_shouldDodge)
         {
-            m_turnMarker.transform.position = Vector3.MoveTowards(m_turnMarker.transform.position, m_orgCharPos - (m_turnMarker.transform.up * 100), Time.deltaTime * m_punchSpeed/2);
+            m_turnMarker.transform.position = Vector3.MoveTowards(m_turnMarker.transform.position, m_orgCharPos - (m_turnMarker.transform.up * 100), Time.deltaTime * m_punchSpeed / 2);
         }
     }
 
@@ -174,5 +175,10 @@ public class PlayerInfo : MonoBehaviour
     public void SetUnselected()
     {
         m_turnMarker.color = m_unselected;
+    }
+
+    public void SetStars(bool i_val)
+    {
+        m_dazeStars.SetActive(i_val);
     }
 }

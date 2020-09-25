@@ -39,7 +39,7 @@ public class PlayerHandManager : MonoBehaviour
                 }
                 else if (lastPlayedCard.GetColor() == CardInstance.CardColor.Yellow && card.GetColor() == CardInstance.CardColor.Blue)
                 {
-                    if (lastPlayedCard.GetSide() == card.GetSide() || lastPlayedCard.GetHeight() == card.GetHeight())
+                    if (lastPlayedCard.GetSide() == card.GetSide() || lastPlayedCard.GetHeight() == card.GetHeight() || (lastPlayedCard.GetSide() == CardInstance.CardSide.Straight && (card.GetSide() == CardInstance.CardSide.Left || card.GetSide() == CardInstance.CardSide.Right)) )
                     {
                         card.SetCanPlay(true);
                         card.transform.GetComponent<CardUI>().SetOutlineColor(true);
