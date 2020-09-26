@@ -326,11 +326,9 @@ public class PlayerManagerScript : NetworkBehaviour
     {
         m_health[m_currHealthIndex] -= i_value;
 
-        m_myInfo.UpdateHealth(m_health[m_currHealthIndex]);
-
         if (i_value > 0.0f)
         {
-            m_myInfo.PlayUnblockedPunchAnimation();
+            m_myInfo.PlayUnblockedPunchAnimation(m_health[m_currHealthIndex]);
         }
 
         if(m_health[m_currHealthIndex] <= 0)
@@ -353,6 +351,11 @@ public class PlayerManagerScript : NetworkBehaviour
     {
         m_health[m_currHealthIndex] += i_value;
         m_health[m_currHealthIndex] = Math.Min(m_health[m_currHealthIndex],m_characters[m_deckID].m_health[m_currHealthIndex]);
+
+        if (i_value > 0.0f)
+        {
+            m_myInfo.PlayHealthGainAnimation(m_health[m_currHealthIndex]);
+        }
     }
 
     public void ShuffleDiscardIntoDeck()

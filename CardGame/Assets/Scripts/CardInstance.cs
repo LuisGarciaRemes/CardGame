@@ -616,6 +616,15 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
     private void ChocoBarNoResponse()
     {
+        if (hasAuthority)
+        {
+            m_player.GainHealth(2);
+        }
+        else
+        {
+            m_player.GetOppPlayer().GainHealth(2);
+        }
+
         Debug.LogError("Choco Bar no response");
     }
 

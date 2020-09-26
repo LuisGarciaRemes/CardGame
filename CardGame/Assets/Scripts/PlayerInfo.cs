@@ -17,21 +17,26 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] GameObject m_attackingGlove;
     [SerializeField] GameObject m_blockingGloves;
     [SerializeField] GameObject m_dazeStars;
+    [SerializeField] GameObject m_chocoBar;
     private float m_FlashTimer = 0.0f;
     private bool m_shouldFlash = false;
     private int m_frameCounter = 0;
     [SerializeField] private float m_punchSpeed = 1000.0f;
     private Vector3 m_orgGlovePos;
     private Vector3 m_orgCharPos;
+    private Vector3 m_orgChocoBarPos;
     private bool m_shouldPunch = false;
     [SerializeField] private Color m_unselected;
     [SerializeField] private Color m_selected;
     private bool m_shouldDodge;
+    private bool m_shouldGainHealth;
+    private int m_pendingHealth = 0;
 
     private void Start()
     {
         m_orgGlovePos = m_attackingGlove.transform.position;
         m_orgCharPos = m_turnMarker.transform.position;
+        m_orgChocoBarPos = m_chocoBar.transform.position;
     }
 
     public void UpdateStarMax(int i_value)
@@ -78,8 +83,9 @@ public class PlayerInfo : MonoBehaviour
         m_shouldFlash = true;
     }
 
-    public void PlayUnblockedPunchAnimation()
+    public void PlayUnblockedPunchAnimation(int i_val)
     {
+        m_pendingHealth = i_val;
         m_shouldPunch = true;
         m_attackingGlove.SetActive(true);
     }
@@ -133,7 +139,7 @@ public class PlayerInfo : MonoBehaviour
         {
             m_attackingGlove.transform.position = Vector3.MoveTowards(m_attackingGlove.transform.position, m_orgCharPos, Time.deltaTime * m_punchSpeed);
 
-            if ((m_orgCharPos - m_attackingGlove.transform.position).magnitude <= 50.0f)
+            if ((m_orgCharPos - m_attackingGlove.transform.position).magnitude <= 25.0f)
             {
                 m_shouldPunch = false;
                 m_attackingGlove.SetActive(false);
@@ -155,6 +161,8 @@ public class PlayerInfo : MonoBehaviour
                     else
                     {
                         MusicManager.m_instance.PlayPunchHit();
+                        UpdateHealth(m_pendingHealth);
+                        m_pendingHealth = 0;
                         FlashRed();
                     }
                 }
@@ -164,6 +172,21 @@ public class PlayerInfo : MonoBehaviour
         if (m_shouldDodge)
         {
             m_turnMarker.transform.position = Vector3.MoveTowards(m_turnMarker.transform.position, m_orgCharPos - (m_turnMarker.transform.up * 100), Time.deltaTime * m_punchSpeed / 2);
+        }
+
+        if (m_shouldGainHealth)
+        {
+            m_chocoBar.transform.position = Vector3.MoveTowards(m_chocoBar.transform.position, m_orgCharPos, Time.deltaTime * m_punchSpeed);
+
+            if ((m_orgCharPos - m_chocoBar.transform.position).magnitude <= 25.0f)
+            {
+                m_shouldGainHealth = false;
+                UpdateHealth(m_pendingHealth);
+                m_pendingHealth = 0;
+                MusicManager.m_instance.PlayHealthGain();
+                m_chocoBar.SetActive(false);
+                m_chocoBar.transform.position = m_orgChocoBarPos;
+            }
         }
     }
 
@@ -180,5 +203,13 @@ public class PlayerInfo : MonoBehaviour
     public void SetStars(bool i_val)
     {
         m_dazeStars.SetActive(i_val);
+    }
+
+    public void PlayHealthGainAnimation(int i_val)
+    {
+        m_pendingHealth = i_val;
+        m_shouldGainHealth = true;
+        m_chocoBar.SetActive(true);
+        m_chocoBar.GetComponentInChildren<Text>().text = "+" + i_val;
     }
 }
