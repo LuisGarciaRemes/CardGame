@@ -27,6 +27,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     private bool m_cantBeBlocked = false;
     private bool m_cantBeDodged = false;
     private bool m_cantBeCountered= false;
+    private bool m_starSpent = false;
 
     private void Start()
     {
@@ -218,6 +219,8 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     [ClientRpc]
     public void RpcPlayCard()
     {
+        m_starSpent = m_player.WasStarSpent();
+
         if (hasAuthority)
         {
             m_canPlay = false;
@@ -234,6 +237,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         SetLastPlayedCard(this);
       
         Invoke(m_card.cardName.Replace(" ",string.Empty) + "OnPlay", 0.0f);
+        m_player.SetStarSpent(false);
     }
 
 
@@ -321,7 +325,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
             m_player.GetOppPlayer().SetCanPlayCards(true);
             m_player.GetMyInfo().SetUnselected();
             m_player.GetOppPlayer().GetMyInfo().SetSelected();
-            GameStateManager.m_instance.DisablePassButton();
+            GameStateManager.m_instance.DisablePassButton();        
         }
         else
         {
@@ -408,6 +412,24 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     private void BearHugNoResponse()
     {
         Debug.LogError("Bear Hug no response");
+        int val = 0;
+
+        if (m_starSpent)
+        {
+            Debug.LogError("Powered up version of bear hug");
+            val = 2;
+        }
+
+        if (hasAuthority)
+        {
+            m_player.GainHealth(val);
+            m_player.GetOppPlayer().AddStar(-1);
+        }
+        else
+        {
+            m_player.GetOppPlayer().GainHealth(val);
+            m_player.AddStar(-1);
+        }
     }
 
     //Belly Bump methods
@@ -425,6 +447,20 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     private void BellyBumpNoResponse()
     {
         Debug.LogError("Belly Bump no response");
+
+        if (m_starSpent)
+        {
+            Debug.LogError("Powered up version of belly bump");
+        }
+
+        if (hasAuthority)
+        {
+            m_player.AddStar(1);
+        }
+        else
+        {
+            m_player.GetOppPlayer().AddStar(1);
+        }
     }
 
     //Grizzly Swipes methods
@@ -458,7 +494,29 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
     private void KodiakSmashNoResponse()
     {
+        if (m_starSpent)
+        {
+            if(hasAuthority)
+            {
+                m_player.GetOppPlayer().AddStar(-1);
+            }
+            else
+            {
+                m_player.AddStar(-1);
+            }
+            Debug.LogError("Kodiak Smash powered up");
+        }
+
         Debug.LogError("Kodiak Smash no response");
+
+        if (hasAuthority)
+        {
+            m_player.AddStar(1);
+        }
+        else
+        {
+            m_player.GetOppPlayer().AddStar(1);
+        }
     }
 
     //Psych Up methods
@@ -478,6 +536,28 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     private void PsychUpNoResponse()
     {
         Debug.LogError("Psych Up no response");
+
+        if (m_starSpent)
+        {
+            if (hasAuthority)
+            {
+                //
+            }
+            else
+            {
+                //
+            }
+            Debug.LogError("Psych Up powered up");
+        }
+
+        if (hasAuthority)
+        {
+            m_player.ResetDaze();
+        }
+        else
+        {
+            m_player.GetOppPlayer().ResetDaze();
+        }
     }
 
     //Rising Uppercut methods
@@ -495,6 +575,28 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     private void RisingUppercutNoResponse()
     {
         Debug.LogError("Rising Uppercut no response");
+
+        if (m_starSpent)
+        {
+            if (hasAuthority)
+            {
+                //
+            }
+            else
+            {
+                //
+            }
+            Debug.LogError("Rising Uppercut powered up");
+        }
+
+        if (hasAuthority)
+        {
+            m_player.AddStar(1);
+        }
+        else
+        {
+            m_player.GetOppPlayer().AddStar(1);
+        }
     }
 
     //Slip Counter methods
@@ -502,13 +604,21 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     {
         Debug.LogError("Slip Counter Played");
 
+        if (m_starSpent)
+        {
+            m_card.cardDamage *= 2;
+            Debug.LogError("Slip Counter powered up");
+        }
+
         if (hasAuthority)
         {
             m_player.GetOppPlayer().TakeDamage(m_card.cardDamage);
+            m_player.AddStar(1);
         }
         else
         {
             m_player.TakeDamage(m_card.cardDamage);
+            m_player.GetOppPlayer().AddStar(1);
         }
     }
 
@@ -527,13 +637,20 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     {
         Debug.LogError("Squirrel Counter Played");
 
+        if (m_starSpent)
+        {
+            Debug.LogError("Squirrel Counter powered up");
+        }
+
         if (hasAuthority)
         {
             m_player.GetOppPlayer().TakeDamage(m_card.cardDamage);
+            m_player.GetOppPlayer().AddStar(-1);
         }
         else
         {
             m_player.TakeDamage(m_card.cardDamage);
+            m_player.AddStar(-1);
         }
     }
 
@@ -562,6 +679,22 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     private void StraightLungeNoResponse()
     {
         Debug.LogError("Straight Lunge no response");
+        int val = 1;
+
+        if (m_starSpent)
+        {
+            val = 2;
+            Debug.LogError("Straight Lunge powered up");
+        }
+
+        if (hasAuthority)
+        {
+            m_player.GetOppPlayer().AddStar(-val);
+        }
+        else
+        {
+            m_player.AddStar(-val);
+        }
     }
 
     // Taunt methods
@@ -569,6 +702,20 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     {
         //To do, switching not a fix
         //GameStateManager.m_instance.SwapAttackingPlayer();
+
+        if (m_starSpent)
+        {
+            if (hasAuthority)
+            {
+                //
+            }
+            else
+            {
+                //
+            }
+            Debug.LogError("Taunt powered up");
+        }
+
         SwitchPriority();
         Debug.LogError("Taunt Played");
     }
@@ -586,6 +733,12 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     // Jolt Haymaker methods
     private void JoltHaymakerOnPlay()
     {
+        if (m_starSpent)
+        {
+            Debug.LogError("Powered up version of jolt haymaker");
+            m_cantBeBlocked = true;
+        }
+
         SwitchPriority();
         Debug.LogError("Jolt Haymaker Played");
     }
@@ -598,6 +751,15 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     private void JoltHaymakerNoResponse()
     {
         Debug.LogError("Jolt Haymaker no response");
+
+        if (hasAuthority)
+        {
+            m_player.GetOppPlayer().AddStar(-1);
+        }
+        else
+        {
+            m_player.AddStar(-1);
+        }
     }
 
     // Choco Bar methods
@@ -616,13 +778,25 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
     private void ChocoBarNoResponse()
     {
-        if (hasAuthority)
+        int val;
+
+        if(m_starSpent)
         {
-            m_player.GainHealth(2);
+            Debug.LogError("Powered up version of choco bar");
+            val = 4;
         }
         else
         {
-            m_player.GetOppPlayer().GainHealth(2);
+            val = 2;
+        }
+
+        if (hasAuthority)
+        {
+            m_player.GainHealth(val);
+        }
+        else
+        {
+            m_player.GetOppPlayer().GainHealth(val);
         }
 
         Debug.LogError("Choco Bar no response");
@@ -631,6 +805,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
      //Fake Out methods
     private void FakeOutOnPlay()
     {
+        SwitchPriority();
         Debug.LogError("Fake Out Played");
     }
 
@@ -642,5 +817,19 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     private void FakeOutNoResponse()
     {
         Debug.LogError("Fake Out no response");
+
+        if (m_starSpent)
+        {
+            Debug.LogError("Powered up version of fake out");
+        }
+
+        if (hasAuthority)
+        {
+            m_player.GetOppPlayer().AddStar(-1);
+        }
+        else
+        {
+            m_player.AddStar(-1);
+        }
     }
 }

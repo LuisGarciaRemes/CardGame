@@ -14,6 +14,9 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip m_clickError;
     [SerializeField] private AudioClip[] m_punchHit;
     [SerializeField] private AudioClip m_healthGain;
+    [SerializeField] private AudioClip m_spentStar;
+    [SerializeField] private AudioClip m_gainStar;
+    [SerializeField] private AudioClip m_loseStar;
 
     private void Awake()
     {
@@ -67,5 +70,20 @@ public class MusicManager : MonoBehaviour
     public void PlayHealthGain()
     {
         source.PlayOneShot(m_healthGain, 0.5f);
+    }
+
+    public void PlaySpentStar()
+    {
+        source.PlayOneShot(m_spentStar, 0.5f);
+    }
+
+    public void PlayGainStar()
+    {
+        source.PlayOneShot(m_gainStar, 0.25f);
+    }
+
+    public void PlayLoseStar()
+    {
+        source.PlayOneShot(m_loseStar, 0.5f);
     }
 }

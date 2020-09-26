@@ -210,4 +210,9 @@ public class MouseControls : MonoBehaviour
         button.GetComponentInChildren<Text>().text = "Pass";
         button.gameObject.SetActive(false);
     }
+
+    public void CallSpendStar()
+    {
+        m_player.SpendStar();
+    }
 }

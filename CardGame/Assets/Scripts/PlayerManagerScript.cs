@@ -39,6 +39,7 @@ public class PlayerManagerScript : NetworkBehaviour
     private int m_deckID = -1;
 
     private int m_drawnThisRound = 0;
+    private bool m_spentStar = false;
 
     public override void OnStartClient()
     {
@@ -381,16 +382,9 @@ public class PlayerManagerScript : NetworkBehaviour
         m_currDaze = Math.Max(m_currDaze,0);
     }
 
-    public void AddStar()
+    public void ResetDaze()
     {
-        m_currStar++;
-        m_currStar = Math.Min(m_currStar,m_maxDaze);
-    }
-
-    public void RemoveStar()
-    {
-        m_currStar--;
-        m_currStar = Math.Max(m_currStar, 0);
+        m_currDaze = 0;
     }
 
     [Command]
@@ -543,6 +537,7 @@ public class PlayerManagerScript : NetworkBehaviour
             GetOppPlayer().SetCanPlayCards(true);
             m_myInfo.SetUnselected();
             GetOppPlayer().m_myInfo.SetSelected();
+            m_spentStar = false;
         }
         else
         {
@@ -553,6 +548,7 @@ public class PlayerManagerScript : NetworkBehaviour
             GameStateManager.m_instance.EnablePassButton();
             m_myInfo.SetUnselected();
             GetOppPlayer().m_myInfo.SetSelected();
+            m_spentStar = false;
         }
 
         if (GameStateManager.m_instance.GetLastPlayedCard())
@@ -576,6 +572,70 @@ public class PlayerManagerScript : NetworkBehaviour
     public void SetAllUnplayable()
     {
         m_myHand.GetComponent<PlayerHandManager>().SetAllUnplayable();
+    }
+
+    public bool WasStarSpent()
+    {
+        return m_spentStar;
+    }
+
+    public void SetStarSpent(bool i_val)
+    {
+        Debug.LogError("Star spent set to: " + i_val);
+        m_spentStar = i_val;
+    }
+
+    public void SpendStar()
+    {
+        if(m_currStar <= 0 || m_spentStar || !m_canPlay)
+        {
+            MusicManager.m_instance.PlayClickError();
+        }
+        else
+        {
+            CmdUpdateStarUse();
+        }
+    }
+
+    [Command]
+
+    private void CmdUpdateStarUse()
+    {
+        RpcUpdateStarUse();
+    }
+
+    [ClientRpc]
+    private void RpcUpdateStarUse()
+    {
+        MusicManager.m_instance.PlaySpentStar();
+        m_currStar--;
+        m_spentStar = true;
+        m_myInfo.UpdateStarCurr(m_currStar);
+    }
+
+    public void AddStar(int i_val)
+    {
+        if(i_val > 0)
+        {
+            MusicManager.m_instance.PlayGainStar();
+        }
+        else if (i_val < 0)
+        {
+            MusicManager.m_instance.PlayLoseStar();
+        }
+
+        m_currStar += i_val;
+
+        if (m_currStar < 0)
+        {
+            m_currStar = 0;
+        }
+        else if(m_currStar > m_maxStar)
+        {
+            m_currStar = m_maxStar;
+        }
+
+        m_myInfo.UpdateStarCurr(m_currStar);
     }
 }
 

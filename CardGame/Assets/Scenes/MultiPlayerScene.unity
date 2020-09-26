@@ -707,6 +707,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1855828c38cb0fa41bc16b87f54458ba, type: 3}
   - {fileID: 8300000, guid: 4589fb53079b49648b64fe412c596e8a, type: 3}
   m_healthGain: {fileID: 8300000, guid: 0fec27538715ffd489ad6f707e30d6df, type: 3}
+  m_spentStar: {fileID: 8300000, guid: c352ed56b24f41845a744a64893849d5, type: 3}
+  m_gainStar: {fileID: 8300000, guid: 3ff7e9c97fb73394fba29fc93878ad10, type: 3}
+  m_loseStar: {fileID: 8300000, guid: e1298d32eece14f479d8411afaf9c70d, type: 3}
 --- !u!1 &903293111
 GameObject:
   m_ObjectHideFlags: 0
@@ -1661,7 +1664,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 817349397}
+      objectReference: {fileID: 1757271389}
     - target: {fileID: 4938550048530549996, guid: 3ca6dc519403ac44bb8154d927d9cc35,
         type: 3}
       propertyPath: sceneId
@@ -1671,11 +1674,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 3ca6dc519403ac44bb8154d927d9cc35
-      objectReference: {fileID: 0}
-    - target: {fileID: 5377786966427465205, guid: 3ca6dc519403ac44bb8154d927d9cc35,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7983596381778241391, guid: 3ca6dc519403ac44bb8154d927d9cc35,
         type: 3}

@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Slip Counter
   art: Samurai
-  cardText: 'Star: Deals double the damage if this lands'
+  cardText: 'Star: Deals double the damage'
   cardType: Single-Strike
   starValue: YellowStar
   cardSymbol: RedChoose
   cardDamage: 1
+  m_cantBeDodged: 0
+  m_cantBeBlocked: 0
+  m_cantBeCountered: 0
