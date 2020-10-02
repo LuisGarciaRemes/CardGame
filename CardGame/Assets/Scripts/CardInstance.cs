@@ -304,11 +304,45 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     {
         if(hasAuthority)
         {
+            if(m_player.GetOppPlayer().IsDazed())
+            {
+                m_player.GetOppPlayer().SetIsDazed(false);
+                m_player.GetOppPlayer().GetMyInfo().SetDazeStars(false);
+            }
+
             m_player.GetOppPlayer().TakeDamage(m_card.cardDamage);
+
+            if(GameStateManager.m_instance.WasRedStarPlayed())
+            {
+                m_player.AddStar(1);
+               GameStateManager.m_instance.SetRedStarPlayed(false);
+            }
+
+            if(GameStateManager.m_instance.GetLastPlayedCard().GetHeight() == CardHeight.High && GameStateManager.m_instance.GetLastPlayedCard().GetColor() == CardColor.Blue)
+            {
+                m_player.GetOppPlayer().AddDaze(1);
+            }
         }
         else
         {
+            if (m_player.IsDazed())
+            {
+                m_player.SetIsDazed(false);
+                m_player.GetMyInfo().SetDazeStars(false);
+            }
+
             m_player.TakeDamage(m_card.cardDamage);
+
+            if (GameStateManager.m_instance.WasRedStarPlayed())
+            {
+                m_player.GetOppPlayer().AddStar(1);
+                GameStateManager.m_instance.SetRedStarPlayed(false);
+            }
+
+            if (GameStateManager.m_instance.GetLastPlayedCard().GetHeight() == CardHeight.High && GameStateManager.m_instance.GetLastPlayedCard().GetColor() == CardColor.Blue)
+            {
+                m_player.AddDaze(1);
+            }
         }
 
         Invoke(m_card.cardName.Replace(" ", string.Empty) + "NoResponse", 0.0f);
@@ -525,6 +559,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         //To do, switching not a fix
         //GameStateManager.m_instance.SwapAttackingPlayer();
         SwitchPriority();
+        GameStateManager.m_instance.SetRedStarPlayed(true);
         Debug.LogError("Psych Up Played");
     }
 
@@ -558,6 +593,8 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         {
             m_player.GetOppPlayer().ResetDaze();
         }
+
+        GameStateManager.m_instance.SetRedStarPlayed(false);
     }
 
     //Rising Uppercut methods
@@ -715,7 +752,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
             }
             Debug.LogError("Taunt powered up");
         }
-
+        GameStateManager.m_instance.SetRedStarPlayed(true);
         SwitchPriority();
         Debug.LogError("Taunt Played");
     }
@@ -727,6 +764,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
 
     private void TauntNoResponse()
     {
+        GameStateManager.m_instance.SetRedStarPlayed(false);
         Debug.LogError("Taunt no response");
     }
 
@@ -769,6 +807,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         //GameStateManager.m_instance.SwapAttackingPlayer();
         SwitchPriority();
         Debug.LogError("Choco Bar Played");
+        GameStateManager.m_instance.SetRedStarPlayed(true);
     }
 
     private void ChocoBarWithResponse()
@@ -799,6 +838,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
             m_player.GetOppPlayer().GainHealth(val);
         }
 
+        GameStateManager.m_instance.SetRedStarPlayed(false);
         Debug.LogError("Choco Bar no response");
     }
 

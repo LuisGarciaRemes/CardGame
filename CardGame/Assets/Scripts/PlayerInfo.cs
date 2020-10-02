@@ -286,4 +286,9 @@ public class PlayerInfo : MonoBehaviour
         m_shouldEnlargeStar = true;
         m_starScale = 1.5f;
     }
+
+    public void SetDazeStars(bool i_val)
+    {
+        m_dazeStars.SetActive(i_val);
+    }
 }

@@ -13,6 +13,7 @@ public class GameStateManager : MonoBehaviour
     private RoundPhase m_currPhase = RoundPhase.RoundStart;
     private bool m_hasChosenFirstAttacker = false;
     [SerializeField] private MouseControls m_controls;
+    private bool m_redStarPlayed = false;
 
     private void Awake()
     {
@@ -98,6 +99,16 @@ public class GameStateManager : MonoBehaviour
         PlayerManagerScript temp = m_attackingPlayer;
         m_attackingPlayer = m_defendingPlayer;
         m_defendingPlayer = temp;
+    }
+
+    public bool WasRedStarPlayed()
+    {
+        return m_redStarPlayed;
+    }
+
+    public void SetRedStarPlayed(bool i_val)
+    {
+        m_redStarPlayed = i_val;
     }
 
 }

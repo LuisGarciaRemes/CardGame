@@ -18,6 +18,7 @@ public class PlayerManagerScript : NetworkBehaviour
     private bool m_canDiscard = false;
     private bool m_canDraw = false;
     private bool m_canPlay = false;
+    private bool m_isDazed = false;
 
     private CardUI m_highlightedCard;
     private GameObject m_myHeldCard = null;
@@ -371,8 +372,11 @@ public class PlayerManagerScript : NetworkBehaviour
         if(m_currDaze >= m_maxDaze)
         {
             m_currDaze = 0;
-            //To do 1. Get dazed
+            m_isDazed = true;
+            m_myInfo.SetDazeStars(true);
         }
+
+        m_myInfo.UpdateDazeCurr(m_currDaze);
     }
 
     public void RemoveDaze(int i_value)
@@ -380,11 +384,14 @@ public class PlayerManagerScript : NetworkBehaviour
         m_currDaze -= i_value;
 
         m_currDaze = Math.Max(m_currDaze,0);
+
+        m_myInfo.UpdateDazeCurr(m_currDaze);
     }
 
     public void ResetDaze()
     {
         m_currDaze = 0;
+        m_myInfo.UpdateDazeCurr(m_currDaze);
     }
 
     [Command]
@@ -615,12 +622,12 @@ public class PlayerManagerScript : NetworkBehaviour
 
     public void AddStar(int i_val)
     {
-        if(i_val > 0)
+        if(i_val > 0 && m_currDaze < m_maxDaze)
         {
             MusicManager.m_instance.PlayGainStar();
             m_myInfo.PlayEnlarge();
         }
-        else if (i_val < 0)
+        else if (i_val < 0 && m_currDaze > 0)
         {
             MusicManager.m_instance.PlayLoseStar();
             m_myInfo.PlayShrink();
@@ -638,6 +645,16 @@ public class PlayerManagerScript : NetworkBehaviour
         }
 
         m_myInfo.UpdateStarCurr(m_currStar);
+    }
+
+    public bool IsDazed()
+    {
+        return m_isDazed;
+    }
+
+    public void SetIsDazed(bool i_val)
+    {
+        m_isDazed = i_val;
     }
 }
 
