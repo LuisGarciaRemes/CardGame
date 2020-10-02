@@ -618,10 +618,12 @@ public class PlayerManagerScript : NetworkBehaviour
         if(i_val > 0)
         {
             MusicManager.m_instance.PlayGainStar();
+            m_myInfo.PlayEnlarge();
         }
         else if (i_val < 0)
         {
             MusicManager.m_instance.PlayLoseStar();
+            m_myInfo.PlayShrink();
         }
 
         m_currStar += i_val;

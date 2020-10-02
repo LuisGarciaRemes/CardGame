@@ -13,6 +13,7 @@ public class PlayerInfo : MonoBehaviour
     [SerializeField] private Text m_health;
     [SerializeField] private Image m_char;
     [SerializeField] private Image m_turnMarker;
+    [SerializeField] private Image m_starMarker;
     [SerializeField] private float m_flashTime = 1.0f;
     [SerializeField] GameObject m_attackingGlove;
     [SerializeField] GameObject m_blockingGloves;
@@ -31,6 +32,10 @@ public class PlayerInfo : MonoBehaviour
     private bool m_shouldDodge;
     private bool m_shouldGainHealth;
     private int m_pendingHealth = 0;
+    private bool m_shouldEnlargeStar = false;
+    private bool m_shouldShrinkStar = false;
+    private float m_starScale = 1.0f;
+    private float m_starTimer = 0.0f;
 
     private void Start()
     {
@@ -188,6 +193,63 @@ public class PlayerInfo : MonoBehaviour
                 m_chocoBar.transform.position = m_orgChocoBarPos;
             }
         }
+
+        if(m_shouldEnlargeStar)
+        {
+            m_starMarker.transform.localScale = Vector3.Lerp(m_starMarker.transform.localScale,new Vector3(m_starScale,m_starScale,m_starScale), .75f);
+
+            if(m_starMarker.transform.localScale.x == m_starScale)
+            {
+                if(m_starScale == 1.0f)
+                {
+                    m_starScale = 1.5f;
+                }
+                else
+                {
+                    m_starScale = 1.0f;
+                }
+            }
+
+            if(m_starTimer >= 1.5f)
+            {
+                m_starTimer = 0.0f;
+                m_shouldEnlargeStar = false;
+                m_starMarker.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            }
+            else
+            {
+                m_starTimer += Time.deltaTime;
+            }
+
+        }
+
+        if (m_shouldShrinkStar)
+        {
+            m_starMarker.transform.localScale = Vector3.Lerp(m_starMarker.transform.localScale, new Vector3(m_starScale, m_starScale, m_starScale), .75f);
+
+            if (m_starMarker.transform.localScale.x == m_starScale)
+            {
+                if (m_starScale == 1.0f)
+                {
+                    m_starScale = 0.5f;
+                }
+                else
+                {
+                    m_starScale = 1.0f;
+                }
+            }
+
+            if (m_starTimer >= 1.5f)
+            {
+                m_starTimer = 0.0f;
+                m_starMarker.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+               m_shouldShrinkStar = false;
+            }
+            else
+            {
+                m_starTimer += Time.deltaTime;
+            }
+        }
     }
 
     public void SetSelected()
@@ -211,5 +273,17 @@ public class PlayerInfo : MonoBehaviour
         m_shouldGainHealth = true;
         m_chocoBar.SetActive(true);
         m_chocoBar.GetComponentInChildren<Text>().text = "+" + i_val;
+    }
+
+    public void PlayShrink()
+    {
+        m_shouldShrinkStar = true;
+        m_starScale = 0.5f;
+    }
+
+    public void PlayEnlarge()
+    {
+        m_shouldEnlargeStar = true;
+        m_starScale = 1.5f;
     }
 }
