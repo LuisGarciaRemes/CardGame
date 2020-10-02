@@ -16,9 +16,12 @@ MonoBehaviour:
   art: Samurai
   cardText: 'This cannot be Countered
 
-    Star: Your opp discards a Blue card if
-    this lands'
-  cardType: Single-Strike
+    Star: Your opp discards a random Blue
+    card if this lands'
+  cardType: Strike
   starValue: YellowStar
   cardSymbol: BlueLowStraight
   cardDamage: 2
+  m_cantBeDodged: 0
+  m_cantBeBlocked: 0
+  m_cantBeCountered: 0

@@ -17,7 +17,10 @@ MonoBehaviour:
   cardText: 'Discard a card to play this
 
     Star: Double the number of strikes'
-  cardType: Multi-Strike
+  cardType: Strike
   starValue: None
   cardSymbol: BlueHighStraight
   cardDamage: 2
+  m_cantBeDodged: 0
+  m_cantBeBlocked: 0
+  m_cantBeCountered: 0

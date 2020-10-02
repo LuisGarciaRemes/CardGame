@@ -17,7 +17,7 @@ MonoBehaviour:
   cardText: 'This cannot be Blocked
 
     Star: Your opp loses a Star if this lands'
-  cardType: Single-Strike
+  cardType: Strike
   starValue: YellowStar
   cardSymbol: BlueHighStraight
   cardDamage: 5

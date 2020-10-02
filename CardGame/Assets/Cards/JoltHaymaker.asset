@@ -15,7 +15,10 @@ MonoBehaviour:
   cardName: Jolt Haymaker
   art: Samurai
   cardText: 'Star: This cannot be Blocked'
-  cardType: Single-Strike
+  cardType: Strike
   starValue: GrayStar
   cardSymbol: BlueHighRight
   cardDamage: 3
+  m_cantBeDodged: 0
+  m_cantBeBlocked: 0
+  m_cantBeCountered: 0

@@ -15,7 +15,10 @@ MonoBehaviour:
   cardName: Jab
   art: Samurai
   cardText: Basic jab
-  cardType: Single-Strike
+  cardType: Strike
   starValue: None
   cardSymbol: BlueHighLeft
   cardDamage: 1
+  m_cantBeDodged: 0
+  m_cantBeBlocked: 0
+  m_cantBeCountered: 0

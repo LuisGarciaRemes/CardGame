@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: Slip Counter
   art: Samurai
   cardText: 'Star: Deals double the damage'
-  cardType: Single-Strike
+  cardType: Strike
   starValue: YellowStar
   cardSymbol: RedChoose
   cardDamage: 1

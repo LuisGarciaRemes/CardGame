@@ -15,7 +15,10 @@ MonoBehaviour:
   cardName: Squirrel Counter
   art: Samurai
   cardText: 'Star: Your opp discards a Red card'
-  cardType: Single-Strike
+  cardType: Strike
   starValue: GrayStar
   cardSymbol: RedChoose
   cardDamage: 1
+  m_cantBeDodged: 0
+  m_cantBeBlocked: 0
+  m_cantBeCountered: 0

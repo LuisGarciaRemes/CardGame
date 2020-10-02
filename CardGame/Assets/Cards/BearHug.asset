@@ -17,7 +17,7 @@ MonoBehaviour:
   cardText: 'This cannot be Blocked
 
     Star: Gain 2 health if this lands'
-  cardType: Single-Strike
+  cardType: Strike
   starValue: GrayStar
   cardSymbol: BlueHighStraight
   cardDamage: 4

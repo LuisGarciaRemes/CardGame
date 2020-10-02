@@ -10,7 +10,7 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
     public enum CardSide { Left, Right, Straight, None};
     public enum CardHeight { Low, High, Mid, None};
     public enum StarColor { Red, Gray, Yellow, None };
-    public enum CardType { Technique, Single_Strike, Multi_Strike};
+    public enum CardType { Technique, Strike};
 
 
     private CardInfo m_card = null;
@@ -181,13 +181,9 @@ public class CardInstance : NetworkBehaviour, ClickableInterface
         {
             m_cardType = CardType.Technique;
         }
-        else if (info.cardType.Contains("Single-Strike"))
+        else if (info.cardType.Contains("Strike"))
         {
-            m_cardType = CardType.Single_Strike;
-        }
-        else if (info.cardType.Contains("Multi-Strike"))
-        {
-            m_cardType = CardType.Multi_Strike;
+            m_cardType = CardType.Strike;
         }
 
         m_cantBeBlocked = info.m_cantBeBlocked;
