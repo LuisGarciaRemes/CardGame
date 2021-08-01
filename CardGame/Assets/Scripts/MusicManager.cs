@@ -17,6 +17,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip m_spentStar;
     [SerializeField] private AudioClip m_gainStar;
     [SerializeField] private AudioClip m_loseStar;
+    [SerializeField] private AudioClip m_drawCard;
 
     private void Awake()
     {
@@ -85,5 +86,10 @@ public class MusicManager : MonoBehaviour
     public void PlayLoseStar()
     {
         source.PlayOneShot(m_loseStar, 0.5f);
+    }
+
+    public void PlayDrawCard()
+    {
+        source.PlayOneShot(m_drawCard, 0.5f);
     }
 }

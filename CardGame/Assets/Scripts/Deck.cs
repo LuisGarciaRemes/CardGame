@@ -44,6 +44,8 @@ public class Deck : NetworkBehaviour
                 player.SetCanDraw(false);
                 player.SetCardsDrawn(0);
             }
+
+            MusicManager.m_instance.PlayDrawCard();
         }
 
         if(DeckList.Count <= 0)

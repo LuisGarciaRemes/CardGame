@@ -48,6 +48,7 @@ public class MouseControls : MonoBehaviour
         {
             button.gameObject.SetActive(false);
             MusicManager.m_instance.PlayFight();
+            MusicManager.m_instance.PlayBell();
             GameStateManager.m_instance.SetCurrPhase(GameStateManager.RoundPhase.RoundMid);
 
             if(m_player == GameStateManager.m_instance.GetAttackingPlayer())
